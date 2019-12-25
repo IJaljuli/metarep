@@ -2,16 +2,11 @@ metaRvalue.onesided.U <- function (x,u = 2 , comb.fixed = F , comb.random = T ,
                                    alternative = 'less',
                                    do.truncated.umax = T ,
                                    alpha.tilde = .05 ){
-  # function (x,u = 2 , comb.fixed = x$comb.fixed , comb.random = x$comb.random ,
-  #           alternative = 'less',
-  #           do.truncated.umax = F ,
-  #           alpha.tilde = NULL ){
-    # Returns the worst case meta model. 
   chkclass(x, "meta")
   metaInf <- inherits(x,'metainf')
   x.original = x
   if (do.truncated.umax & (alpha.tilde == 1) ) {
-    message(' truncation at 0.05 is performed')
+    message('truncation at 0.05 is performed')
     alpha.tilde <- .05
   }
   if( is.null(x$zval) | all( is.na(x$zval) ) ){
@@ -20,7 +15,7 @@ metaRvalue.onesided.U <- function (x,u = 2 , comb.fixed = F , comb.random = T ,
   # x = update.meta(object = x , subset = (1:length(x$studlab)) [ !is.na(x$pval)] )
   x.fixed.metainf <- NULL
   x.fixed.w <- NULL
-  if(metaInf){ x <- extract.meta.modle (x) }
+  if(metaInf){ x <- meta::extract.meta.modle (x) }
   nstudlab <- length(x$studlab)
   if (( u > nstudlab ) | (u < 1) ){
     stop ( 'invalid tuning parameter u ' )
@@ -63,7 +58,7 @@ metaRvalue.onesided.U <- function (x,u = 2 , comb.fixed = F , comb.random = T ,
     worst.case.studies = x$studlab[ studies_subsets[-c(nrow(studies_subsets)) ,k] ]
     worst.case.studies = which( x$data$.studlab %in% worst.case.studies )
     
-    worst.case <- update.meta(x ,subset = worst.case.studies )
+    worst.case <- meta::update.meta(x ,subset = worst.case.studies )
     return(list(worst.case = worst.case ,
                 Side = alternative,
                 pvalue.onesided = studies_subsets['rvalue' , k] ))
@@ -76,7 +71,7 @@ metaRvalue.onesided.U <- function (x,u = 2 , comb.fixed = F , comb.random = T ,
   pvs.all <- pnorm( zval.all ,lower.tail = (alternative == 'less'))
   
   if( u == 1 ){
-    pvo <- truncatedPearson( pvs.all ,alpha.tilde =  alpha.tilde)
+    pvo <- truncatedPearson( p = pvs.all , alpha.tilde =  alpha.tilde)
     return(list(worst.case = x ,
                 Side = alternative,
                 pvalue.onesided =  pvo$rvalue ))
@@ -101,20 +96,10 @@ metaRvalue.onesided.U <- function (x,u = 2 , comb.fixed = F , comb.random = T ,
       wsf <- which( rank(zval.all) >= u )
     }
     
-  # }else{
-  #   pvs.all <- x$pval/2 ; pvs.all <- pvs.all[!is.na(pvs.all)]
-  #   if(alternative == 'greater'){
-  #     pvs.all[zval.all<0] = 1 - pvs.all[zval.all<0]
-  #   }else{
-  #     pvs.all[zval.all>0] = 1 - pvs.all[zval.all>0]
-  #   }
-  # }
-  # wsf <- which( rank(pvs.all) >= u )
-  
   worst.studies.fisher <- x$studlab[ wsf ]
   worst.studies.fisher <- which( x$data$.studlab %in% worst.studies.fisher)
-  worst.case <- update.meta(x ,subset = worst.studies.fisher )
-  worst.pvs.fisher <- truncatedPearson( pvs.all[ wsf ] ,alpha.tilde =  alpha.tilde)
+  worst.case <- meta::update.meta(x ,subset = worst.studies.fisher )
+  worst.pvs.fisher <- truncatedPearson( p = pvs.all[ wsf ] ,alpha.tilde =  alpha.tilde)
   
   return(list(worst.case = worst.case ,
               Side = alternative,
