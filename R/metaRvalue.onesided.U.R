@@ -74,7 +74,7 @@ metaRvalue.onesided.U <- function (x,u = 2 , comb.fixed = F , comb.random = T ,
     pvo <- truncatedPearson( p = pvs.all , alpha.tilde =  alpha.tilde)
     return(list(worst.case = x ,
                 Side = alternative,
-                pvalue.onesided =  pvo$rvalue ))
+                pvalue.onesided =  pvo$p.value ))
   }
   if( u == length(pvs.all) ){
     pvo <- max(pvs.all)
@@ -103,5 +103,5 @@ metaRvalue.onesided.U <- function (x,u = 2 , comb.fixed = F , comb.random = T ,
   
   return(list(worst.case = worst.case ,
               Side = alternative,
-              pvalue.onesided = worst.pvs.fisher$rvalue ))
+              pvalue.onesided = worst.pvs.fisher$p.value ))
 }

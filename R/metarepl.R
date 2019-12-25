@@ -1,29 +1,49 @@
-metarepl <- function(x, u = 2, common.effect = FALSE , t = NULL , alternative = 'two-sided') {
+#' Complementing a meta-analysis with Replicability-analysis 
+#' @description This function perform replicability-analysis on a meta-analysis object of any kind. Replicability analysis can be berformed with or without the common-effect assumption. 
+#' @param x object of class meta
+#' @param u replicability requirement. u can be an intiger between 2 and the nmber of studies in the meta-analysis. 
+#' @param common.effect Use common.effect = FALSE (default) for replicability-analysis combining with no assumptions (Pearson or truncated-Pearson test).
+#' Use  TRUE for combining with the assumptions of fixed-effect meta-analysis model.   
+#' @param t truncation threshold for runcated-Pearsons' test. t is ignored if common.effect  = TRUE.
+#' @param alternative use 'less', 'greater' or 'two-sided'
+#'
+#' @return The onserted meta object with the replicability resuls in addtion:
+#' \itemize{
+#' \item{r.value}{ \code{r(u)-}value for the specied u. }
+#' \item{side}{The direction of the effect with the lower one-sided \code{r(u)-}value }
+#' \item{worst.case.studies}{list of \code{(n-u+1)} studies names that define supply the \code{r(u)-}value }
+#' \item{u_L , u_R }{ Lower bounds of the number of studies with decreased or increased effect, respectively. Both bounds are reported simultinualsly only when performing replicability analysis for two-sided alternative with no assumptions  }
+#' }
+#' 
+#' @export
+#'
+#' @examples  n.i.1 <- c( 20, 208, 24, 190, 58, 36, 51)
+#' a.i <- c( 2,79,0,98,15,34,9) 
+#' n.i.2 <- c( 20, 119, 22, 185, 29, 51, 47)
+#' c.i <- c(9,106,14,98,12,49,9) 
+#' m1 <- metabin( event.e = a.i,n.e = n.i.1,event.c = c.i,n.c = n.i.2,
+#'                studlab = paste0('Study ' , 1:7) , sm = 'OR' ,comb.fixed = F,comb.random = T )
+#' (mr1 <- metarepl(  m1 , u = 2, common.effect = FALSE , t = 0.05 , alternative = 'two-sided'))
+#' forest(mr1, layout='revman5',digits.pval = 4 , test.overall = T )
+ metarepl <- function(x, u = 2, common.effect = FALSE , t = NULL , alternative = 'two-sided') {
   
   # meta:::chkclass(x, "meta")
   chkclass(x, "meta")
   performing.truncated <- F
   
-  if( is.null(t) ){
-    if (!common.effect){
+  if (common.effect){
+    t <- NULL
+  }else{
+    if(is.null(t)){
       stop("Error: Must specify truncation threshold t <= 1 .
            For replicability-analysis with common-effect assumption, set common.effect = TRUE ")
     }
-    }else{
-      if ( t == 1  ) {
-        if(common.effect){ t <- NULL }else{
-          message( "Performing Replicability analysis via original-Pearson's test" )
-        }
-      }
-      
-      if ( common.effect & ( t < 1) ) {
-        common.effect <- FALSE
-        message( paste0("Performing Replicability analysis via truncated Pearson's test, 
-                        with truncation threshold t = ", t ) )
-      }
-      
-      }
-  
+    if( (t<= 0)|(t>1) ){
+      stop("Error: Truncation threshold t must be a positive velue < = 1")
+    }
+    if(t == 1 ) message( "Performing Replicability analysis via original-Pearson's test" )
+  }
+  res <- x
   ##
   ## Do replicability analysis
   ##
@@ -71,8 +91,7 @@ metarepl <- function(x, u = 2, common.effect = FALSE , t = NULL , alternative = 
   if( common.effect ){
     
     Umax = find_umax( x , alternative = alternative, confidence = 0.95 ,
-                      do.truncated.umax = F ,
-                      comb.fixed = T , comb.random = F )
+                      common.effect = T )
     
     if( Umax$side == 'less '){
       res$u_L <-  Umax$u_max 
@@ -85,19 +104,15 @@ metarepl <- function(x, u = 2, common.effect = FALSE , t = NULL , alternative = 
     
     if( alternative != 'less' ){
       Umax_right = find_umax( x , alternative = 'greater',
-                              confidence = 1 - 0.05/(1+alternative == 'two-sided') ,
-                              do.truncated.umax = ifelse(is.null(t) , F , t < 1 ), 
-                              comb.fixed = common.effect , comb.random = !common.effect , 
-                              alpha.tilde = ifelse(is.null(t) , 1 , t ) )
+                              confidence = 1 - 0.05/(1+(alternative == 'two-sided')) ,
+                              common.effect  = common.effect , t = t )
       res$u_R <- Umax_right$u_max
     }
     
     if( alternative !=  'greater' ){
-      Umax_right = find_umax( x , alternative = 'less', 
-                              confidence = 1 - 0.05/(1+alternative == 'two-sided') ,
-                              do.truncated.umax = ifelse(is.null(t) , F , t < 1 ), 
-                              comb.fixed = common.effect , comb.random = !common.effect , 
-                              alpha.tilde = ifelse(is.null(t) , 1 , t ) )
+      Umax_left = find_umax( x , alternative = 'less', 
+                              confidence = 1 - 0.05/(1+(alternative == 'two-sided')) ,
+                              common.effect = common.effect , t = t )
       
       res$u_L <- Umax_left$u_max
     }
@@ -108,14 +123,13 @@ metarepl <- function(x, u = 2, common.effect = FALSE , t = NULL , alternative = 
   ## 
   ## Replicability analysis results
   ##
-  res <- x
   res$r.value <- rvalue
   res$side <- side
   res$worst.case.studies <- (rvalue.results$worst.case)$studlab
   if( common.effect ){
     res$repl.method <- 'Common-effect' 
   }else{
-    res$repl.method <- ifelse( t == 1,  'Truncated Pearson' , 'Pearson')
+    res$repl.method <- ifelse( t == 1,  'Truncated-Pearson' , 'Pearson')
   }
   
   

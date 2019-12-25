@@ -1,11 +1,29 @@
-find_umax <- function(x , comb.fixed = F , comb.random = T ,
-                      alternative = 'two-sided' ,
-                      do.truncated.umax = T , alpha.tilde = .05, confidence = 0.95 ){
-  
-  # function(x , comb.fixed = x$comb.fixed , comb.random = x$comb.random ,
-  #          alternative = 'two-sided' ,
-  #          do.truncated.umax = F , alpha.tilde = .5, confidence = 0.95 ){
-    
+#' u_L , u_R
+#'
+#' @param x meta object
+#' @param common.effect use TRUE if assming common-effect, i.e. fixed-effects meta-analysis assumptions.
+#' @param alternative 'less', 'greater' or 'two-sided'
+#' @param t between (0,1]
+#' @param confidence 1- alpha
+#'
+#' @return lower bounds on the number of studies with increased or decreased effect. 
+#' @export
+#'
+#' @examples   n.i.1 <- c( 20, 208, 24, 190, 58, 36, 51)
+#' a.i <- c( 2,79,0,98,15,34,9) 
+#' n.i.2 <- c( 20, 119, 22, 185, 29, 51, 47)
+#' c.i <- c(9,106,14,98,12,49,9) 
+#' m1 <- metabin( event.e = a.i,n.e = n.i.1,event.c = c.i,n.c = n.i.2,
+#'                studlab = paste0('Study ' , 1:7) , sm = 'OR' ,comb.fixed = F,comb.random = T )
+#'find_umax(m1 , common.effect = F, alternative = 'two-sided' ,t = 0.05 , confidence = 0.95 )        
+find_umax <- function(x , common.effect = F, alternative = 'two-sided' ,
+                      t = NULL , confidence = 0.95 ){
+
+    if ( common.effect ) { t <- NULL }else{
+    if(is.null(t)){
+      stop('Error: t must be a positive number < = 1.')
+    } 
+  }
   
   na.pvs <- all(is.na(x$pval))
   na.zvs <- (sum(!is.na(x$zval))==0 )
@@ -13,8 +31,8 @@ find_umax <- function(x , comb.fixed = F , comb.random = T ,
     warning('Please supply valid p-values or zvalues.')
     return( list ( u_max = NULL , worst.case = x , side = NULL , rvalue = NULL )[c(2,1,3,4)] )
   }
-  if ( comb.fixed == comb.random )  {
-    comb.random <- T ; comb.fixed <- F ; do.truncated.umax <- T 
+  if ( common.effect == !common.effect )  {
+    !common.effect <- T ; common.effect <- F ; do.truncated.umax <- T 
     warning('Random-effect replicability analysis is performed at 0.5.')
   }
   
@@ -22,19 +40,18 @@ find_umax <- function(x , comb.fixed = F , comb.random = T ,
   # do.random.u_max = Fisher's \ karl pearson . do.truncated.umax  = truncated fisher
   # Or else - alternative = 'greater' , 'less'
   chkclass(x, "meta")
-  #if((!x$comb.fixed )& (! do.random.u_max)) stop('Fixed meta-analysis must be reported')
   twoSided <- (alternative == 'two-sided')
   
   nstudlab <- sum(!is.na(x$pval))
   nstudlab <- ifelse( na.pvs , sum(!is.na(x$zval)) , nstudlab )
   
-  pv.greater <- ifelse(comb.fixed , x$zval.fixed , x$zval.random ) 
+  pv.greater <- ifelse(common.effect , x$zval.fixed , x$zval.random ) 
   
   if(!is.na(pv.greater)){ 
     pv.greater <- pnorm( pv.greater , lower.tail = F )
   }else{
-    pv.greater <- ifelse(comb.fixed , x$pval.fixed , x$pval.random ) 
-    TE.sign <- ifelse(comb.fixed , x$TE.fixed , x$TE.random ) 
+    pv.greater <- ifelse(common.effect , x$pval.fixed , x$pval.random ) 
+    TE.sign <- ifelse(common.effect , x$TE.fixed , x$TE.random ) 
     pv.greater <- ifelse(TE.sign > 0 , pv.greater/2 , 1-pv.greater/2) 
   }
   
@@ -45,22 +62,22 @@ find_umax <- function(x , comb.fixed = F , comb.random = T ,
   meta_ug <- meta_ul <- meta_ul_last_sig <- meta_ug_last_sig <- NULL
   
   # perform random replicability analysis  
-  if( comb.random ){
+  if( !common.effect ){
     meta_ul_prev <-  meta_ug_prev <- NULL
     if ( alternative != 'greater' ){
       u1 <-  1  
       meta_ul <-  metaRvalue.onesided.U(x,u = u1 ,comb.fixed = F , comb.random = T,
                                       alternative = 'less',
-                                      do.truncated.umax = do.truncated.umax  ,
-                                      alpha.tilde = alpha.tilde )
+                                      do.truncated.umax = ifelse(is.null(t) , F , t < 1 )  ,
+                                      alpha.tilde = t )
       rvl <- meta_ul$pvalue.onesided
       while( (u1 < nstudlab ) & ( rvl <=  alpha / (1 + twoSided )) ){
         meta_ul_prev <- meta_ul
         u1 <- u1 + 1
         meta_ul <- metaRvalue.onesided.U(x,u = u1 ,comb.fixed = F , comb.random = T,
                                          alternative = 'less',
-                                         do.truncated.umax = do.truncated.umax  ,
-                                         alpha.tilde = alpha.tilde )
+                                         do.truncated.umax = ifelse(is.null(t) , F , t < 1 )  ,
+                                         alpha.tilde = t )
         rvl <- meta_ul$pvalue.onesided
       }
       
@@ -87,18 +104,18 @@ find_umax <- function(x , comb.fixed = F , comb.random = T ,
     
     if ( alternative != 'less' ){
       u1 <-  1  
-      meta_ug = metaRvalue.onesided.U(x,u = u1 ,comb.fixed = F , comb.random = T,
+      meta_ug = metaRvalue.onesided.U(x,u = u1 , comb.fixed = F , comb.random = T,
                                       alternative = 'greater',
-                                      do.truncated.umax = do.truncated.umax  ,
-                                      alpha.tilde = alpha.tilde )
+                                      do.truncated.umax = ifelse(is.null(t) , F , t < 1 )  ,
+                                      alpha.tilde = t )
       rvg <- meta_ug$pvalue.onesided
       while((u1 < nstudlab )&( rvg <=  alpha / (1 + twoSided )) ){
         meta_ug_prev <- meta_ug
         u1 <- u1 + 1
         meta_ug <- metaRvalue.onesided.U(x,u = u1 ,comb.fixed = F , comb.random = T,
                                          alternative = 'greater',
-                                         do.truncated.umax = do.truncated.umax  ,
-                                         alpha.tilde = alpha.tilde )
+                                         do.truncated.umax = ifelse(is.null(t) , F , t < 1 )  ,
+                                         alpha.tilde = t )
         rvg <- meta_ug$pvalue.onesided
       }
       ug <- u1
@@ -174,7 +191,7 @@ find_umax <- function(x , comb.fixed = F , comb.random = T ,
     # u1 <- u1 + 1
     
     # model with one study only, replicability at all: 
-    meta_ul <-  metaRvalue.onesided.U(x,u = u2 ,comb.fixed = T , comb.random = F,
+    meta_ul <-  metaRvalue.onesided.U(x,u = u2 ,comb.fixed =T , comb.random = F,
                                       alternative = 'less',
                                       do.truncated.umax = F ,
                                       alpha.tilde = 1)

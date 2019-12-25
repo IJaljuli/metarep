@@ -13,16 +13,16 @@ truncatedPearson(p, alpha.tilde = 1)
 }
 \value{
 \itemize{
-  \item{chisq:}{Pearson test statistic }
-  \item{df:}{degrees of freedom of truncated-Pearson statistic }
-  \item{rvalue:}{p-value of the test }
-  \item{validp:}{p-values used in the test. }
+  \item{chisq: }{Pearson test statistic }
+  \item{df: }{degrees of freedom of truncated-Pearson statistic }
+  \item{rvalue: }{p-value of the test }
+  \item{validp: }{p-values used in the test. }
 }
 }
 \description{
 apply on one-sided p-values only.
 }
 \examples{
-truncatedPearson( p = c( 0.001 , 0.01 , 0.1  ) , alpha.tilde = 0.05 )
+truncatedPearson( p = c( 0.001 , 0.01 , 0.1  ) , alpha.tilde = 1 )
 truncatedPearson( p = c( 0.001 , 0.01 , 0.1  ) , alpha.tilde = 0.05 )
 }
