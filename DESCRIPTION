@@ -1,19 +1,20 @@
-Package: RepMeta
-Title: A package for Replicability Analysis complementing meta-analysis.
+Package: metarep
+Title: An extention package for "meta" package, for Replicability-analysis as a complement to meta-analysis.
 Version: 1.0
-Depends: R (>= 2.9.1)
+Depends: R (>= 3.5.1)
 Imports: grid , metap, meta
 Suggests: metafor (>= 1.9-9), lme4, numDeriv, BiasedUrn
-Authors@R: c(person("Iman","Jaljuli", role=c("cre","aut"), email="jaljuli.iman@igmail.com"))
+Authors@R: c(person("Iman","Jaljuli", role=c("cre","aut"), email="jaljuli.iman@gmail.com"))
 Date: 2019-12-22
 URL: https://github.com/guido-s/meta http://meta-analysis-with-r.org
-# URL2: https://cran.r-project.org/src/contrib/Archive/meta/
-Description: User-friendly general package providing Replicability-Analysis methods to complement meta-analysis and supporting Jaljuli, ... ... ... :
- - Replicability-analysis for fixe-effects and random-effect meta analysis: 
-  - r(u)-value 
-  - lower bounds on the number of studies with a one-sided replicated effect
-  - Allows detecting inconsistency
- - forest plots with the summary of replicability analysis results 
+# URL2:  https://github.com/guido-s/meta
+Description: User-friendly package providing Replicability-Analysis methods to complement meta-analysis and supporting |||||||||. This package provides meta-analyses by the package meta (version 4.9-10) with the reporting of replicability analysis results.
+ - Replicability-analysis for fixed-effects and random-effect meta analysis: 
+ - r(u)-value;
+ - lower bounds on the number of studies with replicated positive\negative effect;
+ - Allows detecting inconsistency of signals;
+ - forest plots with the summary of replicability analysis results;
+ - Allows Replicability-analysis with or without the common-effect assuption. 
 License: GPL (>= 2)
 Encoding: UTF-8
 NeedsCompilation: yes
@@ -22,3 +23,4 @@ Author: Iman Jaljuli [cre, aut]
 Maintainer: Iman Jaljuli <jaljuli.iman@gmail.com>
 Repository: CRAN
 Date/Publication: 2017-08-11 22:09:11 UTC
+RoxygenNote: 7.0.2
