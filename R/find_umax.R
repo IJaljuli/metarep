@@ -11,7 +11,7 @@ find_umax <- function(x , comb.fixed = F , comb.random = T ,
   na.zvs <- (sum(!is.na(x$zval))==0 )
   if ( na.zvs & na.pvs ){
     warning('Please supply valid p-values or zvalues.')
-    return( list ( u_max = NULL , worst.case = x , Side = NULL , rvalue = NULL )[c(2,1,3,4)] )
+    return( list ( u_max = NULL , worst.case = x , side = NULL , rvalue = NULL )[c(2,1,3,4)] )
   }
   if ( comb.fixed == comb.random )  {
     comb.random <- T ; comb.fixed <- F ; do.truncated.umax <- T 
@@ -146,7 +146,7 @@ find_umax <- function(x , comb.fixed = F , comb.random = T ,
 
     names(side) <- 'Direction of the stronger signal'
     return(list(worst.case =  worst.case.meta$worst.case,
-                Side = side , u_max = u_max , rvalue = rvalue ,
+                side = side , u_max = u_max , rvalue = rvalue ,
                 Replicability_Analysis = rep.text))
   }
   
@@ -167,7 +167,7 @@ find_umax <- function(x , comb.fixed = F , comb.random = T ,
       meta_ul_last_sig <- NULL
       final_ul <- 
         list(u_max = 0 , worst.case =  meta_ul$worst.case,
-             Side = 'less' , rvalue = meta_ul$pvalue.onesided )
+             side = 'less' , rvalue = meta_ul$pvalue.onesided )
       
     }
     
@@ -182,7 +182,7 @@ find_umax <- function(x , comb.fixed = F , comb.random = T ,
     
     if(rvl <=  alpha / (1 + twoSided )) {
       final_ul <- 
-        list(u_max = u2 , worst.case =  meta_ul$worst.case, Side = 'less' , rvalue = rvl )
+        list(u_max = u2 , worst.case =  meta_ul$worst.case, side = 'less' , rvalue = rvl )
     }
     
     # u2 <- u2 - 1 
@@ -209,13 +209,17 @@ find_umax <- function(x , comb.fixed = F , comb.random = T ,
       rvl <- meta_ul$pvalue.onesided
       side <- 'less'
       
+      rep.text <- paste0('out of ' , nstudlab , ' studies ', ul ,
+                         ' with decreased effect.')
+
       final_ul <- 
-        list(u_max = ul , worst.case =  meta_ul$worst.case, Side = 'less' , rvalue = rvl )
+        list(u_max = ul , worst.case =  meta_ul$worst.case, side = 'less' ,
+             rvalue = rvl, Replicability_Analysis = rep.text )
     }
     
     
     if( alternative == 'less'){
-      return(final_ul[c(2,1,3,4)])
+      return(final_ul[c(2,1,3:5)])
     }
     
   }  
@@ -235,7 +239,7 @@ find_umax <- function(x , comb.fixed = F , comb.random = T ,
       meta_ug_last_sig <- NULL
       final_ug <-
         list(u_max = 0 , worst.case =  meta_ug$worst.case,
-             Side = 'greater' , rvalue = meta_ug$pvalue.onesided )
+             side = 'greater' , rvalue = meta_ug$pvalue.onesided )
     }
     
     # the original model
@@ -251,7 +255,7 @@ find_umax <- function(x , comb.fixed = F , comb.random = T ,
     
     if(rvg <=  alpha / (1 + twoSided )) {
       final_ug <-
-        list(u_max = u2 , worst.case =  meta_ug$worst.case, Side = 'greater' , rvalue = rvg )
+        list(u_max = u2 , worst.case =  meta_ug$worst.case, side = 'greater' , rvalue = rvg )
       
     }
     
@@ -278,13 +282,18 @@ find_umax <- function(x , comb.fixed = F , comb.random = T ,
       ug <- u1
       meta_ug <- meta_ug_last_sig 
       rvg <- meta_ug$pvalue.onesided
+      
+      rep.text <- paste0('out of ' , nstudlab , ' studies ', ug ,
+                         ' with increased effect.')
+      
       final_ug <-
-        list(u_max = ug , worst.case =  meta_ug$worst.case, Side = 'greater' , rvalue = rvg )
+        list(u_max = ug , worst.case =  meta_ug$worst.case, side = 'greater' ,
+             rvalue = rvg, Replicability_Analysis = rep.text)
     }
     final <- final_ug
     side = 'greater'
     if( alternative == 'greater'){
-      return(final_ug[c(2,1,3,4)])
+      return(final_ug[c(2,1,3:5)])
     }
     
   }

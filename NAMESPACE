@@ -1,86 +1,17 @@
-useDynLib(RepMeta, .registration = TRUE)
+#useDynLib(RepMeta, .registration = TRUE)
 
-export(ci, settings.meta, forest, forest.meta,
-       funnel, funnel.default, funnel.meta,
-       baujat, baujat.meta,
-       bubble, bubble.metareg,
-       as.data.frame.meta,
-       metabias, metabias.default, metabias.meta,
-       metabin, metacont, metacor, metacr, metaprop, metarate,
-       metareg, metainc,
-       metacum, metagen, metainf, radial, radial.default, radial.meta,
-       print.meta, print.metabias,
-       read.rm5, print.rm5, print.summary.rm5, summary.rm5, metabias.rm5,
-       read.mtv,
-       print.summary.meta, summary.meta,
-       trimfill, trimfill.default, trimfill.meta,
-       labbe, labbe.default, labbe.metabin,
-       update.meta, cilayout, weights.meta,
-       gs, updateversion,
-       # functions for R-value computations:
-       metaRvalue.U, find_umax ,
-       truncatedPearson
-       # , forestRvalue.meta, 
-       # forestRvalue 
-       # metaRvalue.onesided.U, metaRvalue.onesided,
-       )
+export(truncatedPearson , metarepl , summary.metarepl , print.summary.metarepl ,
+       forest.metarepl, find_umax )
 
 # not visible:
-# asin2p, format.p, meta-internal, logit2p, p.ci, rmSpace, xlab, z2cor,
-# is.installed.package, crtitle, catmeth,
-# kentau, hypergeometric, linregcore, setOption, warnarg, format.tau,
-# isquared, calcH, paulemandel, estimate.missing,
-# ciWilsonScore, ciAgrestiCoull, ciSimpleAsymptotic,
-# is.relative.effect, backtransf,
-# hetcalc, chkarg, chklevel, chklogical, format.NA, bylabel, asin2ir, Rb,
-# setunit, add.label, add.text, add.xlab, draw.axis, draw.ci.square,
-# draw.ci.diamond, draw.ci.predict, draw.forest, draw.lines,
-# formatcol, removeNULL, tg, tgl, twolines, wcalc, pvalQ,
-# is.prop, is.rate , forestOriginal, forestRvalue
+# metaRvalue.U , chkclass
 
-S3method(as.data.frame, meta)
-S3method(baujat, meta)
-S3method(bubble, metareg)
-S3method(forest, meta)
-S3method(funnel, default)
-S3method(funnel, meta)
-S3method(labbe, default)
-S3method(labbe, metabin)
-S3method(metabias, default)
-S3method(metabias, meta)
-S3method(metabias, rm5)
-S3method(print, meta)
-S3method(print, metabias)
-S3method(print, rm5)
-S3method(print, summary.meta)
-S3method(print, summary.rm5)
-S3method(radial, default)
-S3method(radial, meta)
-S3method(summary, meta)
-S3method(summary, rm5)
-S3method(trimfill, default)
-S3method(trimfill, meta)
-S3method(update, meta)
-S3method(weights, meta)
+S3method( summary, metarepl)
+S3method(forest, metarepl)
+S3method(print, summary.metarepl)
+# S3method(print, metarepl)
+# S3method( truncatedPearson , metarepl)
+# S3method(find_umax, metarepl)
 
-importFrom("grid", "arrow", "gpar", "grid.draw", "grid.layout",
-           "grid.lines", "grid.newpage", "grid.polygon", "grid.rect",
-           "grid.text", "grid.xaxis", "textGrob",
-           "popViewport", "pushViewport", "viewport", "unit", "unit.c", "convertX")
-
-importFrom("grDevices", "gray")
-
-importFrom("graphics", "abline", "axis", "lines", "par", "plot", "points", "polygon", "text")
-
-importFrom("stats", "as.formula", "binom.test", "coef", "lm", "pchisq",
-           "pnorm", "pt", "qnorm", "qt", "runif", "update", "var", "weighted.mean",
-           "weights","dbinom", "pgamma")
-
-importFrom("utils", "count.fields", "read.table",
-           "assignInNamespace", "getFromNamespace",
-           "packageDescription", "packageVersion", "combn")
-
-importFrom("metap","sumlog")
-
-
+import("meta")
 
