@@ -9,6 +9,7 @@ Before installing "metarep", make sure that you have installet the ment version 
 install.packages("devtools")
 
 devtools::install_github("guido-s/meta")
+
 ```
 
 

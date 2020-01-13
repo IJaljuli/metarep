@@ -1,6 +1,6 @@
 #' Truncated-Pearsons' test 
 #' @description apply on one-sided p-values only.
-#' @param p p-values of the individual studies for testing one-sided alternative based on z-test. 
+#' @param p p-values of the individual studiesfor testing one-sided alternative based on z-test. 
 #' @param alpha.tilde truncartion threshold for truncated-Pearson test. Use alpha.tilde = 1 for original Pearson test for combining p-values.
 #'
 #' @return 

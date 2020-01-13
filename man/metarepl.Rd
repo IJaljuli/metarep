@@ -4,7 +4,15 @@
 \alias{metarepl}
 \title{Complementing a meta-analysis with Replicability-analysis}
 \usage{
-metarepl(x, u = 2, common.effect = FALSE, t = NULL, alternative = "two-sided")
+metarepl(
+  x,
+  u = 2,
+  common.effect = FALSE,
+  t = NULL,
+  alternative = "two-sided",
+  report.u.max = T,
+  confidence = 0.95
+)
 }
 \arguments{
 \item{x}{object of class meta}
@@ -17,6 +25,10 @@ Use  TRUE for combining with the assumptions of fixed-effect meta-analysis model
 \item{t}{truncation threshold for runcated-Pearsons' test. t is ignored if common.effect  = TRUE.}
 
 \item{alternative}{use 'less', 'greater' or 'two-sided'}
+
+\item{report.u.max}{use TREU (default) to report the lower bounds on number of studies with replicated effect.}
+
+\item{confidence}{Confidence level used in the computaion of the lower bound(s) \code{u_{max}^L} and\\or \code{u_{max}^R}.}
 }
 \value{
 The onserted meta object with the replicability resuls in addtion:
@@ -35,8 +47,9 @@ This function perform replicability-analysis on a meta-analysis object of any ki
 a.i <- c( 2,79,0,98,15,34,9) 
 n.i.2 <- c( 20, 119, 22, 185, 29, 51, 47)
 c.i <- c(9,106,14,98,12,49,9) 
-m1 <- metabin( event.e = a.i,n.e = n.i.1,event.c = c.i,n.c = n.i.2,
-               studlab = paste0('Study ' , 1:7) , sm = 'OR' ,comb.fixed = F,comb.random = T )
+m1 <- meta::metabin( event.e = a.i,n.e = n.i.1,event.c = c.i,n.c = n.i.2,
+               studlab = paste0('Study ' , 1:7) , sm = 'OR' ,
+               comb.fixed = FALSE, comb.random = TRUE )
 (mr1 <- metarepl(  m1 , u = 2, common.effect = FALSE , t = 0.05 , alternative = 'two-sided'))
-forest(mr1, layout='revman5',digits.pval = 4 , test.overall = T )
+meta::forest(mr1, layout='revman5',digits.pval = 4 , test.overall = TRUE )
 }

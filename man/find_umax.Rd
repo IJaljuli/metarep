@@ -2,11 +2,11 @@
 % Please edit documentation in R/find_umax.R
 \name{find_umax}
 \alias{find_umax}
-\title{u_L , u_R}
+\title{Computing the bounds \code{u_{max}^L}, \code{u_{max}^R}}
 \usage{
 find_umax(
   x,
-  common.effect = F,
+  common.effect = FALSE,
   alternative = "two-sided",
   t = NULL,
   confidence = 0.95
@@ -27,14 +27,17 @@ find_umax(
 lower bounds on the number of studies with increased or decreased effect.
 }
 \description{
-u_L , u_R
+Computing the bounds \code{u_{max}^L}, \code{u_{max}^R}
 }
 \examples{
-  n.i.1 <- c( 20, 208, 24, 190, 58, 36, 51)
+n.i.1 <- c( 20, 208, 24, 190, 58, 36, 51)
 a.i <- c( 2,79,0,98,15,34,9) 
 n.i.2 <- c( 20, 119, 22, 185, 29, 51, 47)
 c.i <- c(9,106,14,98,12,49,9) 
-m1 <- metabin( event.e = a.i,n.e = n.i.1,event.c = c.i,n.c = n.i.2,
-               studlab = paste0('Study ' , 1:7) , sm = 'OR' ,comb.fixed = F,comb.random = T )
-find_umax(m1 , common.effect = F, alternative = 'two-sided' ,t = 0.05 , confidence = 0.95 )        
+m1 <- meta::metabin( event.e = a.i,n.e = n.i.1,
+                     event.c = c.i,n.c = n.i.2,
+                     studlab = paste('Study',1:7), sm = 'OR',
+                     comb.fixed = FALSE, comb.random = TRUE )
+find_umax(m1 , common.effect = FALSE, alternative = 'two-sided',
+          t = 0.05 , confidence = 0.95 )        
 }

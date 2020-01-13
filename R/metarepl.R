@@ -6,6 +6,8 @@
 #' Use  TRUE for combining with the assumptions of fixed-effect meta-analysis model.   
 #' @param t truncation threshold for runcated-Pearsons' test. t is ignored if common.effect  = TRUE.
 #' @param alternative use 'less', 'greater' or 'two-sided'
+#' @param report.u.max  use TREU (default) to report the lower bounds on number of studies with replicated effect. 
+#' @param confidence Confidence level used in the computaion of the lower bound(s) \code{u_{max}^L} and\\or \code{u_{max}^R}. 
 #'
 #' @return The onserted meta object with the replicability resuls in addtion:
 #' \itemize{
@@ -15,24 +17,35 @@
 #' \item{u_L , u_R }{ Lower bounds of the number of studies with decreased or increased effect, respectively. Both bounds are reported simultinualsly only when performing replicability analysis for two-sided alternative with no assumptions  }
 #' }
 #' 
-#' @export
+#' @export 
 #'
 #' @examples  n.i.1 <- c( 20, 208, 24, 190, 58, 36, 51)
 #' a.i <- c( 2,79,0,98,15,34,9) 
 #' n.i.2 <- c( 20, 119, 22, 185, 29, 51, 47)
 #' c.i <- c(9,106,14,98,12,49,9) 
-#' m1 <- metabin( event.e = a.i,n.e = n.i.1,event.c = c.i,n.c = n.i.2,
-#'                studlab = paste0('Study ' , 1:7) , sm = 'OR' ,comb.fixed = F,comb.random = T )
+#' m1 <- meta::metabin( event.e = a.i,n.e = n.i.1,event.c = c.i,n.c = n.i.2,
+#'                studlab = paste0('Study ' , 1:7) , sm = 'OR' ,
+#'                comb.fixed = FALSE, comb.random = TRUE )
 #' (mr1 <- metarepl(  m1 , u = 2, common.effect = FALSE , t = 0.05 , alternative = 'two-sided'))
-#' forest(mr1, layout='revman5',digits.pval = 4 , test.overall = T )
- metarepl <- function(x, u = 2, common.effect = FALSE , t = NULL , alternative = 'two-sided') {
+#' meta::forest(mr1, layout='revman5',digits.pval = 4 , test.overall = TRUE )
+ metarepl <- function(x, u = 2, common.effect = FALSE , t = NULL , alternative = 'two-sided',
+                      report.u.max = T , confidence = 0.95 ) {
   
   # meta:::chkclass(x, "meta")
-  chkclass(x, "meta")
-  performing.truncated <- F
+  meta:::chkclass(x, "meta")
+   if(is.numeric(confidence)){
+     if ( (confidence >= 1) | (confidence <= 0) ) stop("confidence must be a number between 0 - 1.")
+   }else{
+     stop("confidence must be a number between 0 - 1.")
+   }
+  alpha = 1-confidence
+  Do.truncated.umax = ifelse(is.null(t) , F , t < 1 )
+  Alpha.tilde = ifelse(is.null(t) , 1 , t )
+  Comb.random = !common.effect
   
   if (common.effect){
     t <- NULL
+    message( "Performing Replicability analysis with the common-effect assumption" )
   }else{
     if(is.null(t)){
       stop("Error: Must specify truncation threshold t <= 1 .
@@ -42,35 +55,38 @@
       stop("Error: Truncation threshold t must be a positive velue < = 1")
     }
     if(t == 1 ) message( "Performing Replicability analysis via original-Pearson's test" )
+     
   }
   res <- x
   ##
   ## Do replicability analysis
   ##
   
+  
+  
   # compute r-value
   rvalue <- rvalue.less <- rvalue.greater <- NULL 
   if ( alternative != 'two-sided' ){
     rvalue.results <- metaRvalue.onesided.U( x = x , u = u , alternative = alternative  , 
                                              comb.fixed = common.effect,
-                                             comb.random = !common.effect,
-                                             do.truncated.umax = ifelse(is.null(t) , F , t < 1 ), 
-                                             alpha.tilde = ifelse(is.null(t) , 1 , t ) )
+                                             comb.random = Comb.random,
+                                             do.truncated.umax = Do.truncated.umax, 
+                                             alpha.tilde = Alpha.tilde )
     rvalue <- rvalue.results$pvalue.onesided
     side <- alternative
   }else{
     rvalue.results.less <- metaRvalue.onesided.U( x = x , u = u , alternative = 'less', 
                                                   comb.fixed = common.effect,
-                                                  comb.random = !common.effect,
-                                                  do.truncated.umax = ifelse(is.null(t) , F , t < 1 ), 
-                                                  alpha.tilde = ifelse(is.null(t) , 1 , t ) )
+                                                  comb.random = Comb.random,
+                                                  do.truncated.umax = Do.truncated.umax, 
+                                                  alpha.tilde = Alpha.tilde )
     rvalue.less <- rvalue.results.less$pvalue.onesided
     
     rvalue.results.greater <- metaRvalue.onesided.U( x = x , u = u , alternative = 'greater', 
                                                      comb.fixed = common.effect,
-                                                     comb.random = !common.effect,
-                                                     do.truncated.umax = ifelse(is.null(t) , F , t < 1 ), 
-                                                     alpha.tilde = ifelse(is.null(t) , 1 , t ) )
+                                                     comb.random = Comb.random,
+                                                     do.truncated.umax = Do.truncated.umax, 
+                                                     alpha.tilde = Alpha.tilde  )
     
     rvalue.greater <- rvalue.results.greater$pvalue.onesided
     
@@ -86,40 +102,39 @@
   }
   
   # find u_max
-  Umax_right  <- Umax_left <- Umax <- Side <-  NULL
-  
-  if( common.effect ){
+  if(report.u.max){
+    Umax_right  <- Umax_left <- Umax <- Side <-  NULL
     
-    Umax = find_umax( x , alternative = alternative, confidence = 0.95 ,
-                      common.effect = T )
-    
-    if( Umax$side == 'less '){
-      res$u_L <-  Umax$u_max 
-    }else{
-      res$u_R <-  Umax$u_max 
-    }
-    
-    
-  }else{
-    
-    if( alternative != 'less' ){
-      Umax_right = find_umax( x , alternative = 'greater',
-                              confidence = 1 - 0.05/(1+(alternative == 'two-sided')) ,
-                              common.effect  = common.effect , t = t )
-      res$u_R <- Umax_right$u_max
-    }
-    
-    if( alternative !=  'greater' ){
-      Umax_left = find_umax( x , alternative = 'less', 
-                              confidence = 1 - 0.05/(1+(alternative == 'two-sided')) ,
-                              common.effect = common.effect , t = t )
+    if( common.effect ){
       
-      res$u_L <- Umax_left$u_max
+      Umax = find_umax( x , alternative = alternative, confidence = 0.95 ,
+                        common.effect = T )
+      
+      if( Umax$side != 'less '){
+        res$u_L <-  Umax$u_max 
+      }
+        res$u_R <-  Umax$u_max 
+
+    }else{
+      
+      if( alternative != 'less' ){
+        Umax_right = find_umax( x , alternative = 'greater',
+                                confidence = 1 - alpha/(1+(alternative == 'two-sided')) ,
+                                common.effect  = F , t = t )
+        res$u_R <- Umax_right$u_max
+      }
+      
+      if( alternative !=  'greater' ){
+        Umax_left = find_umax( x , alternative = 'less', 
+                               confidence = 1 - alpha/(1+(alternative == 'two-sided')) ,
+                               common.effect = F , t = t )
+        
+        res$u_L <- Umax_left$u_max
+      }
+      
     }
     
   }
-  
-  
   ## 
   ## Replicability analysis results
   ##

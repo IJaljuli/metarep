@@ -1,17 +1,23 @@
 Package: metarep
-Title: An extention package for "meta" package, for Replicability-analysis as a complement to meta-analysis.
+Title: An extention package for "meta" package, for Replicability-analysis as a complement to meta-analysis
 Version: 1.0
 Depends: R (>= 3.5.1)
-Imports: grid , metap, meta
+Imports: 
+    grid,
+    metap,
+    meta (>= 4.9.10),
 Suggests: 
-    metafor (>= 1.9-9),
+    metafor (>= 1.9.9),
     lme4,
     numDeriv,
     BiasedUrn,
-    testthat
-Authors@R: c(person("Iman","Jaljuli", role=c("cre","aut"), email="jaljuli.iman@gmail.com"))
-Date: 2019-12-22
-URL: https://github.com/guido-s/meta http://meta-analysis-with-r.org
+    testthat,
+    knitr,
+    rmarkdown
+Authors@R: c(person("Iman","Jaljuli", role=c("cre","aut"), email="jaljuli.iman@gmail.com"),
+             person("Ruth","Heller", email = "ruheller@gmail.com", role = "aut"))
+Date: 2020-01-01
+URL: https://github.com/IJaljuli/metarep
 # URL2: https://github.com/guido-s/meta
 Description: User-friendly package providing Replicability-Analysis methods to complement meta-analysis and supporting |||||||||. This package provides meta-analyses by the package meta (version 4.9-10) with the reporting of replicability analysis results.
  - Replicability-analysis for fixed-effects and random-effect meta analysis: 
@@ -23,9 +29,11 @@ Description: User-friendly package providing Replicability-Analysis methods to c
 License: GPL (>= 2)
 Encoding: UTF-8
 NeedsCompilation: yes
-Packaged: 2017-08-11 09:43:44 UTC; sc
+Packaged: 2020-01-01 09:43:44 UTC; sc
 Author: Iman Jaljuli [cre, aut]
 Maintainer: Iman Jaljuli <jaljuli.iman@gmail.com>
 Repository: CRAN
-Date/Publication: 2017-08-11 22:09:11 UTC
+Date/Publication: 2020-01-01 22:09:11 UTC
 RoxygenNote: 7.0.2
+VignetteBuilder: knitr
+LazyData: true
