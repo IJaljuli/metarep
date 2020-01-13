@@ -7,7 +7,7 @@
 truncatedPearson(p, alpha.tilde = 1)
 }
 \arguments{
-\item{p}{p-values of the individual studies for testing one-sided alternative based on z-test.}
+\item{p}{p-values of the individual studiesfor testing one-sided alternative based on z-test.}
 
 \item{alpha.tilde}{truncartion threshold for truncated-Pearson test. Use alpha.tilde = 1 for original Pearson test for combining p-values.}
 }

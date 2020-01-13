@@ -1,7 +1,7 @@
 summary.metarepl <- function(object, ...) {
   
-  # meta:::chkclass(object, "metarepl")
-  chkclass(object, "metarepl")
+  meta:::chkclass(object, "metarepl")
+  # chkclass(object, "metarepl")
   
   res <- summary.meta(object)
   ##

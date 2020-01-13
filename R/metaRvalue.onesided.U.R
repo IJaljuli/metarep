@@ -2,7 +2,7 @@ metaRvalue.onesided.U <- function (x,u = 2 , comb.fixed = F , comb.random = T ,
                                    alternative = 'less',
                                    do.truncated.umax = T ,
                                    alpha.tilde = .05 ){
-  chkclass(x, "meta")
+  meta:::chkclass(x, "meta")
   metaInf <- inherits(x,'metainf')
   x.original = x
   if (do.truncated.umax & (alpha.tilde == 1) ) {
@@ -25,10 +25,6 @@ metaRvalue.onesided.U <- function (x,u = 2 , comb.fixed = F , comb.random = T ,
   if ( (! comb.fixed )&( ! comb.random ) ) stop('Desired replicability model must be supplied')
   if(!(alternative %in% c('less','greater'))) stop('Supply informative alternative ( "less" or "greater" )')
 
-  
-  
-  
-    
   ## fixed-effects replicability analysis. 
   worst.case.fixed <- studies_subsets <- NULL
   if ( comb.fixed ){
@@ -45,7 +41,7 @@ metaRvalue.onesided.U <- function (x,u = 2 , comb.fixed = F , comb.random = T ,
     for ( k in 1:ncol(studies_subsets)){
       worst.studies.fisher = x$studlab[ studies_subsets[-c(nrow(studies_subsets)) ,k] ]
       worst.studies.fisher = which( x$data$.studlab %in% worst.studies.fisher)
-      x.sub <- update.meta(x,subset =  worst.studies.fisher )
+      x.sub <- meta::update.meta(x,subset =  worst.studies.fisher )
       z.val <- x.sub$zval.fixed
       studies_subsets['rvalue' , k] <-  x.sub$pval.fixed / 2
       if ( ((z.val < 0) & (alternative == 'greater')) | ( (z.val > 0) & (alternative == 'less') ) ){
@@ -97,7 +93,7 @@ metaRvalue.onesided.U <- function (x,u = 2 , comb.fixed = F , comb.random = T ,
     }
     
   worst.studies.fisher <- x$studlab[ wsf ]
-  worst.studies.fisher <- which( x$data$.studlab %in% worst.studies.fisher)
+  worst.studies.fisher <- which( !(x$data$.studlab %in% worst.studies.fisher) )
   worst.case <- meta::update.meta(x ,subset = worst.studies.fisher )
   worst.pvs.fisher <- truncatedPearson( p = pvs.all[ wsf ] ,alpha.tilde =  alpha.tilde)
   

@@ -1,0 +1,100 @@
+---
+title: "Complement Meta-analyses with Replicability-Analysis"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Complement Meta-analyses with Replicability-Analysis}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+The package `metarep` is an extention to the package `meta`, that implements the replicability-analysis proposed by Jaljuli et. al. ( submitted ). 
+Replicability-analysis is a complement to the common models of meta-analysis, whith or without the common-effect assumption.  
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = " "
+)
+```
+
+This package performs replicability-analysis only on an object of class "meta".  For example: 
+
+```{r setup}
+library(metarep)
+data(CD007077_CMP001)
+CD007077 <- CD007077_CMP001
+# data.frame(n.e = rep( 25 , 7 ) ,
+#                             n.c = rep( 25 , 7 ) ,
+#                             mean.e = rep( 0, times = 7 ),
+#                             mean.c = rnorm(n = 7,mean = 1),
+#                             sd.e = round(sqrt(rchisq(n = 7,df = 24)/24),digits=2),
+#                             sd.c = round(sqrt(rchisq(n = 7,df = 24)/24),digits=2) )
+
+m1 <- meta::metabin( event.e = N_EVENTS1, n.e = N_TOTAL1, 
+                     event.c = N_EVENTS2, n.c = N_TOTAL2,
+                     studlab = STUDY, comb.fixed = T , comb.random = F,
+                     method = 'MH', sm = CD007077$SM[1],
+                     data = CD007077)
+
+m1
+
+summary(m1)
+```
+
+
+
+Results of complete replicability analysis can be added to the contents of a `meta` object or using the function `metarepl(...)`, as well as to its summary using `summary( metarepl(...) )`. 
+To perform assumption-free replicability-analysis requiring replicability in at least `u = 2` (default) studies, we calculate $r(2)-value$ using truncated-Pearsons' test with truncation threshold `t=0.05` (default):   
+
+```{r RA Zaykin}
+m1.ra <- metarepl(x = m1 , u = 2 , common.effect = F ,t = 0.05 ,report.u.max = F)
+``` 
+for original Pearsons' test ( i.e. without truncation), use `t=1`. The two-sided $r(2)-value$ of the model can be accessed via `r.value`: 
+```{r}
+m1.ra$r.value
+```
+To include the full replicability-analysis, i.e. report the lower bounds of number of studies with increased and\\or decreased effect, use `report.u.max = TRUE` (default). 
+
+```{r RA Zaykin and bounds}
+m1.ra.bounds <- metarepl(x = m1 , u = 2 , common.effect = F ,t = 0.05 ,report.u.max = T)
+
+m1.ra.bounds
+```
+Thr bottom two lines report the $r(2)-value$, lower bound on the number of studies with increased effect ($u^L_{max}$) and decreased effect ($u^R_{max}$) , respectively. For higher replicability requirement, compute $r(u')-value$ for $u'>2$ using `metarepl(u = u' , ... )`.
+
+We also allow including the results of the replicability-analysis in the forest plot: 
+
+```{r forestplot meta , fig.width=12, fig.height=4}
+
+meta::forest(m1, layout='revman5',digits.pval = 2 , test.overall = T )
+
+meta::forest(m1.ra, layout='revman5',digits.pval = 2 , test.overall = T )
+
+meta::forest(m1.ra.bounds, layout='revman5',digits.pval = 2 , test.overall = T )
+
+```
+The lower bounds $u^L_{max} \, \text{and} \, u^R_{max}$ reported by the model `m1.ra.bounds` are calculated with $1-\alpha = 95\%$ confidence level ( deafalt), meaning that both null hypotheses $$H^{u^L_{max}/n}(L) \;\; \text{and}\;\; H^{u^L_{max}/n}(R)$$ are rejected at level $\alpha /2 = 2.5\%$, resulting in bounds in overall type error rate $5\%$. Type I error rate can be controlled for any desired $\alpha$ using the argument `confidence = 1 - `$\alpha$.
+
+Setting `report.u.max = FALSE` can save time when one is only interested in exctracting the $r(u)-value$. The algorithm for computing $u^L_{max} \, \text{and} \, u^R_{max}$ with no assumptions has low complexity of $O( n )$ ( $n$ is the number of studies in the meta-analysis), but it can be quite much when one is performing large amount of replicability analyses at once. However, the computation of these bounds takes $O(2^n)$ if coercing the  $common-effect$ assumption in to the replicability-analysis.
+
+The calculation of $u^L_{max} \, \text{and} \, u^R_{max}$ can also be caluclated directly using the function `find_umax()` with the option to specify one-sided alternative, confidence level, truncation threshold and common-effect assumption.
+For example, let's compute $u^L_{max}$ with the same confidence level as produced by `m1.ra.bounds`. 
+```{r u_L bound}
+find_umax(x = m1 , common.effect = F,alternative = 'less',t = 0.05,confidence = 0.975)
+```
+Note that this function produces 2 main types of results: 
+
+1. Worst-case scenario: The meta-analysis of $n-u_{max}^L+1$ studies yeilding the maximum
+    $$\max_{\forall \{i_1,\dots , i_{n-u+1}\} \subset \{1,\dots , n\} } \{\,p^L_{i_1,\dots , i_{n-u+1}}\,\}$$
+1. Replicability-analysis results, amongst: 
+
+    * $u^L_{max}$ or $u^R_{max}$. If `alternative='two-sided'`, then $u_{max}=\max\{u^L_{max}\, , \, u^R_{max}\}$ is also reported.
+    
+    * $r(u_{max}^L)-value$ or $r(u_{max}^R)-value$  if setting `alternative='less'` or `alternative='greater'`, respectively.
+      If `alternative='two-sided'`, then $$rvalue = r(u_{max}) = 2\cdot\min\{r^R(u_{max}^R) , r^L(u_{max}^L) \}$$ is also reported.
+    
+    For demonstration, see the following example. 
+    
+```{r u bounds}
+find_umax(x = m1 , common.effect = F,alternative = 'two-sided',t = 0.05,confidence = 0.95)
+```
