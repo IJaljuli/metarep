@@ -15,7 +15,7 @@ knitr::opts_chunk$set(
 )
 ```
 
-We begin with an example based on fixed-effects meta-analysis from review number CD002943: the effect of mammogram invitation on attendance during the following 12 months.  
+We begin with an example based on fixed-effects meta-analysis from review number CD002943: the effect of mammogram invitation on attendance during the following 12 months.
 
 ## $1^{st}$ Example: Review CD002943
 
