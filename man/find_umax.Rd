@@ -6,22 +6,22 @@
 \usage{
 find_umax(
   x,
-  common.effect = FALSE,
   alternative = "two-sided",
-  t = NULL,
-  confidence = 0.95
+  t = 0.05,
+  confidence = 0.95,
+  common.effect = FALSE
 )
 }
 \arguments{
 \item{x}{meta object}
-
-\item{common.effect}{use TRUE if assming common-effect, i.e. fixed-effects meta-analysis assumptions.}
 
 \item{alternative}{'less', 'greater' or 'two-sided'}
 
 \item{t}{between (0,1]}
 
 \item{confidence}{1- alpha}
+
+\item{common.effect}{use TRUE if assming common-effect, i.e. fixed-effects meta-analysis assumptions.}
 }
 \value{
 lower bounds on the number of studies with increased or decreased effect.

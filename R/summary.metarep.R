@@ -1,7 +1,7 @@
-summary.metarepl <- function(object, ...) {
+summary.metarep <- function(object, ...) {
   
-  meta:::chkclass(object, "metarepl")
-  # chkclass(object, "metarepl")
+  meta:::chkclass(object, "metarep")
+  # chkclass(object, "metarep")
   
   res <- summary.meta(object)
   ##
@@ -11,7 +11,7 @@ summary.metarepl <- function(object, ...) {
   if(!is.null(object$u_L) ) res$u.decreased <- object$u_L
   
   ##
-  class(res) <- c("summary.metarepl", class(res))
+  class(res) <- c("summary.metarep", class(res))
   ##
   res
 }

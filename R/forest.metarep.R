@@ -1,7 +1,7 @@
-forest.metarepl <- function(x, ...) {
+forest.metarep <- function(x, ...) {
   
-  meta:::chkclass(x, "metarepl")
-  # chkclass(x, "metarepl")
+  meta:::chkclass(x, "metarep")
+  # chkclass(x, "metarep")
   
   u_max_text <- NULL
   

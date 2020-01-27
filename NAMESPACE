@@ -1,7 +1,7 @@
 # useDynLib(metarep, .registration = TRUE)
 
-export(truncatedPearson , metarepl , summary.metarepl , print.summary.metarepl ,
-       forest.metarepl, find_umax )
+export(truncatedPearson , metarep , summary.metarep , print.summary.metarep ,
+       forest.metarep, find_umax )
 
 # not visible:
 # metaRvalue.U , chkclass
@@ -9,12 +9,12 @@ export(truncatedPearson , metarepl , summary.metarepl , print.summary.metarepl ,
 importFrom("stats", "dbinom", "pgamma", "pnorm")
 importFrom("utils", "combn")
      
-     S3method( summary, metarepl)
-S3method(forest, metarepl)
-S3method(print, summary.metarepl)
-# S3method(print, metarepl)
-# S3method( truncatedPearson , metarepl)
-# S3method(find_umax, metarepl)
+     S3method( summary, metarep)
+S3method(forest, metarep)
+S3method(print, summary.metarep)
+# S3method(print, metarep)
+# S3method( truncatedPearson , metarep)
+# S3method(find_umax, metarep)
 
 import("meta")
 

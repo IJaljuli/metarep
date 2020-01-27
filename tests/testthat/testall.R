@@ -12,7 +12,7 @@ m1 <- meta::metabin( event.e = N_EVENTS1, n.e = N_TOTAL1,
                      studlab = STUDY, comb.fixed = T , comb.random = F,
                      method = 'MH', sm = CD007077$SM[1],
                      data = CD007077)
-m1.ra <- metarepl(x = m1 , u = 2 , common.effect = F ,t = 0.05 ,report.u.max = F)
-m1.ra.bounds <- metarepl(x = m1 , u = 2 , common.effect = F ,t = 0.05 ,report.u.max = T)
+m1.ra <- metarep(x = m1 , u = 2 , common.effect = F ,t = 0.05 ,report.u.max = F)
+m1.ra.bounds <- metarep(x = m1 , u = 2 , common.effect = F ,t = 0.05 ,report.u.max = T)
 find_umax(x = m1 , common.effect = F,alternative = 'less',t = 0.05,confidence = 0.975)
 find_umax(x = m1 , common.effect = F,alternative = 'two-sided',t = 0.05,confidence = 0.95)

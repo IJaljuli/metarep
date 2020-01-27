@@ -1,7 +1,7 @@
-print.summary.metarepl <- function(x, ...) {
+print.summary.metarep <- function(x, ...) {
   
-  meta:::chkclass(x, "summary.metarepl")
-  # chkclass(x, "summary.metarepl")
+  meta:::chkclass(x, "summary.metarep")
+  # chkclass(x, "summary.metarep")
   
   print.summary.meta(x)
   cat(paste0("- replicability analysis (r-value = ",

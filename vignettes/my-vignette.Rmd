@@ -1,15 +1,13 @@
 ---
-title: "Complement Meta-analyses with Replicability-Analysis"
+title: "Replicability-Analysis with 'metarep'"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Complement Meta-analyses with Replicability-Analysis}
+  %\VignetteIndexEntry{Replicability-Analysis with 'metarep'}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
-
-The package `metarep` is an extention to the package `meta`, that implements the replicability-analysis proposed by Jaljuli et. al. ( submitted ). 
-Replicability-analysis is a complement to the common models of meta-analysis, whith or without the common-effect assumption.  
-
+The package `metarep` is an extention to the package `meta`, which allows incorporating replicability-analysis tools to quantify consistency and replicability of treatment effect estimates in a meta-analysis. The tool was proposed by Jaljuli et. al. (submitted) for the fixed-effect and for the random-effects meta-analyses, whith or without the common-effect assumption.  
+Here we demonstratethe approach  by implementation  with `metarep`, using examples from systematic reviews Cochrane library. These examples are detailed in the paper as well, along with a demonstration of a way to incorporate our suggestions in standard meta-analysis reporting system.
 ```{r, include = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
@@ -17,74 +15,76 @@ knitr::opts_chunk$set(
 )
 ```
 
-This package performs replicability-analysis only on an object of class "meta".  For example: 
+We begin with an example based on fixed-effects meta-analysis from review number CD002943: the effect of mammogram invitation on attendance during the following 12 months.  
 
-```{r setup}
+## $1^{st}$ Example: Review CD002943
+
+```{r example_CD002943}
 library(metarep)
-data(CD007077_CMP001)
-CD007077 <- CD007077_CMP001
-# data.frame(n.e = rep( 25 , 7 ) ,
-#                             n.c = rep( 25 , 7 ) ,
-#                             mean.e = rep( 0, times = 7 ),
-#                             mean.c = rnorm(n = 7,mean = 1),
-#                             sd.e = round(sqrt(rchisq(n = 7,df = 24)/24),digits=2),
-#                             sd.c = round(sqrt(rchisq(n = 7,df = 24)/24),digits=2) )
+data(CD002943_CMP001)
 
-m1 <- meta::metabin( event.e = N_EVENTS1, n.e = N_TOTAL1, 
+m2943 <- meta::metabin( event.e = N_EVENTS1, n.e = N_TOTAL1, 
                      event.c = N_EVENTS2, n.c = N_TOTAL2,
                      studlab = STUDY, comb.fixed = T , comb.random = F,
-                     method = 'MH', sm = CD007077$SM[1],
-                     data = CD007077)
+                     method = 'Peto', sm = CD002943_CMP001$SM[1],
+                     data = CD002943_CMP001)
 
-m1
+m2943
 
-summary(m1)
+summary(m2943)
 ```
 
 
+In this meta-analysis, the effect of sending invitation letters was examined in five studies. The authors main result is that: "The odds ratio in relation to the outcome, attendance in response to the mammogram invitation during the 12 months after the invitation, was 1.66 (95% CI 1.43 to 1.92)". 
 
-Results of complete replicability analysis can be added to the contents of a `meta` object or using the function `metarepl(...)`, as well as to its summary using `summary( metarepl(...) )`. 
-To perform assumption-free replicability-analysis requiring replicability in at least `u = 2` (default) studies, we calculate $r(2)-value$ using truncated-Pearsons' test with truncation threshold `t=0.05` (default):   
+We suggest reporting the repliability-analysis results alongside: the r-value and lower confidence bounds on the number of studies. 
+Results of complete replicability analysis can be added to the contents of a `meta` object or using the function `metarep(...)`, as well as to its summary using `summary( metarep(...) )`. 
+To perform assumption-free replicability-analysis requiring replicability in at least `u = 2` (default) studies, we calculate $r(2)-value$ using truncated-Pearsons' test with truncation threshold `t=0.05` (default)
 
-```{r RA Zaykin}
-m1.ra <- metarepl(x = m1 , u = 2 , common.effect = F ,t = 0.05 ,report.u.max = F)
-``` 
-for original Pearsons' test ( i.e. without truncation), use `t=1`. The two-sided $r(2)-value$ of the model can be accessed via `r.value`: 
-```{r}
-m1.ra$r.value
+
+```{r RA Zaykin and bounds22}
+m2943.ra <- metarep(x = m2943 , u = 2 , common.effect = F ,t = 0.05 ,report.u.max = T)
+m2943.ra
 ```
-To include the full replicability-analysis, i.e. report the lower bounds of number of studies with increased and\\or decreased effect, use `report.u.max = TRUE` (default). 
+Thr bottom two lines report the $r(2)-value$, lower bound on the number of studies with increased effect ($u^L_{max}$) and decreased effect ($u^R_{max}$) , respectively. 
+The evidence towards an increased effect was replicable, with $r(2) − value = 0.0002$. Moreover, with $95\%$ confidence, we can conclude that at least two studies had an increased effect.
+For higher replicability requirement, compute $r(u')-value$ for $u'>2$ using `metarep(u = u' , ... )`.
 
-```{r RA Zaykin and bounds}
-m1.ra.bounds <- metarepl(x = m1 , u = 2 , common.effect = F ,t = 0.05 ,report.u.max = T)
-
-m1.ra.bounds
+The two-sided $r(u)-value$ of the model can be accessed via `r.value`: 
+```{r rvalue extraction}
+m2943.ra$r.value
 ```
-Thr bottom two lines report the $r(2)-value$, lower bound on the number of studies with increased effect ($u^L_{max}$) and decreased effect ($u^R_{max}$) , respectively. For higher replicability requirement, compute $r(u')-value$ for $u'>2$ using `metarepl(u = u' , ... )`.
 
-We also allow including the results of the replicability-analysis in the forest plot: 
+The replicability-analysis reported was performed with an assumption free test, based on truncated0-Pearsons' test with truncation level set at the nominal hypothesis testing level (i.e., `t=0.05`, default). For ordinary Pearsons' test, use `t=1`. 
 
-```{r forestplot meta , fig.width=12, fig.height=4}
+Although the fixed-effect model assumes that all studies are estimates of the same common effect $\theta$, we recommend applying assumption-free replicability-analysis for protection against unsupported assumption. Despite that, we extend our suggested method with the common-effect incorporation in section 7. This analysis can be performed via `metarep( ... , common.effect = TRUE )`.
 
-meta::forest(m1, layout='revman5',digits.pval = 2 , test.overall = T )
+`metarep` also allows adding replicability results to the conventional forest plots by `meta`. This can be done by simply applying `meta::forest()` on a `metarep` object. 
 
-meta::forest(m1.ra, layout='revman5',digits.pval = 2 , test.overall = T )
-
-meta::forest(m1.ra.bounds, layout='revman5',digits.pval = 2 , test.overall = T )
-
+```{r forest, fig.width=8.5, fig.height=3}
+meta::forest(m2943.ra, layout='revman5',digits.pval = 2 , test.overall = T )
 ```
-The lower bounds $u^L_{max} \, \text{and} \, u^R_{max}$ reported by the model `m1.ra.bounds` are calculated with $1-\alpha = 95\%$ confidence level ( deafalt), meaning that both null hypotheses $$H^{u^L_{max}/n}(L) \;\; \text{and}\;\; H^{u^L_{max}/n}(R)$$ are rejected at level $\alpha /2 = 2.5\%$, resulting in bounds in overall type error rate $5\%$. Type I error rate can be controlled for any desired $\alpha$ using the argument `confidence = 1 - `$\alpha$.
 
-Setting `report.u.max = FALSE` can save time when one is only interested in exctracting the $r(u)-value$. The algorithm for computing $u^L_{max} \, \text{and} \, u^R_{max}$ with no assumptions has low complexity of $O( n )$ ( $n$ is the number of studies in the meta-analysis), but it can be quite much when one is performing large amount of replicability analyses at once. However, the computation of these bounds takes $O(2^n)$ if coercing the  $common-effect$ assumption in to the replicability-analysis.
+The computation of lower bounds on number of studies with replicability of increased \& decreased effects can be supressed using `metarep( ... , report.u.max = FALSE )`
+
+
+```{r remove bounds, fig.width=8.5, fig.height=3}
+meta::forest( metarep(x = m2943, report.u.max = F ),
+              layout='revman5',digits.pval = 2 , test.overall = T )
+```
+
+The lower bounds $u^L_{max} \, \text{and} \, u^R_{max}$ are calculated with $1-\alpha = 95\%$ confidence level ( deafalt), meaning that each of the null hypotheses $$H^{u^L_{max}/n}(L) \;\; \text{and}\;\; H^{u^L_{max}/n}(R)$$ is tested at level $\alpha /2 = 2.5\%$, resulting in bounds in overall type error rate $5\%$. Type I error rate can be controlled for any desired $\alpha$ using the argument `confidence = 1 - `$\alpha$.
+
+<!-- Setting `report.u.max = FALSE` can save time when one is only interested in exctracting the $r(u)-value$. The algorithm for computing $u^L_{max} \, \text{and} \, u^R_{max}$ with no assumptions has low complexity of $O( n )$ ( $n$ is the number of studies in the meta-analysis), but it can be quite much when one is performing large amount of replicability analyses at once. However, the computation of these bounds takes $O(2^n)$ if coercing the  $common-effect$ assumption in to the replicability-analysis. -->
 
 The calculation of $u^L_{max} \, \text{and} \, u^R_{max}$ can also be caluclated directly using the function `find_umax()` with the option to specify one-sided alternative, confidence level, truncation threshold and common-effect assumption.
-For example, let's compute $u^L_{max}$ with the same confidence level as produced by `m1.ra.bounds`. 
+For example, let's compute $u^L_{max}$ with the same confidence level as produced by `m2943.ra.bounds`. 
 ```{r u_L bound}
-find_umax(x = m1 , common.effect = F,alternative = 'less',t = 0.05,confidence = 0.975)
+find_umax(x = m2943 , common.effect = F,alternative = 'less',t = 0.05,confidence = 0.975)
 ```
 Note that this function produces 2 main types of results: 
 
-1. Worst-case scenario: The meta-analysis of $n-u_{max}^L+1$ studies yeilding the maximum
+1. Worst-case scenario studies: A list  of $n-u_{max}^L+1$  studies names yeilding the maximum
     $$\max_{\forall \{i_1,\dots , i_{n-u+1}\} \subset \{1,\dots , n\} } \{\,p^L_{i_1,\dots , i_{n-u+1}}\,\}$$
 1. Replicability-analysis results, amongst: 
 
@@ -96,5 +96,88 @@ Note that this function produces 2 main types of results:
     For demonstration, see the following example. 
     
 ```{r u bounds}
-find_umax(x = m1 , common.effect = F,alternative = 'two-sided',t = 0.05,confidence = 0.95)
+find_umax(x = m2943 , common.effect = F,alternative = 'two-sided',t = 0.05,confidence = 0.95)
 ```
+
+
+## $2^{nd}$ Example: Review CD007077 
+
+The second example is based on a fixed-effects meta analysis in review CD007077. The main objective of this review is to determine whether PBI/APBI is equivalent to or better than conventional or hypo-fractionated whole breast radiotherapy (WBRT) after breast-conservation therapy for early-stage breast cancer. The primary outcome was Cosmesis. 
+
+```{r example007077}
+data(CD007077_CMP001)
+
+m7077 <- meta::metabin( event.e = N_EVENTS1, n.e = N_TOTAL1, 
+                     event.c = N_EVENTS2, n.c = N_TOTAL2,
+                     studlab = STUDY, comb.fixed = T , comb.random = F,
+                     method = 'MH', sm = CD007077_CMP001$SM[1],
+                     data = CD007077_CMP001)
+
+summary(m7077)
+```
+
+The meta-analysis overall effect is significant, with a $95\%$ CI entirely to the right of the null value, despite the fact that the two largest studies report conflicting significant effects.
+The authors write as a main result that "Cosmesis (physician-reported) appeared worse with PBI/APBI (odds ratio (OR) 1.51, $95\%$ CI 1.17 to 1.95, five studies, 1720 participants, low-quality evidence)".
+
+
+With the replicability analysis:
+
+```{r forest CD007077, fig.width=9, fig.height=3}
+m7077.ra <- metarep(x = m7077 , u = 2 , common.effect = F ,t = 0.05 ,report.u.max = T)
+
+meta::forest(m7077.ra, layout='revman5',digits.pval = 2 , test.overall = T )
+```
+
+
+we suggest adding the r-value and lower confidence bounds on the number of studies, as follows:
+"We cannot rule out the possibility that this result is critically based on a single study ( $r − value = 1$). Moreover, the results are inconsistent, since with $95\%$ confidence, we conlclude that at least one study had an increased effect and at least one study had a decreased effect."
+
+## $3^{rd}$ Example: 
+Based on a random-effects meta-analysis in review CD006823, where the meta-analysis finding was statistically significant. The authors examine the effects of wound drainage after axillary dissection for breast carcinoma on the incidence of post-operative Seroma formation. 
+
+```{r example6823}
+data(CD006823_CMP001)
+
+m6823 <- meta::metabin( event.e = N_EVENTS1, n.e = N_TOTAL1, 
+                     event.c = N_EVENTS2, n.c = N_TOTAL2,
+                     studlab = STUDY, comb.fixed = T , comb.random = F,
+                     method = 'MH', sm = CD006823_CMP001$SM[1],
+                     data = CD006823_CMP001)
+
+m6823
+```
+
+
+The authors write ”The OR for Seroma formation was 0.46 (95% CI 0.23 to 0.91, P = 0.03) in favor of a reduced incidence of Seroma in participants with drains inserted.” 
+With replicability-analysis:
+```{r forest CD6823, fig.width=10, fig.height=3}
+m6823.ra <- metarep(x = m6823 , u = 2 , common.effect = F ,t = 0.05 ,report.u.max = T)
+
+meta::forest(m6823.ra, layout='revman5',digits.pval = 2 , test.overall = T )
+```
+we conclude that the evidence towards a decreased effect was replicable (r-value = 0.0002). Moreover, with $95\%$ confidence, we can conclude that at least two studies had an decreased effect (and zero studies had an increased effect).
+ 
+ 
+## Example 4: 
+
+Based on a random-effects meta-analysis in review CD003366. The authors compare chemotherapy regimens on overall effect in Leukopaenia. Pooling 28 studies, the random-effects meta-analysis fails to declare any significant difference between regimens, due to the highly-significant yet contradicting results. 
+
+```{r example3366}
+data(CD003366_CMP005)
+
+m3366 <- meta::metabin( event.e = N_EVENTS1, n.e = N_TOTAL1, 
+                     event.c = N_EVENTS2, n.c = N_TOTAL2,
+                     studlab = STUDY, comb.fixed = T , comb.random = F,
+                     method = 'MH', sm = CD003366_CMP005$SM[1],
+                     data = CD003366_CMP005)
+
+m3366
+```
+The authors write: ”Overall, there was no difference in the risk of Leukopaenia (RR 1.07; $95\%$ CI 0.97 to 1.17; P = 0.16; participants = 6564; Analysis 5.2) with significant heterogeneity across the studies (I2 = 90$\%$; P < 0.00001)”. 
+Although, with replicability-analysis:
+```{r forest CD3366, fig.width=10, fig.height=8}
+m3366.ra <- metarep(x = m3366 , u = 2 , common.effect = F ,t = 0.05 ,report.u.max = T)
+
+meta::forest(m3366.ra, layout='revman5',digits.pval = 2 , test.overall = T )
+```
+there is inconsistent evidence for the direction of effect: an increased effect in at least two studies, and a decreased effect in at least ten studies (with 95$\%$ confidence).

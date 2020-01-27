@@ -1,10 +1,10 @@
 #' Computing the bounds \code{u_{max}^L}, \code{u_{max}^R}
 #'
 #' @param x meta object
-#' @param common.effect use TRUE if assming common-effect, i.e. fixed-effects meta-analysis assumptions.
 #' @param alternative 'less', 'greater' or 'two-sided'
 #' @param t between (0,1]
 #' @param confidence 1- alpha
+#' @param common.effect use TRUE if assming common-effect, i.e. fixed-effects meta-analysis assumptions.
 #'
 #' @return lower bounds on the number of studies with increased or decreased effect. 
 #' @export
@@ -19,8 +19,8 @@
 #'                      comb.fixed = FALSE, comb.random = TRUE )
 #'find_umax(m1 , common.effect = FALSE, alternative = 'two-sided',
 #'           t = 0.05 , confidence = 0.95 )        
-find_umax <- function(x , common.effect = FALSE, alternative = 'two-sided' ,
-                      t = NULL , confidence = 0.95 ){
+find_umax <- function(x , alternative = 'two-sided' ,
+                      t = 0.05 , confidence = 0.95, common.effect = FALSE ){
 
 
   if(is.numeric(confidence)){
@@ -47,7 +47,7 @@ find_umax <- function(x , common.effect = FALSE, alternative = 'two-sided' ,
   na.zvs <- (sum(!is.na(x$zval))==0 )
   if ( na.zvs & na.pvs ){
     warning('Please supply valid p-values or zvalues.')
-    return( list ( u_max = NULL , worst.case = x , side = NULL , rvalue = NULL )[c(2,1,3,4)] )
+    return( list ( u_max = NULL , worst.case = NULL , side = NULL , rvalue = NULL )[c(2,1,3,4)] )
   }
   
   alpha = (1 - confidence)
@@ -180,9 +180,9 @@ find_umax <- function(x , common.effect = FALSE, alternative = 'two-sided' ,
     }
 
     names(side) <- 'Direction of the stronger signal'
-    return(list(worst.case =  worst.case.meta$worst.case,
+    return(list(worst.case =  (worst.case.meta$worst.case)$studlab,
                 side = side , u_max = u_max , rvalue = rvalue ,
-                Replicability_Analysis = rep.text))
+                Replicability_Analysis = unname(rep.text)))
   }
   
   # if reaches here, means that fixed-effect replicability analysis is performed. 
@@ -201,7 +201,7 @@ find_umax <- function(x , common.effect = FALSE, alternative = 'two-sided' ,
     if( pv.less >  alpha / (1 + twoSided )) {
       meta_ul_last_sig <- NULL
       final_ul <- 
-        list(u_max = 0 , worst.case =  meta_ul$worst.case,
+        list(u_max = 0 , worst.case =  (meta_ul$worst.case)$studlab,
              side = 'less' , rvalue = meta_ul$pvalue.onesided )
       
     }
@@ -217,7 +217,8 @@ find_umax <- function(x , common.effect = FALSE, alternative = 'two-sided' ,
     
     if(rvl <=  alpha / (1 + twoSided )) {
       final_ul <- 
-        list(u_max = u2 , worst.case =  meta_ul$worst.case, side = 'less' , rvalue = rvl )
+        list(u_max = u2 , worst.case =  (meta_ul$worst.case)$studlab,
+             side = 'less' , rvalue = rvl )
     }
     
     # u2 <- u2 - 1 
@@ -246,10 +247,12 @@ find_umax <- function(x , common.effect = FALSE, alternative = 'two-sided' ,
       
       rep.text <- paste0('out of ' , nstudlab , ' studies, ', ul ,
                          ' with decreased effect.')
+      
 
       final_ul <- 
-        list(u_max = ul , worst.case =  meta_ul$worst.case, side = 'less' ,
-             rvalue = rvl, Replicability_Analysis = rep.text )
+        list(u_max = ul , worst.case =  (meta_ul$worst.case)$studlab,
+             side = 'less' ,
+             rvalue = rvl, Replicability_Analysis = unname(rep.text) )
     }
     
     
@@ -273,7 +276,7 @@ find_umax <- function(x , common.effect = FALSE, alternative = 'two-sided' ,
     if( pv.greater >  alpha / (1 + twoSided )) {
       meta_ug_last_sig <- NULL
       final_ug <-
-        list(u_max = 0 , worst.case =  meta_ug$worst.case,
+        list(u_max = 0 , worst.case =  (meta_ug$worst.case)$studlab,
              side = 'greater' , rvalue = meta_ug$pvalue.onesided )
     }
     
@@ -290,7 +293,8 @@ find_umax <- function(x , common.effect = FALSE, alternative = 'two-sided' ,
     
     if(rvg <=  alpha / (1 + twoSided )) {
       final_ug <-
-        list(u_max = u2 , worst.case =  meta_ug$worst.case, side = 'greater' , rvalue = rvg )
+        list(u_max = u2 , worst.case =  (meta_ug$worst.case)$studlab,
+             side = 'greater' , rvalue = rvg )
       
     }
     
@@ -322,8 +326,9 @@ find_umax <- function(x , common.effect = FALSE, alternative = 'two-sided' ,
                          ' with increased effect.')
       
       final_ug <-
-        list(u_max = ug , worst.case =  meta_ug$worst.case, side = 'greater' ,
-             rvalue = rvg, Replicability_Analysis = rep.text)
+        list(u_max = ug , worst.case =  (meta_ug$worst.case)$studlab,
+             side = 'greater' ,
+             rvalue = rvg, Replicability_Analysis = unname(rep.text))
     }
     final <- final_ug
     side = 'greater'

@@ -2,18 +2,18 @@
 #' @description This function perform replicability-analysis on a meta-analysis object of any kind. Replicability analysis can be berformed with or without the common-effect assumption. 
 #' @param x object of class meta
 #' @param u replicability requirement. u can be an intiger between 2 and the nmber of studies in the meta-analysis. 
-#' @param common.effect Use common.effect = FALSE (default) for replicability-analysis combining with no assumptions (Pearson or truncated-Pearson test).
 #' Use  TRUE for combining with the assumptions of fixed-effect meta-analysis model.   
-#' @param t truncation threshold for runcated-Pearsons' test. t is ignored if common.effect  = TRUE.
+#' @param t truncation threshold for runcated-Pearsons' test (`t=0.05` by default). t is ignored if common.effect  = TRUE.
 #' @param alternative use 'less', 'greater' or 'two-sided'
 #' @param report.u.max  use TREU (default) to report the lower bounds on number of studies with replicated effect. 
 #' @param confidence Confidence level used in the computaion of the lower bound(s) \code{u_{max}^L} and\\or \code{u_{max}^R}. 
+#' @param common.effect Use common.effect = FALSE (default) for replicability-analysis combining with no assumptions (Pearson or truncated-Pearson test).
 #'
 #' @return The onserted meta object with the replicability resuls in addtion:
 #' \itemize{
 #' \item{r.value}{ \code{r(u)-}value for the specied u. }
 #' \item{side}{The direction of the effect with the lower one-sided \code{r(u)-}value }
-#' \item{worst.case.studies}{list of \code{(n-u+1)} studies names that define supply the \code{r(u)-}value }
+#' \item{worst.case.studies}{list of \code{(n-u+1)} studies names of which \code{r(u)-}value is computed.}
 #' \item{u_L , u_R }{ Lower bounds of the number of studies with decreased or increased effect, respectively. Both bounds are reported simultinualsly only when performing replicability analysis for two-sided alternative with no assumptions  }
 #' }
 #' 
@@ -26,10 +26,10 @@
 #' m1 <- meta::metabin( event.e = a.i,n.e = n.i.1,event.c = c.i,n.c = n.i.2,
 #'                studlab = paste0('Study ' , 1:7) , sm = 'OR' ,
 #'                comb.fixed = FALSE, comb.random = TRUE )
-#' (mr1 <- metarepl(  m1 , u = 2, common.effect = FALSE , t = 0.05 , alternative = 'two-sided'))
+#' (mr1 <- metarep(  m1 , u = 2, common.effect = FALSE , t = 0.05 , alternative = 'two-sided'))
 #' meta::forest(mr1, layout='revman5',digits.pval = 4 , test.overall = TRUE )
- metarepl <- function(x, u = 2, common.effect = FALSE , t = NULL , alternative = 'two-sided',
-                      report.u.max = T , confidence = 0.95 ) {
+ metarep <- function(x, u = 2 , t = 0.05 , alternative = 'two-sided',
+                      report.u.max = T , confidence = 0.95 , common.effect = FALSE ) {
   
   # meta:::chkclass(x, "meta")
   meta:::chkclass(x, "meta")
@@ -149,7 +149,7 @@
   
   
   ##
-  class(res) <- c("metarepl", class(res))
+  class(res) <- c("metarep", class(res))
   res
   
 }
