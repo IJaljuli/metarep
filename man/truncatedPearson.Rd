@@ -7,9 +7,9 @@
 truncatedPearson(p, alpha.tilde = 1)
 }
 \arguments{
-\item{p}{p-values of the individual studiesfor testing one-sided alternative based on z-test.}
+\item{p}{one-sided p-values of the individual studies for testing one-sided alternative based on z-test.}
 
-\item{alpha.tilde}{truncartion threshold for truncated-Pearson test. Use alpha.tilde = 1 for original Pearson test for combining p-values.}
+\item{alpha.tilde}{truncartion threshold for truncated-Pearson test. Use alpha.tilde = 1 for ordinary Pearsons' test for combining p-values.}
 }
 \value{
 \itemize{
@@ -20,7 +20,7 @@ truncatedPearson(p, alpha.tilde = 1)
 }
 }
 \description{
-apply on one-sided p-values only.
+Apply Truncated-Pearsons' test or ordinary Pearsons' test on one-sided p-values.
 }
 \examples{
 truncatedPearson( p = c( 0.001 , 0.01 , 0.1  ) , alpha.tilde = 1 )

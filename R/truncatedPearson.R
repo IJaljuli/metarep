@@ -1,7 +1,7 @@
 #' Truncated-Pearsons' test 
-#' @description apply on one-sided p-values only.
-#' @param p p-values of the individual studiesfor testing one-sided alternative based on z-test. 
-#' @param alpha.tilde truncartion threshold for truncated-Pearson test. Use alpha.tilde = 1 for original Pearson test for combining p-values.
+#' @description Apply Truncated-Pearsons' test or ordinary Pearsons' test on one-sided p-values.
+#' @param p one-sided p-values of the individual studies for testing one-sided alternative based on z-test. 
+#' @param alpha.tilde truncartion threshold for truncated-Pearson test. Use alpha.tilde = 1 for ordinary Pearsons' test for combining p-values.
 #'
 #' @return 
 #' \itemize{
@@ -35,8 +35,6 @@ truncatedPearson <- function( p , alpha.tilde = 1 ){
     
     return( list( p.value = TP.pvalue , validp = p ) )
   }
-  
-
   
   p [  which( p < 10^-40 ) ] <- 10^-39
   

@@ -2,7 +2,7 @@
 % Please edit documentation in R/metarep.R
 \name{metarep}
 \alias{metarep}
-\title{Complementing a meta-analysis with Replicability-analysis}
+\title{Replicability-analysis of a meta-analysis}
 \usage{
 metarep(
   x,
@@ -15,18 +15,18 @@ metarep(
 )
 }
 \arguments{
-\item{x}{object of class meta}
+\item{x}{object of class `meta`}
 
-\item{u}{replicability requirement. u can be an intiger between 2 and the nmber of studies in the meta-analysis. 
+\item{u}{replicability requirement. u must be an intiger between 2 and n (nmber of studies in the meta-analysis). 
 Use  TRUE for combining with the assumptions of fixed-effect meta-analysis model.}
 
-\item{t}{truncation threshold for runcated-Pearsons' test (`t=0.05` by default). t is ignored if common.effect  = TRUE.}
+\item{t}{truncation threshold for truncated-Pearsons' test (`t=0.05` by default). t is ignored if `common.effect  = TRUE`.}
 
 \item{alternative}{use 'less', 'greater' or 'two-sided'}
 
 \item{report.u.max}{use TREU (default) to report the lower bounds on number of studies with replicated effect.}
 
-\item{confidence}{Confidence level used in the computaion of the lower bound(s) \code{u_{max}^L} and\\or \code{u_{max}^R}.}
+\item{confidence}{Confidence level used in the computaion of the lower bound(s) \eqn{u_{max}^L} and\\or \eqn{u_{max}^R}.}
 
 \item{common.effect}{Use common.effect = FALSE (default) for replicability-analysis combining with no assumptions (Pearson or truncated-Pearson test).}
 }
@@ -40,7 +40,7 @@ The onserted meta object with the replicability resuls in addtion:
 }
 }
 \description{
-This function perform replicability-analysis on a meta-analysis object of any kind. Replicability analysis can be berformed with or without the common-effect assumption.
+Add results of replicability-analysis to a meta-analysis, whether fixed- or random-effects.
 }
 \examples{
  n.i.1 <- c( 20, 208, 24, 190, 58, 36, 51)

@@ -1,12 +1,13 @@
-#' Complementing a meta-analysis with Replicability-analysis 
-#' @description This function perform replicability-analysis on a meta-analysis object of any kind. Replicability analysis can be berformed with or without the common-effect assumption. 
-#' @param x object of class meta
-#' @param u replicability requirement. u can be an intiger between 2 and the nmber of studies in the meta-analysis. 
+#' Replicability-analysis of a meta-analysis 
+#' @description Add results of replicability-analysis to a meta-analysis, whether fixed- or random-effects.
+#' @param x object of class `meta`
+#' @param u replicability requirement. u must be an intiger between 2 and n (nmber of studies in the meta-analysis). 
 #' Use  TRUE for combining with the assumptions of fixed-effect meta-analysis model.   
-#' @param t truncation threshold for runcated-Pearsons' test (`t=0.05` by default). t is ignored if common.effect  = TRUE.
+#' @param t truncation threshold for truncated-Pearsons' test (`t=0.05` by default). t is ignored if `common.effect  = TRUE`.
 #' @param alternative use 'less', 'greater' or 'two-sided'
+
 #' @param report.u.max  use TREU (default) to report the lower bounds on number of studies with replicated effect. 
-#' @param confidence Confidence level used in the computaion of the lower bound(s) \code{u_{max}^L} and\\or \code{u_{max}^R}. 
+#' @param confidence Confidence level used in the computaion of the lower bound(s) \eqn{u_{max}^L} and\\or \eqn{u_{max}^R}. 
 #' @param common.effect Use common.effect = FALSE (default) for replicability-analysis combining with no assumptions (Pearson or truncated-Pearson test).
 #'
 #' @return The onserted meta object with the replicability resuls in addtion:

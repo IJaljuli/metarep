@@ -2,7 +2,7 @@
 % Please edit documentation in R/find_umax.R
 \name{find_umax}
 \alias{find_umax}
-\title{Computing the bounds \code{u_{max}^L}, \code{u_{max}^R}}
+\title{Lower bounds on the number of studies with replicated effect}
 \usage{
 find_umax(
   x,
@@ -13,21 +13,21 @@ find_umax(
 )
 }
 \arguments{
-\item{x}{meta object}
+\item{x}{Object of class `meta`}
 
 \item{alternative}{'less', 'greater' or 'two-sided'}
 
-\item{t}{between (0,1]}
+\item{t}{truncation threshold for truncated-Pearsons' test (`t=0.05` by default). t is ignored if `common.effect  = TRUE`.}
 
-\item{confidence}{1- alpha}
+\item{confidence}{Confidence level used in the computaion of the lower bound(s) \eqn{u_{max}^L} and\\or \eqn{u_{max}^R}.}
 
-\item{common.effect}{use TRUE if assming common-effect, i.e. fixed-effects meta-analysis assumptions.}
+\item{common.effect}{Use common.effect = FALSE (default) for replicability-analysis combining with no assumptions (Pearson or truncated-Pearson test).}
 }
 \value{
 lower bounds on the number of studies with increased or decreased effect.
 }
 \description{
-Computing the bounds \code{u_{max}^L}, \code{u_{max}^R}
+lower bounds on the number of studies with increased and\\ or decreased effect.
 }
 \examples{
 n.i.1 <- c( 20, 208, 24, 190, 58, 36, 51)

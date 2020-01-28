@@ -1,10 +1,11 @@
-#' Computing the bounds \code{u_{max}^L}, \code{u_{max}^R}
+#' Lower bounds on the number of studies with replicated effect
 #'
-#' @param x meta object
+#' @description lower bounds on the number of studies with increased and\\ or decreased effect. 
+#' @param x Object of class `meta`
 #' @param alternative 'less', 'greater' or 'two-sided'
-#' @param t between (0,1]
-#' @param confidence 1- alpha
-#' @param common.effect use TRUE if assming common-effect, i.e. fixed-effects meta-analysis assumptions.
+#' @param t truncation threshold for truncated-Pearsons' test (`t=0.05` by default). t is ignored if `common.effect  = TRUE`.
+#' @param confidence Confidence level used in the computaion of the lower bound(s) \eqn{u_{max}^L} and\\or \eqn{u_{max}^R}. 
+#' @param common.effect Use common.effect = FALSE (default) for replicability-analysis combining with no assumptions (Pearson or truncated-Pearson test).
 #'
 #' @return lower bounds on the number of studies with increased or decreased effect. 
 #' @export
