@@ -107,13 +107,17 @@
     
     if( common.effect ){
       
-      Umax = find_umax( x , alternative = alternative, confidence = 0.95 ,
+      Umax = find_umax( x , alternative = alternative, confidence = confidence ,
                         common.effect = T )
       
-      if( Umax$side != 'less '){
+      if( Umax$side == 'less '){
         res$u_L <-  Umax$u_max 
+        res$u_R <- NULL
+      }else{
+        res$u_L <-  NULL 
+        res$u_R <- Umax$u_max 
       }
-        res$u_R <-  Umax$u_max 
+        
 
     }else{
       

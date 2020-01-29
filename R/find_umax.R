@@ -48,7 +48,7 @@ find_umax <- function(x , alternative = 'two-sided' ,
   na.zvs <- (sum(!is.na(x$zval))==0 )
   if ( na.zvs & na.pvs ){
     warning('Please supply valid p-values or zvalues.')
-    return( list ( u_max = NULL , worst.case = NULL , side = NULL , rvalue = NULL )[c(2,1,3,4)] )
+    return( list ( u_max = NULL , worst.case = NULL , side = NULL , r.value = NULL )[c(2,1,3,4)] )
   }
   
   alpha = (1 - confidence)
@@ -172,7 +172,7 @@ find_umax <- function(x , alternative = 'two-sided' ,
       
       rvalue <- 2*min( c( rvl, rvg, 0.5 ))
       rvalue <- c(  rvalue , rvl , rvg )
-      names( rvalue ) <- c( 'rvalue' , 'r^L' , 'r^R')
+      names( rvalue ) <- c( 'r.value' , 'r^L' , 'r^R')
       
       rep.text <- paste0('out of ' , nstudlab , ' studies: ', ul ,
                          ' with decreased effect, and ', ug , ' with increased effect.')
@@ -182,7 +182,7 @@ find_umax <- function(x , alternative = 'two-sided' ,
 
     names(side) <- 'Direction of the stronger signal'
     return(list(worst.case =  (worst.case.meta$worst.case)$studlab,
-                side = side , u_max = u_max , rvalue = rvalue ,
+                side = side , u_max = u_max , r.value = rvalue ,
                 Replicability_Analysis = unname(rep.text)))
   }
   
@@ -203,7 +203,7 @@ find_umax <- function(x , alternative = 'two-sided' ,
       meta_ul_last_sig <- NULL
       final_ul <- 
         list(u_max = 0 , worst.case =  (meta_ul$worst.case)$studlab,
-             side = 'less' , rvalue = meta_ul$pvalue.onesided )
+             side = 'less' , r.value = meta_ul$pvalue.onesided )
       
     }
     
@@ -219,7 +219,7 @@ find_umax <- function(x , alternative = 'two-sided' ,
     if(rvl <=  alpha / (1 + twoSided )) {
       final_ul <- 
         list(u_max = u2 , worst.case =  (meta_ul$worst.case)$studlab,
-             side = 'less' , rvalue = rvl )
+             side = 'less' , r.value = rvl )
     }
     
     # u2 <- u2 - 1 
@@ -253,7 +253,7 @@ find_umax <- function(x , alternative = 'two-sided' ,
       final_ul <- 
         list(u_max = ul , worst.case =  (meta_ul$worst.case)$studlab,
              side = 'less' ,
-             rvalue = rvl, Replicability_Analysis = unname(rep.text) )
+             r.value = rvl, Replicability_Analysis = unname(rep.text) )
     }
     
     
@@ -278,7 +278,7 @@ find_umax <- function(x , alternative = 'two-sided' ,
       meta_ug_last_sig <- NULL
       final_ug <-
         list(u_max = 0 , worst.case =  (meta_ug$worst.case)$studlab,
-             side = 'greater' , rvalue = meta_ug$pvalue.onesided )
+             side = 'greater' , r.value = meta_ug$pvalue.onesided )
     }
     
     # the original model
@@ -295,7 +295,7 @@ find_umax <- function(x , alternative = 'two-sided' ,
     if(rvg <=  alpha / (1 + twoSided )) {
       final_ug <-
         list(u_max = u2 , worst.case =  (meta_ug$worst.case)$studlab,
-             side = 'greater' , rvalue = rvg )
+             side = 'greater' , r.value = rvg )
       
     }
     
@@ -329,7 +329,7 @@ find_umax <- function(x , alternative = 'two-sided' ,
       final_ug <-
         list(u_max = ug , worst.case =  (meta_ug$worst.case)$studlab,
              side = 'greater' ,
-             rvalue = rvg, Replicability_Analysis = unname(rep.text))
+             r.value = rvg, Replicability_Analysis = unname(rep.text))
     }
     final <- final_ug
     side = 'greater'
@@ -347,7 +347,7 @@ find_umax <- function(x , alternative = 'two-sided' ,
       final <- final_ul
       side <- 'less'
     }
-    final$rvalue <- min( min(rvl,rvg)*2 ,1 )
+    final$r.value <- min( min(rvl,rvg)*2 ,1 )
     final <- final[c(2,1,3,4)]
     return(final)
   }

@@ -5,10 +5,6 @@ metaRvalue.onesided.U <- function (x,u = 2 , comb.fixed = F , comb.random = T ,
   meta:::chkclass(x, "meta")
   metaInf <- inherits(x,'metainf')
   x.original = x
-  if (do.truncated.umax & (alpha.tilde == 1) ) {
-    message('truncation at 0.05 is performed')
-    alpha.tilde <- .05
-  }
   if( is.null(x$zval) | all( is.na(x$zval) ) ){
     stop('Please supply model with z-values')
   }
