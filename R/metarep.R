@@ -31,7 +31,7 @@
 #' (mr1 <- metarep(  m1 , u = 2, common.effect = FALSE , t = 0.05 , alternative = 'two-sided'))
 #' meta::forest(mr1, layout='revman5',digits.pval = 4 , test.overall = TRUE )
  metarep <- function(x, u = 2 , t = 0.05 , alternative = 'two-sided',
-                      report.u.max = T , confidence = 0.95 , common.effect = FALSE ) {
+                      report.u.max = FALSE , confidence = 0.95 , common.effect = FALSE ) {
   # meta:::chkclass(x, "meta")
   meta:::chkclass(x, "meta")
    if(is.numeric(confidence)){
@@ -58,6 +58,7 @@
     if(t == 1 ) message( "Performing Replicability analysis via original-Pearson's test" )
      
   }
+  
   res <- x
   ##
   ## Do replicability analysis

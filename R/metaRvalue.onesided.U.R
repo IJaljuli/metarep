@@ -30,8 +30,26 @@ metaRvalue.onesided.U <- function (x,u = 2 , comb.fixed = F , comb.random = T ,
                   Side = alternative,
                   pvalue.onesided = pnorm(x$zval.fixed , lower.tail = ( alternative == 'less'))  ))
     }
+    if( u == nstudlab ){
+      studies_subsets <- rbind( 1:nstudlab , rep(NA , nstudlab) )
+      rownames(studies_subsets) <- c('s1' , 'rvalue' )
+      studies_subsets['rvalue' , ] <- pnorm( x$zval , lower.tail = (alternative=='less'))
+     
+      # derive the line of worst case study 
+      k = max(which.max(studies_subsets['rvalue',])) # studies column pointer. 
+      
+      worst.case.studies = x$studlab[ k ]
+      worst.case.studies = which( x$data$.studlab %in% worst.case.studies )
+      worst.case <- meta::update.meta(x ,subset = worst.case.studies )
+      
+      return(list(worst.case = worst.case ,
+                  Side = alternative,
+                  pvalue.onesided = studies_subsets['rvalue' , k] ))
+      
+      
+    }
     
-    studies_subsets <- combn(x = 1:nstudlab , m = nstudlab-u+1 )
+    studies_subsets <- combn(x = 1:nstudlab , m = nstudlab-u+1 ,replace=F)
     studies_subsets <- rbind(studies_subsets , rep(NA , ncol(studies_subsets)))
     rownames(studies_subsets) <- c( paste0('s' , 1:(nstudlab-u+1)) , 'rvalue' )
     for ( k in 1:ncol(studies_subsets)){
@@ -68,7 +86,7 @@ metaRvalue.onesided.U <- function (x,u = 2 , comb.fixed = F , comb.random = T ,
                 Side = alternative,
                 pvalue.onesided =  pvo$p.value ))
   }
-  if( u == length(pvs.all) ){
+  if( u == nstudlab ){
     pvo <- max(pvs.all)
     if ( pvo < alpha.tilde){
       return(list(worst.case = NULL ,
