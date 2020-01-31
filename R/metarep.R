@@ -2,16 +2,17 @@
 #' @description Add results of replicability-analysis to a meta-analysis, whether fixed- or random-effects.
 #' @param x object of class `meta`
 #' @param u replicability requirement. u must be an intiger between 2 and n (nmber of studies in the meta-analysis). 
-#' Use  TRUE for combining with the assumptions of fixed-effect meta-analysis model.   
 #' @param t truncation threshold for truncated-Pearsons' test (`t=0.05` by default). t is ignored if `common.effect  = TRUE`.
 #' @param alternative use 'less', 'greater' or 'two-sided'
 
 #' @param report.u.max  use TREU (default) to report the lower bounds on number of studies with replicated effect. 
 #' @param confidence Confidence level used in the computaion of the lower bound(s) \eqn{u_{max}^L} and\\or \eqn{u_{max}^R}. 
 #' @param common.effect Use common.effect = FALSE (default) for replicability-analysis combining with no assumptions (Pearson or truncated-Pearson test).
+#' Replicability-analysis based on the test-statistic of fixed-effects model can be applied using common.effect = TRUE. 
 #'
-#' @return The onserted meta object with the replicability resuls in addtion:
+#' @return
 #' \itemize{
+#' \item{worst.case.studies}{A names of \code{n-u+1} studies at which the the \code{r(u)-}value is computed.}
 #' \item{r.value}{ \code{r(u)-}value for the specied u. }
 #' \item{side}{The direction of the effect with the lower one-sided \code{r(u)-}value }
 #' \item{worst.case.studies}{list of \code{(n-u+1)} studies names of which \code{r(u)-}value is computed.}
