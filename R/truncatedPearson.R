@@ -41,7 +41,7 @@ truncatedPearson <- function( p , alpha.tilde = 1 ){
 #  output <- metap::sumlog(p) 
   x.OP <- -2*sum(log(p))
   p.OP <- pchisq(q = x.OP , df = 2*length(p), lower.tail = F )
-    return( list( p.value = output$p , validp = p,
+    return( list( p.value = p.OP , validp = p,
                 chisq = x.OP , df = 2*length(p) ) )
   
 }
