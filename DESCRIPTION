@@ -4,14 +4,12 @@ Version: 1.0
 Depends: R (>= 3.5.1)
 Imports: 
     grid,
-    metap,
     meta (>= 4.9.10),
 Suggests: 
     metafor (>= 1.9.9),
     lme4,
     numDeriv,
     BiasedUrn,
-    testthat,
     knitr,
     rmarkdown
 Authors@R: c(person("Iman","Jaljuli", role=c("cre","aut"), email="jaljuli.iman@gmail.com"),

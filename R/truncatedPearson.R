@@ -38,8 +38,10 @@ truncatedPearson <- function( p , alpha.tilde = 1 ){
   
   p [  which( p < 10^-40 ) ] <- 10^-39
   
-  output <- metap::sumlog(p) 
-  return( list( p.value = output$p , validp = output$validp,
-                chisq = output$chisq , df = output$df ) )
+#  output <- metap::sumlog(p) 
+  x.OP <- -2*sum(log(p))
+  p.OP <- pchisq(q = x.OP , df = 2*length(p), lower.tail = F )
+    return( list( p.value = output$p , validp = p,
+                chisq = x.OP , df = 2*length(p) ) )
   
 }
