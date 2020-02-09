@@ -35,7 +35,7 @@ metaRvalue.onesided.U <- function (x,u = 2 , comb.fixed = F , comb.random = T ,
       rownames(studies_subsets) <- c('s1' , 'rvalue' )
       studies_subsets['rvalue' , ] <- pnorm( x$zval , lower.tail = (alternative=='less'))
      
-      # derive the line of worst case study 
+      # derive the line of worst case studies 
       k = max(which.max(studies_subsets['rvalue',])) # studies column pointer. 
       
       worst.case.studies = x$studlab[ k ]
@@ -88,12 +88,14 @@ metaRvalue.onesided.U <- function (x,u = 2 , comb.fixed = F , comb.random = T ,
   }
   if( u == nstudlab ){
     pvo <- max(pvs.all)
+    worst.case.studies <- x$studlab[which.max(pvs.all)]
+    worst.case.studies <- which( x$data$.studlab %in% worst.case.studies )
     if ( pvo < alpha.tilde){
-      return(list(worst.case = NULL ,
+      return(list(worst.case = worst.case.studies ,
                   Side = alternative,
                   pvalue.onesided =  pvo ))
     }else{
-      return(list(worst.case = NULL ,
+      return(list(worst.case = worst.case.studies ,
                   Side = alternative,
                   pvalue.onesided =  1 ))
     }
@@ -107,7 +109,7 @@ metaRvalue.onesided.U <- function (x,u = 2 , comb.fixed = F , comb.random = T ,
     }
     
   worst.studies.fisher <- x$studlab[ wsf ]
-  worst.studies.fisher <- which( !(x$data$.studlab %in% worst.studies.fisher) )
+  worst.studies.fisher <- which( (x$data$.studlab %in% worst.studies.fisher) )
   worst.case <- meta::update.meta(x ,subset = worst.studies.fisher )
   worst.pvs.fisher <- truncatedPearson( p = pvs.all[ wsf ] ,alpha.tilde =  alpha.tilde)
   
