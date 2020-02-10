@@ -90,12 +90,14 @@ metaRvalue.onesided.U <- function (x,u = 2 , comb.fixed = F , comb.random = T ,
     pvo <- max(pvs.all)
     worst.case.studies <- x$studlab[which.max(pvs.all)]
     worst.case.studies <- which( x$data$.studlab %in% worst.case.studies )
+    worst.case <- meta::update.meta(x ,subset = worst.studies.fisher )
+    
     if ( pvo < alpha.tilde){
-      return(list(worst.case = worst.case.studies ,
+      return(list(worst.case = worst.case,
                   Side = alternative,
                   pvalue.onesided =  pvo ))
     }else{
-      return(list(worst.case = worst.case.studies ,
+      return(list(worst.case = worst.case,
                   Side = alternative,
                   pvalue.onesided =  1 ))
     }
