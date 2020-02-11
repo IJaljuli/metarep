@@ -144,7 +144,7 @@
   ## 
   ## Replicability analysis results
   ##
-  res$r.value <- rvalue
+  res$r.value <- rvalue 
   res$side <- side
   res$worst.case.studies <- (rvalue.results$worst.case)$studlab
   if( common.effect ){

@@ -79,13 +79,13 @@ meta::forest(m2943.ra, layout='revman5',digits.pval = 2 , test.overall = T )
 ```
 
 
-The computation of lower bounds on number of studies with replicability of increased \& decreased effects can be suppressed using `metarep( ... , report.u.max = FALSE )`
+<!-- The computation of lower bounds on number of studies with replicability of increased \& decreased effects can be suppressed using `metarep( ... , report.u.max = FALSE )` -->
 
 
-```{r remove_bounds, fig.width=8.5, fig.height=3}
-meta::forest( metarep(x = m2943, report.u.max = F ),
-              layout='revman5',digits.pval = 2 , test.overall = T )
-```
+<!-- ```{r remove_bounds, fig.width=8.5, fig.height=3} -->
+<!-- meta::forest( metarep(x = m2943, report.u.max = F ), -->
+<!--               layout='revman5',digits.pval = 2 , test.overall = T ) -->
+<!-- ``` -->
 
 
 The lower bounds $u^L_{max} \, \text{and} \, u^R_{max}$ are calculated with $1-\alpha = 95\%$ confidence level ( default), meaning that each of the null hypotheses $$H^{u^L_{max}/n}(L) \;\; \text{and}\;\; H^{u^L_{max}/n}(R)$$ is tested at level $\alpha /2 = 2.5\%$, resulting in bounds in overall type error rate $5\%$. Type I error rate can be controlled for any desired $\alpha$ using the argument `confidence = 1 - `$\alpha$.

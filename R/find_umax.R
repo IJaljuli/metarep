@@ -182,7 +182,7 @@ find_umax <- function(x , alternative = 'two-sided' ,
 
     names(side) <- 'Direction of the stronger signal'
     return(list(worst.case =  (worst.case.meta$worst.case)$studlab,
-                side = side , u_max = u_max , r.value = rvalue ,
+                side = side , u_max = u_max , r.value = round(rvalue,digits = 4) ,
                 Replicability_Analysis = unname(rep.text)))
   }
   
@@ -219,7 +219,7 @@ find_umax <- function(x , alternative = 'two-sided' ,
     if(rvl <=  alpha / (1 + twoSided )) {
       final_ul <- 
         list(u_max = u2 , worst.case =  (meta_ul$worst.case)$studlab,
-             side = 'less' , r.value = rvl )
+             side = 'less' , r.value = round( rvl ,digits = 4) )
     }
     
     # u2 <- u2 - 1 
@@ -253,7 +253,8 @@ find_umax <- function(x , alternative = 'two-sided' ,
       final_ul <- 
         list(u_max = ul , worst.case =  (meta_ul$worst.case)$studlab,
              side = 'less' ,
-             r.value = rvl, Replicability_Analysis = unname(rep.text) )
+             r.value = round( rvl ,digits = 4) , 
+             Replicability_Analysis = unname(rep.text) )
     }
     
     
@@ -295,7 +296,7 @@ find_umax <- function(x , alternative = 'two-sided' ,
     if(rvg <=  alpha / (1 + twoSided )) {
       final_ug <-
         list(u_max = u2 , worst.case =  (meta_ug$worst.case)$studlab,
-             side = 'greater' , r.value = rvg )
+             side = 'greater' , r.value = round( rvg ,digits = 4)  )
       
     }
     
@@ -329,7 +330,8 @@ find_umax <- function(x , alternative = 'two-sided' ,
       final_ug <-
         list(u_max = ug , worst.case =  (meta_ug$worst.case)$studlab,
              side = 'greater' ,
-             r.value = rvg, Replicability_Analysis = unname(rep.text))
+             r.value = round( rvg ,digits = 4) ,
+             Replicability_Analysis = unname(rep.text))
     }
     final <- final_ug
     side = 'greater'
@@ -347,7 +349,7 @@ find_umax <- function(x , alternative = 'two-sided' ,
       final <- final_ul
       side <- 'less'
     }
-    final$r.value <- min( min(rvl,rvg)*2 ,1 )
+    final$r.value <- round( min( min(rvl,rvg)*2 ,1 ) ,digits = 4)  
     final <- final[c(2,1,3,4)]
     return(final)
   }

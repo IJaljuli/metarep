@@ -5,7 +5,7 @@ print.summary.metarep <- function(x, ...) {
   
   print.summary.meta(x)
   cat(paste0("- replicability analysis (r-value = ",
-             x$r.value, ")\n"))
+             round( x$r.value, digits = 4 ) , ")\n"))
   
   if( is.null( x$u.decreased)&(!is.null( x$u.increased)) ){
     cat(paste0("- out of ", x$k, " studies, at least: ",

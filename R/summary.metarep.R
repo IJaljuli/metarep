@@ -6,7 +6,7 @@ summary.metarep <- function(object, ...) {
   res <- summary.meta(object)
   ##
   
-  res$r.value <- object$r.value
+  res$r.value <- round( object$r.value , digits = 4 )
   if(!is.null(object$u_R) ) res$u.increased <- object$u_R
   if(!is.null(object$u_L) ) res$u.decreased <- object$u_L
   
