@@ -13,7 +13,7 @@ Regardless of the type of meta-analysis applied, `metarep` allows to perform rep
 If the user finds the common-effect assumption supported and wishes to incorporate it in the replicability analysis, they might as well do that. Whereas with this assumption, the replicability analysis is performed using the test statistic of the fixed-effects model, for the combining of every set of $n-u+1$ studies. 
 
 # Package instalation: 
-Currently, both `meta` and `metarep` packages can be downloaded from GitHub, therefore make sure that the package `devtools` is installed. `metarep` also requires the latest version of `meta` ( >= 4.11-0, available on `guithub` )
+Currently, both `meta` and `metarep` packages can be downloaded from `GitHub`, therefore make sure that the package `devtools` is installed. `metarep` also requires the latest version of `meta` (>= 4.11-0, available on `GitHub`)
 
 Run the following commands in \code{console} to install the packages: 
 ```{r instalation, eval=F}
@@ -116,7 +116,7 @@ find_umax(x = m2943 , common.effect = F,alternative = 'two-sided',t = 0.05,confi
 
 
 ## Replicability analysis using a test-statistic based on
-## the common-effect  assumption
+## The common-effect  assumption
 
 ```{r RA_with_FE}
 find_umax(x = m2943 , common.effect = T,alternative = 'two-sided', confidence = 0.95)

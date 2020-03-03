@@ -9,7 +9,7 @@ metarep(
   u = 2,
   t = 0.05,
   alternative = "two-sided",
-  report.u.max = T,
+  report.u.max = FALSE,
   confidence = 0.95,
   common.effect = FALSE
 )
@@ -17,22 +17,22 @@ metarep(
 \arguments{
 \item{x}{object of class `meta`}
 
-\item{u}{replicability requirement. u must be an intiger between 2 and n (nmber of studies in the meta-analysis). 
-Use  TRUE for combining with the assumptions of fixed-effect meta-analysis model.}
+\item{u}{replicability requirement. u must be an intiger between 2 and n (nmber of studies in the meta-analysis).}
 
 \item{t}{truncation threshold for truncated-Pearsons' test (`t=0.05` by default). t is ignored if `common.effect  = TRUE`.}
 
 \item{alternative}{use 'less', 'greater' or 'two-sided'}
 
-\item{report.u.max}{use TREU (default) to report the lower bounds on number of studies with replicated effect.}
+\item{report.u.max}{use TREU to report the lower bounds on number of studies with replicated effect.}
 
 \item{confidence}{Confidence level used in the computaion of the lower bound(s) \eqn{u_{max}^L} and\\or \eqn{u_{max}^R}.}
 
-\item{common.effect}{Use common.effect = FALSE (default) for replicability-analysis combining with no assumptions (Pearson or truncated-Pearson test).}
+\item{common.effect}{Use common.effect = FALSE (default) for replicability-analysis combining with no assumptions (Pearson or truncated-Pearson test).
+Replicability-analysis based on the test-statistic of fixed-effects model can be applied using common.effect = TRUE.}
 }
 \value{
-The onserted meta object with the replicability resuls in addtion:
 \itemize{
+\item{worst.case.studies}{A names of \code{n-u+1} studies at which the the \code{r(u)-}value is computed.}
 \item{r.value}{ \code{r(u)-}value for the specied u. }
 \item{side}{The direction of the effect with the lower one-sided \code{r(u)-}value }
 \item{worst.case.studies}{list of \code{(n-u+1)} studies names of which \code{r(u)-}value is computed.}

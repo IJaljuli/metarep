@@ -5,7 +5,7 @@
 #' @param t truncation threshold for truncated-Pearsons' test (`t=0.05` by default). t is ignored if `common.effect  = TRUE`.
 #' @param alternative use 'less', 'greater' or 'two-sided'
 
-#' @param report.u.max  use TREU (default) to report the lower bounds on number of studies with replicated effect. 
+#' @param report.u.max  use TREU to report the lower bounds on number of studies with replicated effect. 
 #' @param confidence Confidence level used in the computaion of the lower bound(s) \eqn{u_{max}^L} and\\or \eqn{u_{max}^R}. 
 #' @param common.effect Use common.effect = FALSE (default) for replicability-analysis combining with no assumptions (Pearson or truncated-Pearson test).
 #' Replicability-analysis based on the test-statistic of fixed-effects model can be applied using common.effect = TRUE. 
