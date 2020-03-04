@@ -9,6 +9,8 @@ Summary of meta-analysis with replicability-analysis results}
 }
 \arguments{
 \item{object}{An object of class metarep.}
+
+\item{...}{Arguments to be passed to methods, see \code{summary.meta}}
 }
 \value{
 \itemize{

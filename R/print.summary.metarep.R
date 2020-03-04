@@ -6,7 +6,7 @@
 #' 
 #' @param x An object of class \code{metarep}
 #'
-#' @param ... 
+#' @param ... Arguments to be passed to methods, see \code{print.summary.meta}
 #' @import meta
 #' @export
 #' @examples
@@ -22,9 +22,8 @@
 #' print(mr1, digits = 2)
 print.summary.metarep <- function(x, ...) {
   
-  meta:::chkclass(x, "summary.metarep")
-  # chkclass(x, "summary.metarep")
-  
+  chkclass(x, "summary.metarep")
+
   print.summary.meta(x)
   cat(paste0("- replicability analysis (r-value = ",
              round( x$r.value, digits = 4 ) , ")\n"))

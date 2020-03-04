@@ -7,6 +7,7 @@
 #' @aliases forest forest.metarep
 #'
 #' @param x An object of class \code{metarep}.
+#' @param ... Arguments to be passed to methods, see \code{forest.meta}
 #' @import meta
 #' @export
 #' @seealso \code{\link{forest.meta}}, \code{\link{metarep}},
@@ -27,13 +28,12 @@
 #'        prediction = TRUE)
 #'        
 forest <- function(x, ...) {
-  
-  meta:::chkclass(x, "metarep")
+  chkclass(x, "metarep")
   # chkclass(x, "metarep")
   
   u_max_text <- NULL
   
-    rvalue.text <- meta:::formatPT(x$r.value , digits = 4)
+    rvalue.text <- formatPT(x$r.value , digits = 4)
     if( rvalue.text == '1.0000'  ){ 
       rvalue.text  <- '1' }
     

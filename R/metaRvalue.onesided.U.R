@@ -12,7 +12,7 @@ metaRvalue.onesided.U <- function (x,u = 2 , comb.fixed = F , comb.random = T ,
                                    alternative = 'less',
                                    do.truncated.umax = T ,
                                    alpha.tilde = .05 ){
-  meta:::chkclass(x, "meta")
+  chkclass(x, "meta")
   metaInf <- inherits(x,'metainf')
   x.original = x
   if( is.null(x$zval) | all( is.na(x$zval) ) ){
@@ -21,7 +21,6 @@ metaRvalue.onesided.U <- function (x,u = 2 , comb.fixed = F , comb.random = T ,
   # x = update.meta(object = x , subset = (1:length(x$studlab)) [ !is.na(x$pval)] )
   x.fixed.metainf <- NULL
   x.fixed.w <- NULL
-  if(metaInf){ x <- meta::extract.meta.modle (x) }
   nstudlab <- length(x$studlab)
   if (( u > nstudlab ) | (u < 1) ){
     stop ( 'invalid tuning parameter u ' )

@@ -9,7 +9,7 @@
 \arguments{
 \item{x}{An object of class \code{metarep}}
 
-\item{...}{}
+\item{...}{Arguments to be passed to methods, see \code{print.summary.meta}}
 }
 \description{
 Print method for objects of class \code{metarep}.

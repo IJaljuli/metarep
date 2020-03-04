@@ -1,7 +1,7 @@
 Package: metarep
 Title: An extention package for "meta" package, for Replicability-analysis as a complement to meta-analysis
 Version: 1.0
-Depends: R (>= 3.5.1)
+Depends: R (>= 3.5)
 Imports: 
     grid,
     meta (>= 4.9.10),

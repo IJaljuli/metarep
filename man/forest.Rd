@@ -9,6 +9,8 @@ forest(x, ...)
 }
 \arguments{
 \item{x}{An object of class \code{metarep}.}
+
+\item{...}{Arguments to be passed to methods, see \code{forest.meta}}
 }
 \description{
 Draws a forest plot in the active graphics window (using grid
