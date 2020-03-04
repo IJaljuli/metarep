@@ -34,8 +34,7 @@
 #' meta::forest(mr1, layout='revman5',digits.pval = 4 , test.overall = TRUE )
  metarep <- function(x, u = 2 , t = 0.05 , alternative = 'two-sided',
                       report.u.max = FALSE , confidence = 0.95 , common.effect = FALSE ) {
-  # meta:::chkclass(x, "meta")
-  meta:::chkclass(x, "meta")
+   chkclass(x, "meta")
    if(is.numeric(confidence)){
      if ( (confidence >= 1) | (confidence <= 0) ) stop("confidence must be a number between 0 - 1.")
    }else{

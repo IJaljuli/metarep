@@ -60,7 +60,7 @@ find_umax <- function(x , alternative = 'two-sided' ,
   
   # do.random.u_max = Fisher's \ karl pearson . do.truncated.umax  = truncated fisher
   # Or else - alternative = 'greater' , 'less'
-  meta:::chkclass(x, "meta")
+  chkclass(x, "meta")
   twoSided <- (alternative == 'two-sided')
   
   nstudlab <- sum(!is.na(x$pval))

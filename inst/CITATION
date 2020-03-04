@@ -1,0 +1,22 @@
+citHeader("To cite metarep in publications use:")
+
+citEntry(entry = "Article",
+         title        = "Quantifying replicability and consistency in systematic reviews",
+         author       = personList(as.person("Iman Jaljuli"),
+                                   as.person("Yoav Benjamini"),
+                                   as.person("Liat Shenhav"),
+                                   as.person("Orestis A. Panagiotou"),
+                                   as.person("Ruth Heller")),
+         journal      = "Submitted",
+         year         = "2020",
+         # volume       = "40",
+         # number       = "3",
+         # pages        = "1--25",
+         # url          = "http://www.jstatsoft.org/v40/i03/",
+         
+         textVersion  =
+           paste("Jaljuli et. al. (2020).",
+                 "Quantifying replicability and consistency in systematic reviews.",
+                 "[submitted]",
+                 "URL ....")
+)

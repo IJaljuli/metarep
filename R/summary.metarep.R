@@ -3,7 +3,7 @@
 #' @description Summary method for objects of class metarep.
 #'
 #' @param  object An object of class metarep.
-#' @param ...
+#' @param ... Arguments to be passed to methods, see \code{summary.meta}
 #' @import meta
 #' @return 
 #'  \itemize{
@@ -28,7 +28,7 @@
 #'                summary(mr1)
 summary.metarep <- function(object, ...) {
   
-  meta:::chkclass(object, "metarep")
+  chkclass(object, "metarep")
   # chkclass(object, "metarep")
   
   res <- summary.meta(object)
