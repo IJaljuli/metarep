@@ -6,7 +6,9 @@
 #' @param t truncation threshold for truncated-Pearsons' test (`t=0.05` by default). t is ignored if `common.effect  = TRUE`.
 #' @param confidence Confidence level used in the computaion of the lower bound(s) \eqn{u_{max}^L} and\\or \eqn{u_{max}^R}. 
 #' @param common.effect Use common.effect = FALSE (default) for replicability-analysis combining with no assumptions (Pearson or truncated-Pearson test).
-#'
+#' @importFrom stats pnorm
+#' @importFrom utils combn
+#' @import meta
 #' @return lower bounds on the number of studies with increased or decreased effect. 
 #' @export
 #'
@@ -18,7 +20,7 @@
 #'                      event.c = c.i,n.c = n.i.2,
 #'                      studlab = paste('Study',1:7), sm = 'OR',
 #'                      comb.fixed = FALSE, comb.random = TRUE )
-#'find_umax(m1 , common.effect = FALSE, alternative = 'two-sided',
+#' find_umax(m1 , common.effect = FALSE, alternative = 'two-sided',
 #'           t = 0.05 , confidence = 0.95 )        
 find_umax <- function(x , alternative = 'two-sided' ,
                       t = 0.05 , confidence = 0.95, common.effect = FALSE ){

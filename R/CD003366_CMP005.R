@@ -1,10 +1,10 @@
-#' Data in meta-analysis reported in review CD007077 , Cochrane library. 
+#' Data in meta-analysis reported in review CD003366 , Cochrane library. 
 #'
-#' A dataset containing the meta-data of the outcome "cosmesis" (CMP001), 
-#' in the review "Partial breast irradiation for early breast cancer" (CD007077) 
-#' the results were reported by 5 studies, and analysed by Fixed-Effects meta-analysis.
+#' A dataset containing the meta-data of the outcome Leukopaenia (CMP005), 
+#' in the review "Taxane‐containing regimens for metastatic breast cancer" (CD003366) 
+#' the results were reported by 28 studies, and analysed by Random-Effects meta-analysis.
 #'
-#' @format A data frame with 5 rows and 12 variables:
+#' @format A data frame with 28 rows and 12 variables:
 #' \describe{
 #'   \item{STUDY}{Name of the study.}
 #'   \item{STUDY_WEIGHT}{Stydy weight in meta-analysis as reported in th review.}
@@ -16,5 +16,5 @@
 #'   \item{SM}{A character string indicating which summary measure ("RR", "OR", "RD", or "ASD") is to be used for pooling of studies.}
 #'   \item{RANDOM}{ "YES" or "NO" indicating whether random-effects meta-analysis was performed.}
 #' }
-#' @source \url{https://www.cochranelibrary.com/cdsr/doi/10.1002/14651858.CD007077.pub3/full}
-"CD007077_CMP001"
+#' @source \url{https://www.cochranelibrary.com/cdsr/doi/10.1002/14651858.CD003366.pub3/full}
+"CD003366_CMP005"

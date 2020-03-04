@@ -10,7 +10,7 @@
 #'   \item{rvalue: }{p-value of the test }
 #'   \item{validp: }{p-values used in the test. }
 #' }
-#' 
+#' @importFrom stats dbinom pgamma pnorm pchisq
 #' @export
 #'
 #' @examples 

@@ -4,7 +4,7 @@
 #'
 #' @param  object An object of class metarep.
 #' @param ...
-#'
+#' @import meta
 #' @return 
 #'  \itemize{
 #'   \item{r.value: } {r-value of the tested alternative.}
@@ -23,8 +23,9 @@
 #' m1 <- meta::metabin( event.e = a.i,n.e = n.i.1,event.c = c.i,n.c = n.i.2,
 #'                studlab = paste0('Study ' , 1:7) , sm = 'OR' ,
 #'                comb.fixed = FALSE, comb.random = TRUE )
-#' mr1 <- metarep(  m1 , u = 2, common.effect = FALSE , t = 0.05 , alternative = 'two-sided')
-#' summary(mr1)
+#' mr1 <- metarep(  m1 , u = 2, common.effect = FALSE , t = 0.05 , 
+#'                alternative = 'two-sided', report.u.max = TRUE)
+#'                summary(mr1)
 summary.metarep <- function(object, ...) {
   
   meta:::chkclass(object, "metarep")

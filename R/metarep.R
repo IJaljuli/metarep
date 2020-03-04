@@ -18,7 +18,8 @@
 #' \item{worst.case.studies}{list of \code{(n-u+1)} studies names of which \code{r(u)-}value is computed.}
 #' \item{u_L , u_R }{ Lower bounds of the number of studies with decreased or increased effect, respectively. Both bounds are reported simultinualsly only when performing replicability analysis for two-sided alternative with no assumptions  }
 #' }
-#' 
+#' @importFrom utils combn
+#' @import meta
 #' @export 
 #'
 #' @examples  n.i.1 <- c( 20, 208, 24, 190, 58, 36, 51)
@@ -28,7 +29,8 @@
 #' m1 <- meta::metabin( event.e = a.i,n.e = n.i.1,event.c = c.i,n.c = n.i.2,
 #'                studlab = paste0('Study ' , 1:7) , sm = 'OR' ,
 #'                comb.fixed = FALSE, comb.random = TRUE )
-#' (mr1 <- metarep(  m1 , u = 2, common.effect = FALSE , t = 0.05 , alternative = 'two-sided'))
+#' mr1 <- metarep(  m1 , u = 2, common.effect = FALSE , t = 0.05 , 
+#'                alternative = 'two-sided', report.u.max = TRUE)
 #' meta::forest(mr1, layout='revman5',digits.pval = 4 , test.overall = TRUE )
  metarep <- function(x, u = 2 , t = 0.05 , alternative = 'two-sided',
                       report.u.max = FALSE , confidence = 0.95 , common.effect = FALSE ) {

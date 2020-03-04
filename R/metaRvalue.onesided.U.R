@@ -1,3 +1,13 @@
+#' One-sided replicability analysis
+#'
+#' @param x object of class \code{meta}
+#' @param u integer between 2-n
+#' @param comb.fixed logical
+#' @param comb.random logical 
+#' @param alternative 'less' or 'greater' only. 
+#' @param do.truncated.umax  logical. 
+#' @param alpha.tilde between (0,1)
+#' @import meta
 metaRvalue.onesided.U <- function (x,u = 2 , comb.fixed = F , comb.random = T ,
                                    alternative = 'less',
                                    do.truncated.umax = T ,

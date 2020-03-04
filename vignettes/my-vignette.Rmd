@@ -16,7 +16,7 @@ If the user finds the common-effect assumption supported and wishes to incorpora
 Currently, both `meta` and `metarep` packages can be downloaded from `GitHub`, therefore make sure that the package `devtools` is installed. `metarep` also requires the latest version of `meta` (>= 4.11-0, available on `GitHub`)
 
 Run the following commands in \code{console} to install the packages: 
-```{r instalation, eval=F}
+```{r instalation, eval=F, include=F , echo=F}
 devtools::install_github( "guido-s/meta"    , force=T )
 devtools::install_github( "IJaljuli/metarep", force=T )
 ```
@@ -33,9 +33,10 @@ We demonstrate the with an example based on a fixed-effects meta-analysis. This 
 
 ```{r example_CD002943}
 library(metarep)
+library(meta)
 data(CD002943_CMP001)
 
-m2943 <- meta::metabin( event.e = N_EVENTS1, n.e = N_TOTAL1, 
+m2943 <- metabin( event.e = N_EVENTS1, n.e = N_TOTAL1, 
                      event.c = N_EVENTS2, n.c = N_TOTAL2,
                      studlab = STUDY, comb.fixed = T , comb.random = F,
                      method = 'Peto', sm = CD002943_CMP001$SM[1],
@@ -71,11 +72,11 @@ The replicability-analysis reported was performed with an assumption free test, 
 
 Although the fixed-effect model assumes that all studies are estimates of the same common effect $\theta$, we recommend applying assumption-free replicability-analysis for protection against an (perhaps) unsupported assumption. Despite that, we extend our suggested method with the common-effect incorporation in section 7. This analysis can be performed via `metarep( ... , common.effect = TRUE )`.
 
-`metarep` also allows adding replicability results to the conventional forest plots by `meta`. This can be done by simply applying `meta::forest()` on a `metarep` object. 
+`metarep` also allows adding replicability results to the conventional forest plots by `meta`. This can be done by simply applying `forest()` on a `metarep` object. 
 
 
 ```{r forest, fig.width=8.5, fig.height=3}
-meta::forest(m2943.ra, layout='revman5',digits.pval = 2 , test.overall = T )
+forest(m2943.ra, layout='revman5',digits.pval = 2 , test.overall = T )
 ```
 
 
@@ -83,7 +84,7 @@ meta::forest(m2943.ra, layout='revman5',digits.pval = 2 , test.overall = T )
 
 
 <!-- ```{r remove_bounds, fig.width=8.5, fig.height=3} -->
-<!-- meta::forest( metarep(x = m2943, report.u.max = F ), -->
+<!-- forest( metarep(x = m2943, report.u.max = F ), -->
 <!--               layout='revman5',digits.pval = 2 , test.overall = T ) -->
 <!-- ``` -->
 
@@ -133,6 +134,6 @@ find_umax(x = m2943 , common.effect = T,alternative = 'two-sided', confidence = 
 
 (m2943.raFE <- metarep(x = m2943 , u = 2 , common.effect = T ,report.u.max = T))
 
-meta::forest(m2943.raFE, layout='revman5',digits.pval = 2 , test.overall = T )
+forest(m2943.raFE, layout='revman5',digits.pval = 2 , test.overall = T )
 ```
 
