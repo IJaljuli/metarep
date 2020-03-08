@@ -30,7 +30,7 @@ Packaged: 2020-01-01 09:43:44 UTC; sc
 Author: Iman Jaljuli [cre, aut]
 Maintainer: Iman Jaljuli <jaljuli.iman@gmail.com>
 Repository: CRAN
-Date/Publication: 2020-01-01 22:09:11 UTC
+Date/Publication: 2020-03-08
 RoxygenNote: 7.0.2
 VignetteBuilder: knitr
 LazyData: true
