@@ -25,6 +25,14 @@ Description: User-friendly package providing Replicability-Analysis methods to c
 License: GPL (>= 2)
 Encoding: UTF-8
 NeedsCompilation: yes
+<<<<<<< HEAD
+=======
+Packaged: 2020-01-01 09:43:44 UTC; sc
+Author: Iman Jaljuli [cre, aut]
+Maintainer: Iman Jaljuli <jaljuli.iman@gmail.com>
+Repository: CRAN
+Date/Publication: 2020-03-08
+>>>>>>> 6272f78eff389a205e5357a46b1f2cf16d858c45
 RoxygenNote: 7.0.2
 VignetteBuilder: knitr
 LazyData: true
