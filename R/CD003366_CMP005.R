@@ -1,7 +1,7 @@
 #' Data in meta-analysis reported in review CD003366 , Cochrane library. 
 #'
 #' A dataset containing the meta-data of the outcome Leukopaenia (CMP005), 
-#' in the review "Taxane‐containing regimens for metastatic breast cancer" (CD003366) 
+#' in the review "Texane-containing regimins for metastatic breast cancer" (CD003366)
 #' the results were reported by 28 studies, and analysed by Random-Effects meta-analysis.
 #'
 #' @format A data frame with 28 rows and 12 variables:
