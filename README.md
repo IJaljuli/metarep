@@ -9,5 +9,6 @@ Before installing "metarep", make sure that you have installed the latest versio
 
 `devtools::install_github("guido-s/meta")`
 
+To install the package `metarep`, run the following command: 
 
-
+`devtools::install_github("IJaljuli/metarep")`
