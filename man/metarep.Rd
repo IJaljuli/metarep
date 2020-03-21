@@ -15,9 +15,9 @@ metarep(
 )
 }
 \arguments{
-\item{x}{object of class `meta`}
+\item{x}{object of class 'meta'}
 
-\item{u}{replicability requirement. u must be an intiger between 2 and n (nmber of studies in the meta-analysis).}
+\item{u}{replicability requirement. \code{u} must be an intiger between 2 and \code{n} (nmber of studies in the meta-analysis).}
 
 \item{t}{truncation threshold for truncated-Pearsons' test (`t=0.05` by default). t is ignored if `common.effect  = TRUE`.}
 

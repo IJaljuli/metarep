@@ -2,25 +2,24 @@
 % Please edit documentation in R/summary.metarep.R
 \name{summary.metarep}
 \alias{summary.metarep}
-\title{Title
-Summary of meta-analysis with replicability-analysis results}
+\title{Summary of meta-analysis with replicability-analysis results}
 \usage{
 \method{summary}{metarep}(object, ...)
 }
 \arguments{
-\item{object}{An object of class metarep.}
+\item{object}{An object of class 'metarep'.}
 
 \item{...}{Arguments to be passed to methods, see \code{summary.meta}}
 }
 \value{
 \itemize{
   \item{r.value: } {r-value of the tested alternative.}
-  \item{u.increased: } {Maximal number of studies at which replicability of increasing effect can be claimed. Will be reported unless the alternative is 'less'.}
-  \item{u.decreased: } {Maximal number of studies at which replicability of increasing effect can be claimed. Will be reported unless the alternative is 'greater'.}
+  \item{u.increased: } {Maximal number of studies at which replicability of increasing effect can be claimed. It will be reported unless the alternative is 'less'.}
+  \item{u.decreased: } {Maximal number of studies at which replicability of increasing effect can be claimed. It will be reported unless the alternative is 'greater'.}
 }
 }
 \description{
-Summary method for objects of class metarep.
+Summary method for objects of class 'metarep'.
 }
 \examples{
 n.i.1 <- c( 20, 208, 24, 190, 58, 36, 51)

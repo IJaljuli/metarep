@@ -3,7 +3,7 @@
 \docType{data}
 \name{CD007077_CMP001}
 \alias{CD007077_CMP001}
-\title{Data in meta-analysis reported in review CD007077 , Cochrane library.}
+\title{Data in meta-analysis reported in review CD007077, 'Cochrane library'.}
 \format{A data frame with 5 rows and 12 variables:
 \describe{
   \item{STUDY}{Name of the study.}
@@ -26,7 +26,7 @@
 CD007077_CMP001
 }
 \description{
-A dataset containing the meta-data of the outcome "cosmesis" (CMP001), 
+A dataset containing the meta-data of the outcome 'cosmesis' (CMP001), 
 in the review "Partial breast irradiation for early breast cancer" (CD007077) 
 the results were reported by 5 studies, and analysed by Fixed-Effects meta-analysis.
 }

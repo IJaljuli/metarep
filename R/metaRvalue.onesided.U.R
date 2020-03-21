@@ -1,7 +1,7 @@
 #' One-sided replicability analysis
 #'
-#' @param x object of class \code{meta}
-#' @param u integer between 2-n
+#' @param x object of class 'meta'
+#' @param u integer between 2-\code{n}
 #' @param comb.fixed logical
 #' @param comb.random logical 
 #' @param alternative 'less' or 'greater' only. 
@@ -18,7 +18,6 @@ metaRvalue.onesided.U <- function (x,u = 2 , comb.fixed = F , comb.random = T ,
   if( is.null(x$zval) | all( is.na(x$zval) ) ){
     stop('Please supply model with z-values')
   }
-  # x = update.meta(object = x , subset = (1:length(x$studlab)) [ !is.na(x$pval)] )
   x.fixed.metainf <- NULL
   x.fixed.w <- NULL
   nstudlab <- length(x$studlab)

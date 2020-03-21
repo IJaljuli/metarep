@@ -1,6 +1,6 @@
-#' Data in meta-analysis reported in review CD002943 , Cochrane library. 
+#' Data in meta-analysis reported in review CD002943, 'Cochrane library'. 
 #'
-#' A dataset containing the meta-data of the the intervention "Invitation letter" (CMP001), 
+#' A dataset containing the meta-data of the the intervention 'Invitation letter' (CMP001), 
 #' in the review "PStrategies for increasing the participation of women in community breast cancer screening" (CD002943) 
 #' the results were reported by 5 studies, and analysed by Fixed-Effects meta-analysis.
 #'

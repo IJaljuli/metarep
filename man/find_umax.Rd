@@ -13,7 +13,7 @@ find_umax(
 )
 }
 \arguments{
-\item{x}{Object of class `meta`}
+\item{x}{Object of class 'meta'}
 
 \item{alternative}{'less', 'greater' or 'two-sided'}
 

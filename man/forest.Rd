@@ -8,7 +8,7 @@
 forest(x, ...)
 }
 \arguments{
-\item{x}{An object of class \code{metarep}.}
+\item{x}{An object of class 'metarep'.}
 
 \item{...}{Arguments to be passed to methods, see \code{forest.meta}}
 }

@@ -12,6 +12,7 @@ truncatedPearson(p, alpha.tilde = 1)
 \item{alpha.tilde}{truncartion threshold for truncated-Pearson test. Use alpha.tilde = 1 for ordinary Pearsons' test for combining p-values.}
 }
 \value{
+A 'list' containing the following quantities: 
 \itemize{
   \item{chisq: }{Pearson test statistic }
   \item{df: }{degrees of freedom of truncated-Pearson statistic }

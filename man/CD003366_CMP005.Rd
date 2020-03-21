@@ -3,7 +3,7 @@
 \docType{data}
 \name{CD003366_CMP005}
 \alias{CD003366_CMP005}
-\title{Data in meta-analysis reported in review CD003366 , Cochrane library.}
+\title{Data in meta-analysis reported in review CD003366, 'Cochrane library'.}
 \format{A data frame with 28 rows and 12 variables:
 \describe{
   \item{STUDY}{Name of the study.}
@@ -26,7 +26,7 @@
 CD003366_CMP005
 }
 \description{
-A dataset containing the meta-data of the outcome Leukopaenia (CMP005), 
+A dataset containing the meta-data of the outcome 'Leukopaenia' (CMP005), 
 in the review "Texane-containing regimins for metastatic breast cancer" (CD003366)
 the results were reported by 28 studies, and analysed by Random-Effects meta-analysis.
 }

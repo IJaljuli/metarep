@@ -7,12 +7,12 @@
 \method{print}{summary.metarep}(x, ...)
 }
 \arguments{
-\item{x}{An object of class \code{metarep}}
+\item{x}{An object of class 'metarep'}
 
 \item{...}{Arguments to be passed to methods, see \code{print.summary.meta}}
 }
 \description{
-Print method for objects of class \code{metarep}.
+Print method for objects of class 'metarep'.
 }
 \examples{
 n.i.1 <- c( 20, 208, 24, 190, 58, 36, 51)

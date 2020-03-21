@@ -1,6 +1,6 @@
-#' Data in meta-analysis reported in review CD006823 , Cochrane library. 
+#' Data in meta-analysis reported in review CD006823, 'Cochrane library'. 
 #'
-#' A dataset containing the meta-data of the outcome "Seroma formation" (CMP001), 
+#' A dataset containing the meta-data of the outcome 'Seroma formation' (CMP001), 
 #' in the review "Wound drainage after axillary dissection for carcinoma of the breast" (CD006823) 
 #' the results were reported by 7 studies, and analysed by Random-Effects meta-analysis.
 #'

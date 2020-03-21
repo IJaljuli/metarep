@@ -15,9 +15,9 @@ metaRvalue.onesided.U(
 )
 }
 \arguments{
-\item{x}{object of class \code{meta}}
+\item{x}{object of class 'meta'}
 
-\item{u}{integer between 2-n}
+\item{u}{integer between 2-\code{n}}
 
 \item{comb.fixed}{logical}
 

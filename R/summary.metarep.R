@@ -1,15 +1,15 @@
-#' Title
 #' Summary of meta-analysis with replicability-analysis results
-#' @description Summary method for objects of class metarep.
+#' 
+#' @description Summary method for objects of class 'metarep'.
 #'
-#' @param  object An object of class metarep.
+#' @param  object An object of class 'metarep'.
 #' @param ... Arguments to be passed to methods, see \code{summary.meta}
 #' @import meta
 #' @return 
 #'  \itemize{
 #'   \item{r.value: } {r-value of the tested alternative.}
-#'   \item{u.increased: } {Maximal number of studies at which replicability of increasing effect can be claimed. Will be reported unless the alternative is 'less'.}
-#'   \item{u.decreased: } {Maximal number of studies at which replicability of increasing effect can be claimed. Will be reported unless the alternative is 'greater'.}
+#'   \item{u.increased: } {Maximal number of studies at which replicability of increasing effect can be claimed. It will be reported unless the alternative is 'less'.}
+#'   \item{u.decreased: } {Maximal number of studies at which replicability of increasing effect can be claimed. It will be reported unless the alternative is 'greater'.}
 #' }
 #' 
 #' 

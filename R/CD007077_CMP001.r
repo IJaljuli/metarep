@@ -1,6 +1,6 @@
-#' Data in meta-analysis reported in review CD007077 , Cochrane library. 
+#' Data in meta-analysis reported in review CD007077, 'Cochrane library'. 
 #'
-#' A dataset containing the meta-data of the outcome "cosmesis" (CMP001), 
+#' A dataset containing the meta-data of the outcome 'cosmesis' (CMP001), 
 #' in the review "Partial breast irradiation for early breast cancer" (CD007077) 
 #' the results were reported by 5 studies, and analysed by Fixed-Effects meta-analysis.
 #'

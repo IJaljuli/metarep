@@ -1,7 +1,7 @@
 #' Lower bounds on the number of studies with replicated effect
 #'
 #' @description lower bounds on the number of studies with increased and\\ or decreased effect. 
-#' @param x Object of class `meta`
+#' @param x Object of class 'meta'
 #' @param alternative 'less', 'greater' or 'two-sided'
 #' @param t truncation threshold for truncated-Pearsons' test (`t=0.05` by default). t is ignored if `common.effect  = TRUE`.
 #' @param confidence Confidence level used in the computaion of the lower bound(s) \eqn{u_{max}^L} and\\or \eqn{u_{max}^R}. 

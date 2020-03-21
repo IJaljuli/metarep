@@ -1,10 +1,10 @@
 #' Print meta-analysis with replicability-analysis results
 #' 
 #' @description
-#' Print method for objects of class \code{metarep}.
+#' Print method for objects of class 'metarep'.
 #' 
 #' 
-#' @param x An object of class \code{metarep}
+#' @param x An object of class 'metarep'
 #'
 #' @param ... Arguments to be passed to methods, see \code{print.summary.meta}
 #' @import meta

@@ -1,7 +1,7 @@
 #' Replicability-analysis of a meta-analysis 
 #' @description Add results of replicability-analysis to a meta-analysis, whether fixed- or random-effects.
-#' @param x object of class `meta`
-#' @param u replicability requirement. u must be an intiger between 2 and n (nmber of studies in the meta-analysis). 
+#' @param x object of class 'meta'
+#' @param u replicability requirement. \code{u} must be an intiger between 2 and \code{n} (nmber of studies in the meta-analysis). 
 #' @param t truncation threshold for truncated-Pearsons' test (`t=0.05` by default). t is ignored if `common.effect  = TRUE`.
 #' @param alternative use 'less', 'greater' or 'two-sided'
 

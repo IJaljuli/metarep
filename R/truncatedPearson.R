@@ -3,7 +3,7 @@
 #' @param p one-sided p-values of the individual studies for testing one-sided alternative based on z-test. 
 #' @param alpha.tilde truncartion threshold for truncated-Pearson test. Use alpha.tilde = 1 for ordinary Pearsons' test for combining p-values.
 #'
-#' @return 
+#' @return A 'list' containing the following quantities: 
 #' \itemize{
 #'   \item{chisq: }{Pearson test statistic }
 #'   \item{df: }{degrees of freedom of truncated-Pearson statistic }

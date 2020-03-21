@@ -6,7 +6,7 @@
 #' 
 #' @aliases forest forest.metarep
 #'
-#' @param x An object of class \code{metarep}.
+#' @param x An object of class 'metarep'.
 #' @param ... Arguments to be passed to methods, see \code{forest.meta}
 #' @import meta
 #' @export
