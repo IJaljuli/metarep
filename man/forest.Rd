@@ -12,6 +12,9 @@ forest(x, ...)
 
 \item{...}{Arguments to be passed to methods, see \code{forest.meta}}
 }
+\value{
+No return value, called for side effects
+}
 \description{
 Draws a forest plot in the active graphics window (using grid
 graphics system).

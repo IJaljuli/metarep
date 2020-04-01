@@ -9,6 +9,9 @@
 #' @param ... Arguments to be passed to methods, see \code{print.summary.meta}
 #' @import meta
 #' @export
+#' 
+#' @return No return value, called for side effects.
+#' 
 #' @examples
 #' n.i.1 <- c( 20, 208, 24, 190, 58, 36, 51)
 #' a.i <- c( 2,79,0,98,15,34,9) 

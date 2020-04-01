@@ -11,6 +11,9 @@
 
 \item{...}{Arguments to be passed to methods, see \code{print.summary.meta}}
 }
+\value{
+No return value, called for side effects.
+}
 \description{
 Print method for objects of class 'metarep'.
 }

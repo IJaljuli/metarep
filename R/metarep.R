@@ -10,12 +10,11 @@
 #' @param common.effect Use common.effect = FALSE (default) for replicability-analysis combining with no assumptions (Pearson or truncated-Pearson test).
 #' Replicability-analysis based on the test-statistic of fixed-effects model can be applied using common.effect = TRUE. 
 #'
-#' @return
+#' @return An object of class list containing meta-analysis and replicability analysis results, as follows:
 #' \itemize{
-#' \item{worst.case.studies}{A names of \code{n-u+1} studies at which the the \code{r(u)-}value is computed.}
+#' \item{worst.case.studies}{A charachter vector of the names of \code{n-u+1} studies at which the the \code{r(u)-}value is computed.}
 #' \item{r.value}{ \code{r(u)-}value for the specied u. }
 #' \item{side}{The direction of the effect with the lower one-sided \code{r(u)-}value }
-#' \item{worst.case.studies}{list of \code{(n-u+1)} studies names of which \code{r(u)-}value is computed.}
 #' \item{u_L , u_R }{ Lower bounds of the number of studies with decreased or increased effect, respectively. Both bounds are reported simultinualsly only when performing replicability analysis for two-sided alternative with no assumptions  }
 #' }
 #' @importFrom utils combn

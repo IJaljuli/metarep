@@ -10,6 +10,8 @@
 #' @param ... Arguments to be passed to methods, see \code{forest.meta}
 #' @import meta
 #' @export
+#' 
+#' @return  No return value, called for side effects
 #' @seealso \code{\link{forest.meta}}, \code{\link{metarep}},
 #' 
 #' @examples

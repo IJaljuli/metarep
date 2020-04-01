@@ -8,6 +8,8 @@
 #' @param do.truncated.umax  logical. 
 #' @param alpha.tilde between (0,1)
 #' @import meta
+#' 
+#' @return No return value, called for internal use only. 
 metaRvalue.onesided.U <- function (x,u = 2 , comb.fixed = F , comb.random = T ,
                                    alternative = 'less',
                                    do.truncated.umax = T ,

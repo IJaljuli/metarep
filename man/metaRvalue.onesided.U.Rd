@@ -29,6 +29,9 @@ metaRvalue.onesided.U(
 
 \item{alpha.tilde}{between (0,1)}
 }
+\value{
+No return value, called for internal use only.
+}
 \description{
 One-sided replicability analysis
 }

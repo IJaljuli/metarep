@@ -13,7 +13,7 @@ truncatedPearson(p, alpha.tilde = 1)
 }
 \value{
 A 'list' containing the following quantities: 
-\itemize{
+\itemize{ A list containing results of truncated-Pearson's test, as follows: 
   \item{chisq: }{Pearson test statistic }
   \item{df: }{degrees of freedom of truncated-Pearson statistic }
   \item{rvalue: }{p-value of the test }
