@@ -115,7 +115,7 @@ metaRvalue.onesided.U <- function (x,u = 2 , comb.fixed = F , comb.random = T ,
   }
   
     if(alternative == 'greater'){
-      wsf <- which( (nstudlab+1-rank(pval.all)) >= u )
+      wsf <- which( (nstudlab+1-rank(pvs.all)) >= u )
     }else{
       wsf <- which( rank(zval.all) >= u )
     }
