@@ -110,7 +110,7 @@
     if( common.effect ){
       
       Umax = find_umax( x , alternative = alternative, confidence = confidence ,
-                        common.effect = T )
+                        common.effect = T, t = Alpha.tilde )
       
       if( Umax$side == 'less '){
         res$u_L <-  Umax$u_max 
@@ -126,14 +126,14 @@
       if( alternative != 'less' ){
         Umax_right = find_umax( x , alternative = 'greater',
                                 confidence = 1 - alpha/(1+(alternative == 'two-sided')) ,
-                                common.effect  = F , t = t )
+                                common.effect  = F , t = Alpha.tilde)
         res$u_R <- Umax_right$u_max
       }
       
       if( alternative !=  'greater' ){
         Umax_left = find_umax( x , alternative = 'less', 
                                confidence = 1 - alpha/(1+(alternative == 'two-sided')) ,
-                               common.effect = F , t = t )
+                               common.effect = F , t = Alpha.tilde )
         
         res$u_L <- Umax_left$u_max
       }
