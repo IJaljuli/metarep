@@ -114,11 +114,12 @@ metaRvalue.onesided.U <- function (x,u = 2 , comb.fixed = F , comb.random = T ,
     
   }
   
-    if(alternative == 'greater'){
-      wsf <- which( (nstudlab+1-rank(pvs.all)) >= u )
-    }else{
-      wsf <- which( rank(zval.all) >= u )
-    }
+  wsf <- which( (nstudlab+1-rank(pvs.all)) >= u )
+  # if(alternative == 'greater'){
+    #   wsf <- which( (nstudlab+1-rank(pvs.all)) >= u )
+    # }else{
+    #   wsf <- which( rank(zval.all) >= u )
+    # }
     
   worst.studies.fisher <- x$studlab[ wsf ]
   worst.studies.fisher <- which( (x$data$.studlab %in% worst.studies.fisher) )
