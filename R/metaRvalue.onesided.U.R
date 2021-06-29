@@ -97,7 +97,7 @@ metaRvalue.onesided.U <- function (x,u = 2 , comb.fixed = F , comb.random = T ,
                 pvalue.onesided =  pvo$p.value ))
   }
   if( u > sum(pvs.all<=alpha.tilde) ){
-    return(list(worst.case = NULL ,
+    return(list(worst.case = x ,
                 Side = alternative,
                 pvalue.onesided =  1 ))
   }
