@@ -92,15 +92,33 @@
     
     rvalue.greater <- rvalue.results.greater$pvalue.onesided
     
-    if ( rvalue.less < rvalue.greater ){
-      rvalue.results <- rvalue.results.less
-      side <- 'less'
-    }else{
-      rvalue.results <- rvalue.results.greater
-      side <- 'greater'
-    }
     
-    rvalue = min(1 , 2*rvalue.results$pvalue.onesided )
+    
+    if(all(is.null(c(rvalue.greater, rvalue.less)))){
+      rvalue.results <- rvalue.results.less
+      side <- 'None'
+      rvalue <- NULL
+    }else{
+      if( is.null(rvalue.greater) ) {
+        rvalue.results <- rvalue.results.less
+        side <- 'less'
+        rvalue <- NULL
+      }else{
+        if( is.null(rvalue.less) ){
+          rvalue.results <- rvalue.results.greater
+          side <- 'greater'
+          rvalue <- NULL
+        }
+        if ( rvalue.less < rvalue.greater ){
+          rvalue.results <- rvalue.results.less
+          side <- 'less'
+        }else{
+          rvalue.results <- rvalue.results.greater
+          side <- 'greater'
+        }
+        rvalue <- min(1 , 2*rvalue.results$pvalue.onesided )
+      }
+    }
   }
   
   # find u_max
@@ -123,14 +141,14 @@
 
     }else{
       
-      if( alternative != 'less' ){
+      if( ! alternative %in% c('less','None') ){
         Umax_right = find_umax( x , alternative = 'greater',
                                 confidence = 1 - alpha/(1+(alternative == 'two-sided')) ,
                                 common.effect  = F , t = Alpha.tilde)
         res$u_R <- Umax_right$u_max
       }
       
-      if( alternative !=  'greater' ){
+      if( ! alternative %in% c('greater','None')  ){
         Umax_left = find_umax( x , alternative = 'less', 
                                confidence = 1 - alpha/(1+(alternative == 'two-sided')) ,
                                common.effect = F , t = Alpha.tilde)
