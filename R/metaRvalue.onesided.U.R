@@ -103,7 +103,7 @@ metaRvalue.onesided.U <- function (x,u = 2 , comb.fixed = F , comb.random = T ,
   }
   
   if( u == sum(pvs.all<=alpha.tilde) ){
-    pvs.all <- replace(pvs.all,pvs.all<=alpha.tilde, NA)
+    pvs.all <- replace(pvs.all,pvs.all>alpha.tilde, NA)
     pvo <- max(pvs.all, na.rm = T)
     worst.case.studies <- x$studlab[which.max(pvs.all)]
     worst.case.studies <- which( x$data$.studlab %in% worst.case.studies )
