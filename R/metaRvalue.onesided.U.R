@@ -36,7 +36,11 @@ metaRvalue.onesided.U <- function (x,u = 2 , comb.fixed = F , comb.random = T ,
     stop ( 'invalid tuning parameter u ' )
   }else{
     if ( u > nstudlab.truncation ){
-      stop ( paste('invalid tuning parameter u: less than u studies left after truncation at' , alpha.tilde ))
+      
+      return(list(worst.case = x ,
+                  Side = alternative,
+                  pvalue.onesided =  1 ))
+      message ( paste('Invalid tuning parameter u: less than u studies left after truncation at' , alpha.tilde ))
     }
   }
   
