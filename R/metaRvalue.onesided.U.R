@@ -113,8 +113,15 @@ metaRvalue.onesided.U <- function (x,u = 2 , comb.fixed = F , comb.random = T ,
                 Side = alternative,
                 pvalue.onesided =  pvo$p.value ))
   }
-  if( u == nstudlab.truncation ){
-    pvo <- max(pvs.all)
+  if( u > sum(pvs.all<=alpha.tilde) ){
+    return(list(worst.case = x ,
+                Side = alternative,
+                pvalue.onesided =  1 ))
+  }
+  
+  if( u == sum(pvs.all<=alpha.tilde) ){
+    pvs.all <- replace(pvs.all,pvs.all>alpha.tilde, NA)
+    pvo <- max(pvs.all, na.rm = T)
     worst.case.studies <- x$studlab[which.max(pvs.all)]
     worst.case.studies <- which( x$data$.studlab %in% worst.case.studies )
     worst.case <- meta::update.meta(x ,subset = worst.case.studies )
@@ -131,7 +138,7 @@ metaRvalue.onesided.U <- function (x,u = 2 , comb.fixed = F , comb.random = T ,
     
   }
   
-  wsf <- which( rank(pvs.all) >= u )
+  wsf <- which( order(pvs.all) >= u )
   
   worst.studies.fisher <- x$studlab[ wsf ]
   worst.studies.fisher <- which( (x$data$.studlab %in% worst.studies.fisher) )

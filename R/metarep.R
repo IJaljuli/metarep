@@ -31,14 +31,14 @@
 #' mr1 <- metarep(  m1 , u = 2, common.effect = FALSE , t = 0.05 , 
 #'                alternative = 'two-sided', report.u.max = TRUE)
 #' meta::forest(mr1, layout='revman5',digits.pval = 4 , test.overall = TRUE )
- metarep <- function(x, u = 2 , t = 0.05 , alternative = 'two-sided',
-                      report.u.max = FALSE , confidence = 0.95 , common.effect = FALSE ) {
-   chkclass(x, "meta")
-   if(is.numeric(confidence)){
-     if ( (confidence >= 1) | (confidence <= 0) ) stop("confidence must be a number between 0 - 1.")
-   }else{
-     stop("confidence must be a number between 0 - 1.")
-   }
+metarep <- function(x, u = 2 , t = 0.05 , alternative = 'two-sided',
+                    report.u.max = FALSE , confidence = 0.95 , common.effect = FALSE ) {
+  chkclass(x, "meta")
+  if(is.numeric(confidence)){
+    if ( (confidence >= 1) | (confidence <= 0) ) stop("confidence must be a number between 0 - 1.")
+  }else{
+    stop("confidence must be a number between 0 - 1.")
+  }
   alpha = 1-confidence
   Do.truncated.umax = ifelse(is.null(t) , F , t < 1 )
   Alpha.tilde = ifelse(is.null(t) , 1 , t )
@@ -56,7 +56,7 @@
       stop("Error: Truncation threshold t must be a positive velue < = 1")
     }
     if(t == 1 ) message( "Performing Replicability analysis via original-Pearson's test" )
-     
+    
   }
   
   res <- x
@@ -94,16 +94,32 @@
     
     
     
-    if ( rvalue.less < rvalue.greater ){
+    if(all(is.null(c(rvalue.greater, rvalue.less)))){
       rvalue.results <- rvalue.results.less
-      side <- 'less'
+      side <- 'None'
+      rvalue <- NULL
     }else{
-      rvalue.results <- rvalue.results.greater
-      side <- 'greater'
+      if( is.null(rvalue.greater) ) {
+        rvalue.results <- rvalue.results.less
+        side <- 'less'
+        rvalue <- NULL
+      }else{
+        if( is.null(rvalue.less) ){
+          rvalue.results <- rvalue.results.greater
+          side <- 'greater'
+          rvalue <- NULL
+        }
+        if ( rvalue.less < rvalue.greater ){
+          rvalue.results <- rvalue.results.less
+          side <- 'less'
+        }else{
+          rvalue.results <- rvalue.results.greater
+          side <- 'greater'
+        }
+        rvalue <- min(1 , 2*rvalue.results$pvalue.onesided )
+      }
     }
-    rvalue <- min(1 , 2*rvalue.results$pvalue.onesided )
   }
-  
   
   # find u_max
   if(report.u.max){
@@ -121,18 +137,18 @@
         res$u_L <-  NULL 
         res$u_R <- Umax$u_max 
       }
-        
-
+      
+      
     }else{
       
-      if( alternative != 'less' ){
+      if( ! alternative %in% c('less','None') ){
         Umax_right = find_umax( x , alternative = 'greater',
                                 confidence = 1 - alpha/(1+(alternative == 'two-sided')) ,
                                 common.effect  = F , t = Alpha.tilde)
         res$u_R <- Umax_right$u_max
       }
       
-      if( alternative != 'greater' ){
+      if( ! alternative %in% c('greater','None')  ){
         Umax_left = find_umax( x , alternative = 'less', 
                                confidence = 1 - alpha/(1+(alternative == 'two-sided')) ,
                                common.effect = F , t = Alpha.tilde)
