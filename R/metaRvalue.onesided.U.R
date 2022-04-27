@@ -29,20 +29,20 @@ metaRvalue.onesided.U <- function (x,u = 2 , comb.fixed = F , comb.random = T ,
       alpha.tilde <- replace(alpha.tilde, alpha.tilde>1, 1 )
       }
   
-  available.pvs.after.truncaion <- pnorm(x$zval, lower.tail = (alternative == 'less'))
-  nstudlab.truncation <- sum(available.pvs.after.truncaion<=alpha.tilde)
+  # available.pvs.after.truncaion <- pnorm(x$zval, lower.tail = (alternative == 'less'))
+  # nstudlab.truncation <- sum(available.pvs.after.truncaion<=alpha.tilde)
   
   if (( u > nstudlab ) | (u < 1) ){
     stop ( 'invalid tuning parameter u ' )
-  }else{
-    if ( u > nstudlab.truncation ){
-      
-      return(list(worst.case = x ,
-                  Side = alternative,
-                  pvalue.onesided =  1 ))
-      message ( paste('Invalid tuning parameter u: less than u studies left after truncation at' , alpha.tilde ))
-    }
-  }
+  }# else{
+    # if ( u > nstudlab.truncation ){
+    #   
+    #   return(list(worst.case = x ,
+    #               Side = alternative,
+    #               pvalue.onesided =  1 ))
+    #   message ( paste('Invalid tuning parameter u: less than u studies left after truncation at' , alpha.tilde ))
+    # }
+  # }
   
   
   if ( (! comb.fixed )&( ! comb.random ) ) stop('Desired replicability model must be supplied')
@@ -138,13 +138,17 @@ metaRvalue.onesided.U <- function (x,u = 2 , comb.fixed = F , comb.random = T ,
   #   
   # }
   # The previous lines should be removed because (1) they only consider u=2, and (2) they truncate prior to subsetting. 
-  wsf <- which( rank(pvs.all) >= u ) # order replaced with rank, as it was incorrect. 
   
+  
+  wsf <- which( rank(pvs.all) >= u ) # order replaced with rank, as it was incorrect. 
   worst.studies.fisher <- x$studlab[ wsf ]
   worst.studies.fisher <- which( (x$data$.studlab %in% worst.studies.fisher) )
   worst.case <- meta::update.meta(x ,subset = worst.studies.fisher )
-  worst.pvs.fisher <- truncatedPearson( p = pvs.all[ wsf ] ,alpha.tilde =  alpha.tilde)
-  
+  if( length(wsf) <= 1){
+    worst.pvs.fisher <-  list(p.value  = ifelse( length(wsf) == 0 , 1, pvs.all[ wsf ]) )
+  }else{
+    worst.pvs.fisher <- truncatedPearson( p = pvs.all[ wsf ] ,alpha.tilde =  alpha.tilde)
+  }
   return(list(worst.case = worst.case ,
               Side = alternative,
               pvalue.onesided = worst.pvs.fisher$p.value ))
