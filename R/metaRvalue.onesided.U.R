@@ -119,26 +119,26 @@ metaRvalue.onesided.U <- function (x,u = 2 , comb.fixed = F , comb.random = T ,
                 pvalue.onesided =  1 ))
   }
   
-  if( u == sum(pvs.all<=alpha.tilde) ){
-    pvs.all <- replace(pvs.all,pvs.all>alpha.tilde, NA)
-    pvo <- max(pvs.all, na.rm = T)
-    worst.case.studies <- x$studlab[which.max(pvs.all)]
-    worst.case.studies <- which( x$data$.studlab %in% worst.case.studies )
-    worst.case <- meta::update.meta(x ,subset = worst.case.studies )
-    
-    if ( pvo < alpha.tilde){
-      return(list(worst.case = worst.case,
-                  Side = alternative,
-                  pvalue.onesided =  pvo ))
-    }else{
-      return(list(worst.case = worst.case,
-                  Side = alternative,
-                  pvalue.onesided =  1 ))
-    }
-    
-  }
-  
-  wsf <- which( order(pvs.all) >= u )
+  # if( u == sum(pvs.all<=alpha.tilde) ){
+  #   pvs.all <- replace(pvs.all,pvs.all>alpha.tilde, NA)
+  #   pvo <- max(pvs.all, na.rm = T)
+  #   worst.case.studies <- x$studlab[which.max(pvs.all)]
+  #   worst.case.studies <- which( x$data$.studlab %in% worst.case.studies )
+  #   worst.case <- meta::update.meta(x ,subset = worst.case.studies )
+  #   
+  #   if ( pvo < alpha.tilde){
+  #     return(list(worst.case = worst.case,
+  #                 Side = alternative,
+  #                 pvalue.onesided =  pvo ))
+  #   }else{
+  #     return(list(worst.case = worst.case,
+  #                 Side = alternative,
+  #                 pvalue.onesided =  1 ))
+  #   }
+  #   
+  # }
+  # The previous lines should be removed because (1) they only consider u=2, and (2) they truncate prior to subsetting. 
+  wsf <- which( rank(pvs.all) >= u ) # order replaced with rank, as it was incorrect. 
   
   worst.studies.fisher <- x$studlab[ wsf ]
   worst.studies.fisher <- which( (x$data$.studlab %in% worst.studies.fisher) )
