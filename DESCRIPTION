@@ -1,9 +1,9 @@
 Package: metarep
 Title: Replicability-Analysis Tools for Meta-Analysis
-Version: 1.0.1
-Depends: R (>= 4.1.1)
+Version: 1.0.2
+Depends: R (>= 4.1)
 Imports: 
-    meta (>= 4.9.10),
+    meta (>= 5.0-0),
 Suggests: 
     metafor (>= 1.9.9),
     lme4,
@@ -12,7 +12,7 @@ Suggests:
     knitr,
     rmarkdown
 Authors@R: person("Iman","Jaljuli", role=c("cre","aut"), email="jaljuli.iman@gmail.com")
-Date: 2020-03-08
+Date: 2022-05-20
 URL: https://github.com/IJaljuli/metarep
 Description: User-friendly package for reporting replicability-analysis methods, affixed to meta-analyses summary. The replicability-analysis output provides an assessment of the investigated intervention, where it offers quantification of effect replicability and assessment of the consistency of findings.
  - Replicability-analysis for fixed-effects and random-effect meta analysis: 
@@ -24,6 +24,6 @@ Description: User-friendly package for reporting replicability-analysis methods,
 License: GPL (>= 2)
 Encoding: UTF-8
 NeedsCompilation: yes
-RoxygenNote: 7.0.2
+RoxygenNote: 7.1.2
 VignetteBuilder: knitr
 LazyData: true

@@ -21,10 +21,10 @@
 #' c.i <- c(9,106,14,98,12,49,9) 
 #' m1 <- meta::metabin( event.e = a.i,n.e = n.i.1,event.c = c.i,n.c = n.i.2,
 #'                studlab = paste0('Study ' , 1:7) , sm = 'OR' ,
-#'                comb.fixed = FALSE, comb.random = TRUE )
+#'                fixed = FALSE, random = TRUE )
 #' mr1 <- metarep(  m1 , u = 2, common.effect = FALSE , t = 0.05 , 
 #'                alternative = 'two-sided', report.u.max = TRUE)
-#' forest(mr1, layout = "RevMan5", comb.fixed = FALSE,
+#' forest(mr1, layout = "RevMan5", fixed = FALSE,
 #'        label.right = "Favours control", col.label.right = "red",
 #'        label.left = "Favours experimental", col.label.left = "green",
 #'        prediction = TRUE)

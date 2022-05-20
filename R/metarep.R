@@ -27,7 +27,7 @@
 #' c.i <- c(9,106,14,98,12,49,9) 
 #' m1 <- meta::metabin( event.e = a.i,n.e = n.i.1,event.c = c.i,n.c = n.i.2,
 #'                studlab = paste0('Study ' , 1:7) , sm = 'OR' ,
-#'                comb.fixed = FALSE, comb.random = TRUE )
+#'                fixed = FALSE, random = TRUE )
 #' mr1 <- metarep(  m1 , u = 2, common.effect = FALSE , t = 0.05 , 
 #'                alternative = 'two-sided', report.u.max = TRUE)
 #' meta::forest(mr1, layout='revman5',digits.pval = 4 , test.overall = TRUE )
@@ -42,7 +42,7 @@ metarep <- function(x, u = 2 , t = 0.05 , alternative = 'two-sided',
   alpha = 1-confidence
   Do.truncated.umax = ifelse(is.null(t) , F , t < 1 )
   Alpha.tilde = ifelse(is.null(t) , 1 , t )
-  Comb.random = !common.effect
+  random = !common.effect
   
   if (common.effect){
     t <- NULL
@@ -70,23 +70,23 @@ metarep <- function(x, u = 2 , t = 0.05 , alternative = 'two-sided',
   rvalue <- rvalue.less <- rvalue.greater <- NULL 
   if ( alternative != 'two-sided' ){
     rvalue.results <- metaRvalue.onesided.U( x = x , u = u , alternative = alternative  , 
-                                             comb.fixed = common.effect,
-                                             comb.random = Comb.random,
+                                             fixed = common.effect,
+                                             random = random,
                                              do.truncated.umax = Do.truncated.umax, 
                                              alpha.tilde = Alpha.tilde )
     rvalue <- rvalue.results$pvalue.onesided
     side <- alternative
   }else{
     rvalue.results.less <- metaRvalue.onesided.U( x = x , u = u , alternative = 'less', 
-                                                  comb.fixed = common.effect,
-                                                  comb.random = Comb.random,
+                                                  fixed = common.effect,
+                                                  random = random,
                                                   do.truncated.umax = Do.truncated.umax, 
                                                   alpha.tilde = Alpha.tilde )
     rvalue.less <- rvalue.results.less$pvalue.onesided
     
     rvalue.results.greater <- metaRvalue.onesided.U( x = x , u = u , alternative = 'greater', 
-                                                     comb.fixed = common.effect,
-                                                     comb.random = Comb.random,
+                                                     fixed = common.effect,
+                                                     random = random,
                                                      do.truncated.umax = Do.truncated.umax, 
                                                      alpha.tilde = Alpha.tilde  )
     

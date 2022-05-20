@@ -44,7 +44,7 @@ c.i <- c(9,106,14,98,12,49,9)
 m1 <- meta::metabin( event.e = a.i,n.e = n.i.1,
                      event.c = c.i,n.c = n.i.2,
                      studlab = paste('Study',1:7), sm = 'OR',
-                     comb.fixed = FALSE, comb.random = TRUE )
+                     fixed = FALSE, random = TRUE )
 find_umax(m1 , common.effect = FALSE, alternative = 'two-sided',
           t = 0.05 , confidence = 0.95 )        
 }

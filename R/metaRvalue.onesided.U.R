@@ -2,22 +2,22 @@
 #'
 #' @param x object of class 'meta'
 #' @param u integer between 2-\code{n}
-#' @param comb.fixed logical
-#' @param comb.random logical 
+#' @param fixed logical
+#' @param random logical 
 #' @param alternative 'less' or 'greater' only. 
 #' @param do.truncated.umax  logical. 
 #' @param alpha.tilde between (0,1)
 #' @import meta
 #' 
 #' @return No return value, called for internal use only. 
-metaRvalue.onesided.U <- function (x,u = 2 , comb.fixed = F , comb.random = T ,
+metaRvalue.onesided.U <- function (x,u = 2 , fixed = F , random = T ,
                                    alternative = 'less',
                                    do.truncated.umax = T ,
                                    alpha.tilde = .05 ){
   chkclass(x, "meta")
   metaInf <- inherits(x,'metainf')
   x.original = x
-  if( is.null(x$zval) | all( is.na(x$zval) ) ){
+  if( is.null(x$statistic) | all( is.na(x$statistic) ) ){
     stop('Please supply model with z-values')
   }
   x.fixed.metainf <- NULL
@@ -29,7 +29,7 @@ metaRvalue.onesided.U <- function (x,u = 2 , comb.fixed = F , comb.random = T ,
       alpha.tilde <- replace(alpha.tilde, alpha.tilde>1, 1 )
       }
   
-  # available.pvs.after.truncaion <- pnorm(x$zval, lower.tail = (alternative == 'less'))
+  # available.pvs.after.truncaion <- pnorm(x$statistic, lower.tail = (alternative == 'less'))
   # nstudlab.truncation <- sum(available.pvs.after.truncaion<=alpha.tilde)
   
   if (( u > nstudlab ) | (u < 1) ){
@@ -45,22 +45,22 @@ metaRvalue.onesided.U <- function (x,u = 2 , comb.fixed = F , comb.random = T ,
   # }
   
   
-  if ( (! comb.fixed )&( ! comb.random ) ) stop('Desired replicability model must be supplied')
+  if ( (! fixed )&( ! random ) ) stop('Desired replicability model must be supplied')
   if(!(alternative %in% c('less','greater'))) stop('Supply informative alternative ( "less" or "greater" )')
   
   ## fixed-effects replicability analysis. 
   worst.case.fixed <- studies_subsets <- NULL
-  if ( comb.fixed ){
+  if ( fixed ){
     
     if( u == 1 ){
       return(list(worst.case = x ,
                   Side = alternative,
-                  pvalue.onesided = pnorm(x$zval.fixed , lower.tail = ( alternative == 'less'))  ))
+                  pvalue.onesided = pnorm(x$statistic.fixed , lower.tail = ( alternative == 'less'))  ))
     }
     if( u == nstudlab ){
       studies_subsets <- rbind( 1:nstudlab , rep(NA , nstudlab) )
       rownames(studies_subsets) <- c('s1' , 'rvalue' )
-      studies_subsets['rvalue' , ] <- pnorm( x$zval , lower.tail = (alternative=='less'))
+      studies_subsets['rvalue' , ] <- pnorm( x$statistic , lower.tail = (alternative=='less'))
       
       # derive the line of worst case studies 
       k = max(which.max(studies_subsets['rvalue',])) # studies column pointer. 
@@ -83,7 +83,7 @@ metaRvalue.onesided.U <- function (x,u = 2 , comb.fixed = F , comb.random = T ,
       worst.studies.fisher = x$studlab[ studies_subsets[-c(nrow(studies_subsets)) ,k] ]
       worst.studies.fisher = which( x$data$.studlab %in% worst.studies.fisher)
       x.sub <- meta::update.meta(x,subset =  worst.studies.fisher )
-      z.val <- x.sub$zval.fixed
+      z.val <- x.sub$statistic.fixed
       studies_subsets['rvalue' , k] <-  x.sub$pval.fixed / 2
       if ( ((z.val < 0) & (alternative == 'greater')) | ( (z.val > 0) & (alternative == 'less') ) ){
         studies_subsets['rvalue' , k] = 1 - studies_subsets['rvalue' , k]  
@@ -104,8 +104,8 @@ metaRvalue.onesided.U <- function (x,u = 2 , comb.fixed = F , comb.random = T ,
   
   ## random-effects replicability analysis:
   
-  zval.all <- x$zval[!is.na(x$zval)]
-  pvs.all <- pnorm( zval.all ,lower.tail = (alternative == 'less'))
+  statistic.all <- x$statistic[!is.na(x$statistic)]
+  pvs.all <- pnorm( statistic.all ,lower.tail = (alternative == 'less'))
   
   if( u == 1 ){
     pvo <- truncatedPearson( p = pvs.all , alpha.tilde =  alpha.tilde)

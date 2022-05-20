@@ -27,7 +27,7 @@
 #' m1 <- meta::metabin( event.e = a.i,n.e = n.i.1,
 #'                      event.c = c.i,n.c = n.i.2,
 #'                      studlab = paste('Study',1:7), sm = 'OR',
-#'                      comb.fixed = FALSE, comb.random = TRUE )
+#'                      fixed = FALSE, random = TRUE )
 #' find_umax(m1 , common.effect = FALSE, alternative = 'two-sided',
 #'           t = 0.05 , confidence = 0.95 )        
 find_umax <- function(x , alternative = 'two-sided' ,
@@ -55,16 +55,16 @@ find_umax <- function(x , alternative = 'two-sided' ,
   }  
   
   na.pvs <- all(is.na(x$pval))
-  na.zvs <- (sum(!is.na(x$zval))==0 )
+  na.zvs <- (sum(!is.na(x$statistic))==0 )
   if ( na.zvs & na.pvs ){
-    warning('Please supply valid p-values or zvalues.')
+    warning('Please supply valid p-values or z-values.')
     return( list ( u_max = NULL , worst.case = NULL , side = NULL , r.value = NULL )[c(2,1,3,4)] )
   }
   
   alpha = (1 - confidence)
   Do.truncated.umax = ifelse(is.null(t) , F , t < 1 )
   Alpha.tilde = ifelse(is.null(t) , 1 , t )
-  Comb.random = !common.effect
+  random = !common.effect
   
   # do.random.u_max = Fisher's \ karl pearson . do.truncated.umax  = truncated fisher
   # Or else - alternative = 'greater' , 'less'
@@ -72,9 +72,9 @@ find_umax <- function(x , alternative = 'two-sided' ,
   twoSided <- (alternative == 'two-sided')
   
   nstudlab <- sum(!is.na(x$pval))
-  nstudlab <- ifelse( na.pvs , sum(!is.na(x$zval)) , nstudlab )
+  nstudlab <- ifelse( na.pvs , sum(!is.na(x$statistic)) , nstudlab )
   
-  pv.greater <- ifelse(common.effect , x$zval.fixed , x$zval.random ) 
+  pv.greater <- ifelse(common.effect , x$statistic.fixed , x$statistic.random ) 
   
   if(!is.na(pv.greater)){ 
     pv.greater <- pnorm( pv.greater , lower.tail = F )
@@ -94,11 +94,11 @@ find_umax <- function(x , alternative = 'two-sided' ,
     stop.n.at.less <- 
       stop.n.at.greatr <- nstudlab
   }else{
-    pvs.all.less <- pnorm(x$zval, lower.tail = T )
+    pvs.all.less <- pnorm(x$statistic, lower.tail = T )
     pvs.all.less <- pvs.all.less[!is.na(pvs.all.less)]
     stop.n.at.less <- sum(pvs.all.less<=t)
     
-    pvs.all.greater <- pnorm(x$zval, lower.tail = F )
+    pvs.all.greater <- pnorm(x$statistic, lower.tail = F )
     pvs.all.greater <- pvs.all.greater[!is.na(pvs.all.greater)]
     stop.n.at.greatr <- sum(pvs.all.greater<=t)
   }
@@ -108,7 +108,7 @@ find_umax <- function(x , alternative = 'two-sided' ,
     meta_ul_prev <-  meta_ug_prev <- NULL
     if ( alternative != 'greater' ){
       u1 <-  1  
-      meta_ul <-  metaRvalue.onesided.U(x,u = u1 ,comb.fixed = F , comb.random = T,
+      meta_ul <-  metaRvalue.onesided.U(x,u = u1 ,fixed = F , random = T,
                                       alternative = 'less',
                                       do.truncated.umax = Do.truncated.umax ,
                                       alpha.tilde = Alpha.tilde )
@@ -116,7 +116,7 @@ find_umax <- function(x , alternative = 'two-sided' ,
       while( (u1 < stop.n.at.less ) & ( rvl <=  alpha / (1 + twoSided )) ){
         meta_ul_prev <- meta_ul
         u1 <- u1 + 1
-        meta_ul <- metaRvalue.onesided.U(x,u = u1 ,comb.fixed = F , comb.random = T,
+        meta_ul <- metaRvalue.onesided.U(x,u = u1 ,fixed = F , random = T,
                                          alternative = 'less',
                                          do.truncated.umax = Do.truncated.umax  ,
                                          alpha.tilde = Alpha.tilde )
@@ -147,7 +147,7 @@ find_umax <- function(x , alternative = 'two-sided' ,
     
     if ( alternative != 'less' ){
       u1 <-  1  
-      meta_ug = metaRvalue.onesided.U(x,u = u1 , comb.fixed = F , comb.random = T,
+      meta_ug = metaRvalue.onesided.U(x,u = u1 , fixed = F , random = T,
                                       alternative = 'greater',
                                       do.truncated.umax = Do.truncated.umax ,
                                       alpha.tilde = Alpha.tilde )
@@ -155,7 +155,7 @@ find_umax <- function(x , alternative = 'two-sided' ,
       while((u1 < stop.n.at.greatr )&( rvg <=  alpha / (1 + twoSided )) ){
         meta_ug_prev <- meta_ug
         u1 <- u1 + 1
-        meta_ug <- metaRvalue.onesided.U(x,u = u1 ,comb.fixed = F , comb.random = T,
+        meta_ug <- metaRvalue.onesided.U(x,u = u1 ,fixed = F , random = T,
                                          alternative = 'greater',
                                          do.truncated.umax = Do.truncated.umax,
                                          alpha.tilde = Alpha.tilde )
@@ -220,7 +220,7 @@ find_umax <- function(x , alternative = 'two-sided' ,
     final_ul <- NULL
     # eleminate the radical cases: 
     meta_ul_last_sig <- meta_ul <- 
-      metaRvalue.onesided.U(x,u = 1 ,comb.fixed = T , comb.random = F,
+      metaRvalue.onesided.U(x,u = 1 ,fixed = T , random = F,
                             alternative = 'less',  do.truncated.umax = F ,
                             alpha.tilde = Alpha.tilde )
     if( pv.less >  alpha / (1 + twoSided )) {
@@ -234,7 +234,7 @@ find_umax <- function(x , alternative = 'two-sided' ,
     # u1 <- u1 + 1
     
     # model with one study only, replicability at all: 
-    meta_ul <-  metaRvalue.onesided.U(x,u = u2 ,comb.fixed =T , comb.random = F,
+    meta_ul <-  metaRvalue.onesided.U(x,u = u2 ,fixed =T , random = F,
                                       alternative = 'less',
                                       do.truncated.umax = F ,
                                       alpha.tilde = Alpha.tilde)
@@ -252,7 +252,7 @@ find_umax <- function(x , alternative = 'two-sided' ,
       u_mid <- ceiling( (u1 + u2)/2 )
       
       while ( u_mid != u2 ){
-        meta_ul <- metaRvalue.onesided.U(x,u = u_mid ,comb.fixed = T , comb.random = F,
+        meta_ul <- metaRvalue.onesided.U(x,u = u_mid ,fixed = T , random = F,
                                          alternative = 'less',
                                          do.truncated.umax = F ,
                                          alpha.tilde = Alpha.tilde)
@@ -295,7 +295,7 @@ find_umax <- function(x , alternative = 'two-sided' ,
     
     # eleminate the radical cases: 
     meta_ug <- meta_ug_last_sig <-
-      metaRvalue.onesided.U(x,u = 1 ,comb.fixed = T , comb.random = F,
+      metaRvalue.onesided.U(x,u = 1 ,fixed = T , random = F,
                             alternative = 'greater', do.truncated.umax = F ,
                             alpha.tilde = Alpha.tilde )
     
@@ -311,7 +311,7 @@ find_umax <- function(x , alternative = 'two-sided' ,
     # u1 <- u1 + 1
     
     # model with one study only, replicability at all: 
-    meta_ug = metaRvalue.onesided.U(x,u = u2 ,comb.fixed = T , comb.random = F,
+    meta_ug = metaRvalue.onesided.U(x,u = u2 ,fixed = T , random = F,
                                     alternative = 'greater',
                                     do.truncated.umax = F ,
                                     alpha.tilde = Alpha.tilde )
@@ -331,7 +331,7 @@ find_umax <- function(x , alternative = 'two-sided' ,
       u_mid <- ceiling( (u1 + u2)/2 )
       
       while ( u_mid != u2 ){
-        meta_ug <- metaRvalue.onesided.U(x,u = u_mid ,comb.fixed = T , comb.random = F,
+        meta_ug <- metaRvalue.onesided.U(x,u = u_mid ,fixed = T , random = F,
                                          alternative = 'greater',
                                          do.truncated.umax = F ,
                                          alpha.tilde = Alpha.tilde )

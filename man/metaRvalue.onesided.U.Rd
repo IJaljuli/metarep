@@ -7,8 +7,8 @@
 metaRvalue.onesided.U(
   x,
   u = 2,
-  comb.fixed = F,
-  comb.random = T,
+  fixed = F,
+  random = T,
   alternative = "less",
   do.truncated.umax = T,
   alpha.tilde = 0.05
@@ -19,9 +19,9 @@ metaRvalue.onesided.U(
 
 \item{u}{integer between 2-\code{n}}
 
-\item{comb.fixed}{logical}
+\item{fixed}{logical}
 
-\item{comb.random}{logical}
+\item{random}{logical}
 
 \item{alternative}{'less' or 'greater' only.}
 
