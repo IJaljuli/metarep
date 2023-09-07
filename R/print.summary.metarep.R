@@ -7,7 +7,6 @@
 #' @param details.methods A logical specifying whether details on
 #'   statistical methods should be printed
 #' @param ... Arguments to be passed to methods, see \code{print.summary.meta}
-#' @import meta
 #' @export
 #' 
 #' @return No return value, called for side effects.
@@ -17,9 +16,9 @@
 #' a.i <- c( 2,79,0,98,15,34,9) 
 #' n.i.2 <- c( 20, 119, 22, 185, 29, 51, 47)
 #' c.i <- c(9,106,14,98,12,49,9) 
-#' m1 <- meta::metabin( event.e = a.i,n.e = n.i.1,event.c = c.i,n.c = n.i.2,
+#' m1 <- metabin( event.e = a.i,n.e = n.i.1,event.c = c.i,n.c = n.i.2,
 #'                studlab = paste0('Study ' , 1:7) , sm = 'OR' ,
-#'                fixed = FALSE, random = TRUE )
+#'                common = FALSE, random = TRUE )
 #' mr1 <- metarep(  m1 , u = 2, common.effect = FALSE , t = 0.05 , 
 #'                alternative = 'two-sided', report.u.max = TRUE) 
 #' print(summary(mr1), digits = 2)

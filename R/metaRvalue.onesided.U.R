@@ -2,17 +2,17 @@
 #'
 #' @param x object of class 'meta'
 #' @param u integer between 2-\code{n}
-#' @param fixed logical
+#' @param common logical
 #' @param random logical 
 #' @param alternative 'less' or 'greater' only. 
 #' @param do.truncated.umax  logical. 
 #' @param alpha.tilde between (0,1)
-#' @import meta
+#' @importFrom stats update
 #' 
 #' @return No return value, called for internal use only. 
-metaRvalue.onesided.U <- function (x,u = 2 , fixed = F , random = T ,
+metaRvalue.onesided.U <- function (x,u = 2 , common = FALSE , random = TRUE ,
                                    alternative = 'less',
-                                   do.truncated.umax = T ,
+                                   do.truncated.umax = TRUE ,
                                    alpha.tilde = .05 ){
   chkclass(x, "meta")
   metaInf <- inherits(x,'metainf')
@@ -20,8 +20,8 @@ metaRvalue.onesided.U <- function (x,u = 2 , fixed = F , random = T ,
   if( is.null(x$statistic) | all( is.na(x$statistic) ) ){
     stop('Please supply model with z-values')
   }
-  x.fixed.metainf <- NULL
-  x.fixed.w <- NULL
+  x.common.metainf <- NULL
+  x.common.w <- NULL
   nstudlab <- length(x$studlab)
   if(!is.numeric(alpha.tilde)){ 
     alpha.tilde <- 1
@@ -45,17 +45,17 @@ metaRvalue.onesided.U <- function (x,u = 2 , fixed = F , random = T ,
   # }
   
   
-  if ( (! fixed )&( ! random ) ) stop('Desired replicability model must be supplied')
+  if ( (! common )&( ! random ) ) stop('Desired replicability model must be supplied')
   if(!(alternative %in% c('less','greater'))) stop('Supply informative alternative ( "less" or "greater" )')
   
-  ## fixed-effects replicability analysis. 
-  worst.case.fixed <- studies_subsets <- NULL
-  if ( fixed ){
+  ## common-effects replicability analysis. 
+  worst.case.common <- studies_subsets <- NULL
+  if ( common ){
     
     if( u == 1 ){
       return(list(worst.case = x ,
                   Side = alternative,
-                  pvalue.onesided = pnorm(x$statistic.fixed , lower.tail = ( alternative == 'less'))  ))
+                  pvalue.onesided = pnorm(x$statistic.common , lower.tail = ( alternative == 'less'))  ))
     }
     if( u == nstudlab ){
       studies_subsets <- rbind( 1:nstudlab , rep(NA , nstudlab) )
@@ -67,7 +67,7 @@ metaRvalue.onesided.U <- function (x,u = 2 , fixed = F , random = T ,
       
       worst.case.studies = x$studlab[ k ]
       worst.case.studies = which( x$data$.studlab %in% worst.case.studies )
-      worst.case <- meta::update.meta(x ,subset = worst.case.studies )
+      worst.case <- update(x ,subset = worst.case.studies )
       
       return(list(worst.case = worst.case ,
                   Side = alternative,
@@ -82,9 +82,9 @@ metaRvalue.onesided.U <- function (x,u = 2 , fixed = F , random = T ,
     for ( k in 1:ncol(studies_subsets)){
       worst.studies.fisher = x$studlab[ studies_subsets[-c(nrow(studies_subsets)) ,k] ]
       worst.studies.fisher = which( x$data$.studlab %in% worst.studies.fisher)
-      x.sub <- meta::update.meta(x,subset =  worst.studies.fisher )
-      z.val <- x.sub$statistic.fixed
-      studies_subsets['rvalue' , k] <-  x.sub$pval.fixed / 2
+      x.sub <- update(x,subset =  worst.studies.fisher )
+      z.val <- x.sub$statistic.common
+      studies_subsets['rvalue' , k] <-  x.sub$pval.common / 2
       if ( ((z.val < 0) & (alternative == 'greater')) | ( (z.val > 0) & (alternative == 'less') ) ){
         studies_subsets['rvalue' , k] = 1 - studies_subsets['rvalue' , k]  
       }
@@ -95,7 +95,7 @@ metaRvalue.onesided.U <- function (x,u = 2 , fixed = F , random = T ,
     worst.case.studies = x$studlab[ studies_subsets[-c(nrow(studies_subsets)) ,k] ]
     worst.case.studies = which( x$data$.studlab %in% worst.case.studies )
     
-    worst.case <- meta::update.meta(x ,subset = worst.case.studies )
+    worst.case <- update(x ,subset = worst.case.studies )
     return(list(worst.case = worst.case ,
                 Side = alternative,
                 pvalue.onesided = studies_subsets['rvalue' , k] ))
@@ -121,10 +121,10 @@ metaRvalue.onesided.U <- function (x,u = 2 , fixed = F , random = T ,
   
   # if( u == sum(pvs.all<=alpha.tilde) ){
   #   pvs.all <- replace(pvs.all,pvs.all>alpha.tilde, NA)
-  #   pvo <- max(pvs.all, na.rm = T)
+  #   pvo <- max(pvs.all, na.rm = TRUE)
   #   worst.case.studies <- x$studlab[which.max(pvs.all)]
   #   worst.case.studies <- which( x$data$.studlab %in% worst.case.studies )
-  #   worst.case <- meta::update.meta(x ,subset = worst.case.studies )
+  #   worst.case <- update(x ,subset = worst.case.studies )
   #   
   #   if ( pvo < alpha.tilde){
   #     return(list(worst.case = worst.case,
@@ -143,7 +143,7 @@ metaRvalue.onesided.U <- function (x,u = 2 , fixed = F , random = T ,
   wsf <- which( rank(pvs.all) >= u ) # order replaced with rank, as it was incorrect. 
   worst.studies.fisher <- x$studlab[ wsf ]
   worst.studies.fisher <- which( (x$data$.studlab %in% worst.studies.fisher) )
-  worst.case <- meta::update.meta(x ,subset = worst.studies.fisher )
+  worst.case <- update(x ,subset = worst.studies.fisher )
   if( length(wsf) <= 1){
     worst.pvs.fisher <-  list(p.value  = ifelse( length(wsf) == 0 , 1, pvs.all[ wsf ]) )
   }else{

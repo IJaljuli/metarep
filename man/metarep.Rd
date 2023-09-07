@@ -28,7 +28,7 @@ metarep(
 \item{confidence}{Confidence level used in the computaion of the lower bound(s) \eqn{u_{max}^L} and\\or \eqn{u_{max}^R}.}
 
 \item{common.effect}{Use common.effect = FALSE (default) for replicability-analysis combining with no assumptions (Pearson or truncated-Pearson test).
-Replicability-analysis based on the test-statistic of fixed-effects model can be applied using common.effect = TRUE.}
+Replicability-analysis based on the test-statistic of common-effects model can be applied using common.effect = TRUE.}
 }
 \value{
 An object of class list containing meta-analysis and replicability analysis results, as follows:
@@ -40,17 +40,17 @@ An object of class list containing meta-analysis and replicability analysis resu
 }
 }
 \description{
-Add results of replicability-analysis to a meta-analysis, whether fixed- or random-effects.
+Add results of replicability-analysis to a meta-analysis, whether common- or random-effects.
 }
 \examples{
  n.i.1 <- c( 20, 208, 24, 190, 58, 36, 51)
 a.i <- c( 2,79,0,98,15,34,9) 
 n.i.2 <- c( 20, 119, 22, 185, 29, 51, 47)
 c.i <- c(9,106,14,98,12,49,9) 
-m1 <- meta::metabin( event.e = a.i,n.e = n.i.1,event.c = c.i,n.c = n.i.2,
+m1 <- metabin( event.e = a.i,n.e = n.i.1,event.c = c.i,n.c = n.i.2,
                studlab = paste0('Study ' , 1:7) , sm = 'OR' ,
-               fixed = FALSE, random = TRUE )
+               common = FALSE, random = TRUE )
 mr1 <- metarep(  m1 , u = 2, common.effect = FALSE , t = 0.05 , 
                alternative = 'two-sided', report.u.max = TRUE)
-meta::forest(mr1, layout='revman5',digits.pval = 4 , test.overall = TRUE )
+forest(mr1, layout='revman5',digits.pval = 4 , test.overall = TRUE )
 }

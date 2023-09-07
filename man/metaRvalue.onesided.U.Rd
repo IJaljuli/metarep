@@ -7,10 +7,10 @@
 metaRvalue.onesided.U(
   x,
   u = 2,
-  fixed = F,
-  random = T,
+  common = FALSE,
+  random = TRUE,
   alternative = "less",
-  do.truncated.umax = T,
+  do.truncated.umax = TRUE,
   alpha.tilde = 0.05
 )
 }
@@ -19,7 +19,7 @@ metaRvalue.onesided.U(
 
 \item{u}{integer between 2-\code{n}}
 
-\item{fixed}{logical}
+\item{common}{logical}
 
 \item{random}{logical}
 

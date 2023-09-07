@@ -29,7 +29,7 @@ truncatedPearson <- function( p , alpha.tilde = 1 ){
     L = length(p)
     w = prod( p[ p <= alpha.tilde ] )
     db = dbinom(x = 1:L , size = L ,prob = alpha.tilde)
-    pg = pgamma( -log( w / (alpha.tilde^(1:L) ) ) , shape = 1:L ,lower.tail = F  )
+    pg = pgamma( -log( w / (alpha.tilde^(1:L) ) ) , shape = 1:L ,lower.tail = FALSE  )
     
     TP.pvalue <- ifelse( sum( p <= alpha.tilde ) >0 ,  sum( db * pg) , 1 )
     
@@ -40,7 +40,7 @@ truncatedPearson <- function( p , alpha.tilde = 1 ){
   
 #  output <- metap::sumlog(p) 
   x.OP <- -2*sum(log(p))
-  p.OP <- pchisq(q = x.OP , df = 2*length(p), lower.tail = F )
+  p.OP <- pchisq(q = x.OP , df = 2*length(p), lower.tail = FALSE )
     return( list( p.value = p.OP , validp = p,
                 chisq = x.OP , df = 2*length(p) ) )
   

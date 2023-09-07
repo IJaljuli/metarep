@@ -4,7 +4,6 @@
 #'
 #' @param  object An object of class 'metarep'.
 #' @param ... Arguments to be passed to methods, see \code{summary.meta}
-#' @import meta
 #' @return A list of the quantities for replicability analysis, as follows: 
 #'  \itemize{
 #'   \item{meta-analysis results: } {Summary of the supplied 'meta' object.}
@@ -21,18 +20,21 @@
 #' a.i <- c( 2,79,0,98,15,34,9) 
 #' n.i.2 <- c( 20, 119, 22, 185, 29, 51, 47)
 #' c.i <- c(9,106,14,98,12,49,9) 
-#' m1 <- meta::metabin( event.e = a.i,n.e = n.i.1,event.c = c.i,n.c = n.i.2,
+#' m1 <- metabin( event.e = a.i,n.e = n.i.1,event.c = c.i,n.c = n.i.2,
 #'                studlab = paste0('Study ' , 1:7) , sm = 'OR' ,
-#'                fixed = FALSE, random = TRUE )
+#'                common = FALSE, random = TRUE )
 #' mr1 <- metarep(  m1 , u = 2, common.effect = FALSE , t = 0.05 , 
 #'                alternative = 'two-sided', report.u.max = TRUE)
 #'                summary(mr1)
 summary.metarep <- function(object, ...) {
   
   chkclass(object, "metarep")
-  # chkclass(object, "metarep")
   
-  res <- summary.meta(object)
+  object.wo.metarep <- object
+  class(object.wo.metarep) <-
+    class(object.wo.metarep)[class(object.wo.metarep) != "metarep"]
+  ##
+  res <- summary(object.wo.metarep)
   ##
   
   res$r.value <- round( object$r.value , digits = 4 )
