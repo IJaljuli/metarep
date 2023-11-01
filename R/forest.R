@@ -8,7 +8,9 @@
 #'
 #' @param x An object of class 'metarep'.
 #' @param ... Arguments to be passed to methods, see \code{forest.meta}
-#' @import meta
+#'
+#' @importFrom meta forest
+#' @method forest metarep
 #' @export
 #' 
 #' @return  No return value, called for side effects
@@ -19,19 +21,19 @@
 #' a.i <- c( 2,79,0,98,15,34,9) 
 #' n.i.2 <- c( 20, 119, 22, 185, 29, 51, 47)
 #' c.i <- c(9,106,14,98,12,49,9) 
-#' m1 <- meta::metabin( event.e = a.i,n.e = n.i.1,event.c = c.i,n.c = n.i.2,
+#' m1 <- metabin( event.e = a.i,n.e = n.i.1,event.c = c.i,n.c = n.i.2,
 #'                studlab = paste0('Study ' , 1:7) , sm = 'OR' ,
-#'                comb.fixed = FALSE, comb.random = TRUE )
+#'                common = FALSE, random = TRUE )
 #' mr1 <- metarep(  m1 , u = 2, common.effect = FALSE , t = 0.05 , 
 #'                alternative = 'two-sided', report.u.max = TRUE)
-#' forest(mr1, layout = "RevMan5", comb.fixed = FALSE,
+#' forest(mr1, layout = "RevMan5", common = FALSE,
 #'        label.right = "Favours control", col.label.right = "red",
 #'        label.left = "Favours experimental", col.label.left = "green",
 #'        prediction = TRUE)
 #'        
-forest <- function(x, ...) {
+forest.metarep <- function(x, ...) {
+  
   chkclass(x, "metarep")
-  # chkclass(x, "metarep")
   
   u_max_text <- NULL
   
@@ -57,16 +59,17 @@ forest <- function(x, ...) {
                x$u_L , " with decreased effect.")
   }
   
-  
+  class(x) <- class(x)[class(x) != "metarep"]
+  ##
   if(!is.null(u_max_text)){
-    forest.meta(x,
-                text.addline1 = rvalue.text ,
-                text.addline2 = u_max_text ,
-                ...)
+    forest(x,
+           text.addline1 = rvalue.text ,
+           text.addline2 = u_max_text ,
+           ...)
   }else{
-    forest.meta(x,
-                text.addline1 = rvalue.text ,
-                ...)
+    forest(x,
+           text.addline1 = rvalue.text ,
+           ...)
   }
   ##
   invisible(NULL)

@@ -4,7 +4,8 @@
 \name{CD003366_CMP005}
 \alias{CD003366_CMP005}
 \title{Data in meta-analysis reported in review CD003366, 'Cochrane library'.}
-\format{A data frame with 28 rows and 12 variables:
+\format{
+A data frame with 28 rows and 12 variables:
 \describe{
   \item{STUDY}{Name of the study.}
   \item{STUDY_WEIGHT}{Stydy weight in meta-analysis as reported in th review.}
@@ -18,7 +19,8 @@
   \item{CMP_ID}{Cochrane Database review number}
   \item{SM}{A character string indicating which summary measure ("RR", "OR", "RD", or "ASD") is to be used for pooling of studies.}
   \item{RANDOM}{ "YES" or "NO" indicating whether random-effects meta-analysis was performed.}
-}}
+}
+}
 \source{
 \url{https://www.cochranelibrary.com/cdsr/doi/10.1002/14651858.CD003366.pub3/full}
 }

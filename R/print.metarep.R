@@ -1,12 +1,12 @@
-#' Print detailed meta-analysis with replicability-analysis results
+#' Print meta-analysis with replicability-analysis results
 #' 
 #' @description
-#' Print method for objects of class 'summary.metarep'.
+#' Print method for objects of class 'metarep'.
 #' 
-#' @param x An object of class 'summary.metarep'
+#' @param x An object of class 'metarep'
 #' @param details.methods A logical specifying whether details on
 #'   statistical methods should be printed
-#' @param ... Arguments to be passed to methods, see \code{print.summary.meta}
+#' @param ... Arguments to be passed to methods, see \code{print.meta}
 #' @export
 #' 
 #' @return No return value, called for side effects.
@@ -21,17 +21,17 @@
 #'                common = FALSE, random = TRUE )
 #' mr1 <- metarep(  m1 , u = 2, common.effect = FALSE , t = 0.05 , 
 #'                alternative = 'two-sided', report.u.max = TRUE) 
-#' print(summary(mr1), digits = 2)
+#' print(mr1, digits = 2)
 
 
-print.summary.metarep <- function(x, details.methods = TRUE, ...) {
+print.metarep <- function(x, details.methods = TRUE, ...) {
   
-  chkclass(x, "summary.metarep")
+  chkclass(x, "metarep")
   chklogical(details.methods)
 
   class(x) <- class(x)[-1]
   print(x, details.methods = details.methods, ...)
-
+  
   if (details.methods) {
     cat(paste0("- replicability analysis (r-value = ",
                round( x$r.value, digits = 4 ) , ")\n"))
@@ -44,13 +44,13 @@ print.summary.metarep <- function(x, details.methods = TRUE, ...) {
       cat(paste0("- out of ", x$k, " studies, at least: ",
                  x$u.decreased, " with decreased effect\n"))
     }
-  
+    
     if( (!is.null( x$u.increased)) & (!is.null( x$u.decreased)) ){
       cat(paste0("- out of ", x$k, " studies, at least: ",
                  x$u.increased,  " with increased effect and "  ,
                  x$u.decreased , " with decreased effect.\n"))
     }
-  }  
+  }
   ##
   invisible(NULL)
 }
