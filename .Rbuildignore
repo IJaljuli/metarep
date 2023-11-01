@@ -1,3 +1,5 @@
 .*[.]Rproj
 .Rproj.user
 roxygen2.*[.]R
+^.*\.Rproj$
+^\.Rproj\.user$
