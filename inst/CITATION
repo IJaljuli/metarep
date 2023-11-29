@@ -1,22 +1,18 @@
 citHeader("To cite metarep in publications use:")
 
-citEntry(entry = "Article",
+bibentry("Article",
          title        = "Quantifying replicability and consistency in systematic reviews",
-         author       = personList(as.person("Iman Jaljuli"),
-                                   as.person("Yoav Benjamini"),
-                                   as.person("Liat Shenhav"),
-                                   as.person("Orestis A. Panagiotou"),
-                                   as.person("Ruth Heller")),
-         journal      = "Submitted",
-         year         = "2020",
-         # volume       = "40",
-         # number       = "3",
-         # pages        = "1--25",
-         # url          = "http://www.jstatsoft.org/v40/i03/",
+         author       = c("Iman Jaljuli","Yoav Benjamini","Liat Shenhav", "Orestis A. Panagiotou", "Ruth Heller"),
+         journal      = "Statistics in Biopharmaceutical Research",
+         year         = "2023",
+         volume       = "15",
+         # number       = "2",
+         pages        = "372-385",
+         # url          = "https://doi.org/10.1080/19466315.2022.2050291",
          
          textVersion  =
-           paste("Jaljuli et. al. (2020).",
+           paste("Jaljuli et. al. (2023).",
                  "Quantifying replicability and consistency in systematic reviews.",
-                 "[submitted]",
-                 "URL ....")
+                 "Statistics in Biopharmaceutical Research; 15: 372-385.")
 )
+citFooter("DOI: 10.1080/19466315.2022.2050291")
