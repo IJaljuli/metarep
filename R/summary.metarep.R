@@ -5,10 +5,10 @@
 #' @param  object An object of class 'metarep'.
 #' @param ... Arguments to be passed to methods, see \code{summary.meta}
 #' @return A list of the quantities for replicability analysis, as follows: 
-#'   \item{meta-analysis results: } {Summary of the supplied 'meta' object.}
-#'   \item{r.value: } {r-value of the tested alternative.}
-#'   \item{u.increased: } {Maximal number of studies at which replicability of increasing effect can be claimed. It will be reported unless the alternative is 'less'.}
-#'   \item{u.decreased: } {Maximal number of studies at which replicability of increasing effect can be claimed. It will be reported unless the alternative is 'greater'.}
+#'   \item{meta-analysis results: }{Summary of the supplied 'meta' object.}
+#'   \item{r.value: }{r-value of the tested alternative.}
+#'   \item{u.increased: }{Maximal number of studies at which replicability of increasing effect can be claimed. It will be reported unless the alternative is 'less'.}
+#'   \item{u.decreased: }{Maximal number of studies at which replicability of increasing effect can be claimed. It will be reported unless the alternative is 'greater'.}
 #' 
 #' @export
 #'
