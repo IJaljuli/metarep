@@ -13,12 +13,10 @@ truncatedPearson(p, alpha.tilde = 1)
 }
 \value{
 A 'list' containing the following quantities: 
-\itemize{ A list containing results of truncated-Pearson's test, as follows: 
   \item{chisq: }{Pearson test statistic }
   \item{df: }{degrees of freedom of truncated-Pearson statistic }
   \item{rvalue: }{p-value of the test }
   \item{validp: }{p-values used in the test. }
-}
 }
 \description{
 Apply Truncated-Pearsons' test or ordinary Pearsons' test on one-sided p-values.

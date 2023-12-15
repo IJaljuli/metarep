@@ -8,12 +8,22 @@
 #' @param common.effect Use common.effect = FALSE (default) for replicability-analysis combining with no assumptions (Pearson or truncated-Pearson test).
 #' @importFrom stats pnorm
 #' @importFrom utils combn
-#' @return An object of class list reporting the bounds on the number of studies with a positive or negative effect, as follows: 
-#' \item{worst.case}{A charachter vector of the names of \code{n-u_{max}+1} studies at which the the \code{r(u_{max})-}value is computed.}
-#' \item{side}{The direction of the replicated signal in the `worst.case` studies. 'less' if the effect is negative, 'greater' if positive.}
-#' \item{u_max}{The bound on the number of studies with either a positive or a negative effect.}
-#' \item{r-value}{The `u-out-of-n` \code{r(u)-}-value calculated with u=u_max.}
-#' \item{Replicability_Analysis}{Report of the replicability lower bounds on the number of studies with negative effect and with positive effect.}
+#' @return
+#' An object of class list reporting the bounds on the number of
+#' studies with a positive or negative effect, as follows:
+#' \item{worst.case}{A charachter vector of the names of
+#' \code{n-u_{max}+1} studies at which the the \code{r(u_{max})-}value
+#' is computed.}
+#' \item{side}{The direction of the replicated signal in the
+#' 'worst.case' studies. 'less' if the effect is negative, 'greater'
+#' if positive.}
+#' \item{u_max}{The bound on the number of studies with either a
+#' positive or a negative effect.}
+#' \item{r-value}{The 'u-out-of-n' \code{r(u)-}-value calculated with
+#' u=u_max.}
+#' \item{Replicability_Analysis}{Report of the replicability lower
+#' bounds on the number of studies with negative effect and with
+#' positive effect.}
 #' 
 #' @export
 #'
