@@ -36,5 +36,5 @@ forest(mr1, layout = "RevMan5", common = FALSE,
        
 }
 \seealso{
-\code{\link{forest.meta}}, \code{\link{metarep}},
+\code{\link[meta]{forest.meta}}, \code{\link{metarep}},
 }
