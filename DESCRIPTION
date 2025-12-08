@@ -1,9 +1,8 @@
 Package: metarep
 Title: Replicability-Analysis Tools for Meta-Analysis
 Version: 1.2.0
-Depends: R (>= 4.1)
+Depends: R (>= 4.1), meta (>= 6.0-0)
 Imports:
-    meta,
     stats,
     utils
 Suggests: 
@@ -12,8 +11,7 @@ Suggests:
     numDeriv,
     BiasedUrn,
     knitr,
-    rmarkdown,
-    testthat (>= 3.0.0)
+    rmarkdown
 Authors@R: person("Iman","Jaljuli", role=c("cre","aut"), email="jaljuli.iman@gmail.com")
 Date: 2023-12-15
 URL: https://github.com/IJaljuli/metarep
@@ -30,4 +28,3 @@ NeedsCompilation: yes
 RoxygenNote: 7.2.3
 VignetteBuilder: knitr
 LazyData: true
-Config/testthat/edition: 3
